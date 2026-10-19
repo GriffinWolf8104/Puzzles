@@ -201,7 +201,8 @@ body{background:var(--page);color:var(--page-fg);font:15px/1.4 var(--ui);-webkit
 .nt{position:absolute;inset:2px;display:grid;grid-template-columns:repeat(3,1fr);font-size:2.6cqi;color:var(--muted);font-weight:600;line-height:1}
 .nt span{display:grid;place-items:center}
 .app svg.cages{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;fill:none;stroke:var(--muted);stroke-width:3;stroke-dasharray:9 7;stroke-linecap:butt;opacity:.85}
-.csum{position:absolute;top:1px;left:2px;font-size:2.3cqi;font-weight:700;color:var(--text);line-height:1;background:inherit;padding:1px;z-index:2}
+.csum{position:absolute;top:1px;left:1px;font-size:2.3cqi;font-weight:700;color:var(--text);line-height:1;background:var(--surface);padding:1px 2px 2px 1px;border-radius:0 0 3px 0;z-index:2}
+.sc.peer .csum,.sc.same .csum,.sc.sel .csum{background:inherit}
 .pad{display:flex;flex-direction:column;gap:9px;width:100%;max-width:340px}
 .pad .pr{display:flex;justify-content:space-between}
 .num{width:54px;height:54px;border-radius:50%;background:var(--surface);font-size:23px !important;font-weight:600 !important;display:grid;place-items:center;transition:transform .1s,background .15s}
@@ -269,7 +270,7 @@ button.tb:active{transform:scale(.92)}
 .krow{font-size:13px;color:var(--muted);text-align:center}
 
 /* atoms */
-.app svg.asvg{display:block;touch-action:none;stroke:none;stroke-width:0;fill:none;width:auto;height:auto}
+.app svg.asvg{display:block;overflow:visible;touch-action:none;stroke:none;stroke-width:0;fill:none;width:auto;height:auto}
 .asvg .bond{stroke:var(--text);stroke-width:1;stroke-linecap:round}
 .asvg .ghost{stroke:var(--acc);stroke-width:.6;stroke-dasharray:1 1.2;opacity:.6}
 .asvg .node{fill:var(--surface);stroke:var(--strong);stroke-width:.6;transition:fill .15s}
@@ -280,6 +281,10 @@ button.tb:active{transform:scale(.92)}
 .asvg text{font:700 4.4px var(--ui);fill:var(--text);text-anchor:middle;dominant-baseline:central;pointer-events:none}
 .asvg text.full{fill:var(--acc-ink)}
 .asvg .gridd{fill:var(--line)}
+.asvg .dline{stroke:var(--acc);stroke-width:1.3;stroke-linecap:round;opacity:.9}
+.asvg .dline.loose{stroke-width:.8;stroke-dasharray:1.2 1.2;opacity:.6}
+.asvg .dline.bad,.asvg .dring.bad{stroke:var(--danger)}
+.asvg .dring{fill:none;stroke:var(--acc);stroke-width:.8}
 
 /* ---------- sheets & toast ---------- */
 .sheetRoot{position:absolute;inset:0;z-index:30}
@@ -987,6 +992,59 @@ function makeCages(sol, maxSize) {
   }
   return { cage, cages };
 }
+/* Killer solver: counts solutions (up to limit) using sudoku rules plus cage sums. */
+function kSolve(g, cage, cages, limit, maxNodes) {
+  const rows = Array(9).fill(0), cols = Array(9).fill(0), boxes = Array(9).fill(0);
+  const cUsed = cages.map(() => 0), cRem = cages.map(c => c.sum), cLeft = cages.map(c => c.cells.length);
+  for (let i = 0; i < 81; i++) { const v = g[i]; if (!v) continue; const b = 1 << v, r = Math.floor(i / 9), c = i % 9, x = boxOf(i), k = cage[i];
+    if ((rows[r] | cols[c] | boxes[x] | cUsed[k]) & b) return { count: 0 };
+    rows[r] |= b; cols[c] |= b; boxes[x] |= b; cUsed[k] |= b; cRem[k] -= v; cLeft[k]--; }
+  // digits a cage can still take so that the rest of its sum stays reachable
+  const allowed = k => {
+    const left = cLeft[k], rem = cRem[k], free = ~cUsed[k] & 0x3FE; let m = 0;
+    for (let v = 1; v <= 9; v++) { if (!(free & (1 << v))) continue;
+      const n = left - 1, s = rem - v; if (s < 0) break;
+      if (!n) { if (!s) m |= 1 << v; continue; }
+      let lo = 0, hi = 0, a = 0, b = 0;
+      for (let d = 1; d <= 9 && a < n; d++) if (d !== v && free & (1 << d)) { lo += d; a++; }
+      for (let d = 9; d >= 1 && b < n; d--) if (d !== v && free & (1 << d)) { hi += d; b++; }
+      if (a === n && lo <= s && s <= hi) m |= 1 << v; }
+    return m;
+  };
+  const a = g.slice(), empties = range(81).filter(i => !g[i]);
+  let count = 0, sols = [], nodes = 0, aborted = false;
+  (function rec() {
+    if (count >= limit || aborted) return;
+    if (++nodes > maxNodes) { aborted = true; return; }
+    const cm = new Map();
+    let best = -1, bm = 0, bn = 10;
+    for (const i of empties) { if (a[i]) continue; const k = cage[i];
+      if (!cm.has(k)) cm.set(k, allowed(k));
+      const m = ~(rows[Math.floor(i / 9)] | cols[i % 9] | boxes[boxOf(i)]) & cm.get(k), n = popc(m);
+      if (n < bn) { bn = n; best = i; bm = m; if (n <= 1) break; } }
+    if (best < 0) { count++; sols.push(a.slice()); return; }
+    if (!bn) return;
+    const r = Math.floor(best / 9), c = best % 9, x = boxOf(best), k = cage[best];
+    for (let v = 1; v <= 9; v++) { const b = 1 << v; if (!(bm & b)) continue;
+      a[best] = v; rows[r] |= b; cols[c] |= b; boxes[x] |= b; cUsed[k] |= b; cRem[k] -= v; cLeft[k]--;
+      rec();
+      rows[r] ^= b; cols[c] ^= b; boxes[x] ^= b; cUsed[k] ^= b; cRem[k] += v; cLeft[k]++; a[best] = 0;
+      if (count >= limit || aborted) return; }
+  })();
+  return { count, sols, aborted };
+}
+/* Adds givens until the killer puzzle has exactly one answer: each round reveals a square where another answer differs. */
+function killerUnique(puz, sol, cage, cages) {
+  for (let guard = 0; guard < 81; guard++) {
+    const r = kSolve(puz, cage, cages, 2, 40000);
+    if (r.count === 1 && !r.aborted) return puz;
+    const alt = r.sols.find(x => x.some((v, i) => v !== sol[i]));
+    let cands = alt ? range(81).filter(i => !puz[i] && alt[i] !== sol[i]) : [];
+    if (!cands.length) cands = range(81).filter(i => !puz[i]);
+    const i = cands[rnd(cands.length)]; puz[i] = sol[i];
+  }
+  return puz;
+}
 ENGINES.sudoku = ctx => {
   if (ctx.variant === 'jigsaw' || ctx.variant === 'samurai') return sudokuX(ctx);
   const killer = ctx.variant === 'killer';
@@ -998,6 +1056,7 @@ ENGINES.sudoku = ctx => {
     sol = sdFull(); ({ cage, cages } = makeCages(sol, { beginner: 3, easy: 3, normal: 4, hard: 4, expert: 5, insane: 5 }[ctx.diff]));
     const n = { beginner: 36, easy: 26, normal: 12, hard: 4, expert: 2, insane: 0 }[ctx.diff];
     puz = Array(81).fill(0); shuffle(range(81)).slice(0, n).forEach(i => puz[i] = sol[i]);
+    killerUnique(puz, sol, cage, cages);
   } else ({ puz, sol } = sdGen(ctx.diff));
   const val = puz.slice(), given = puz.map(v => v > 0), notes = Array(81).fill(0), hist = [];
   let sel = val.findIndex(v => !v), pencil = false, done = false;
@@ -1352,8 +1411,16 @@ ENGINES.mines = ctx => {
   const grid = document.createElement('div'); grid.className = 'mgrid';
   grid.style.gridTemplateColumns = `repeat(${C},1fr)`; grid.style.gridTemplateRows = `repeat(${R},1fr)`; grid.style.setProperty('--cols', C);
   grid.innerHTML = range(N).map(i => `<button class="mc" data-i="${i}"></button>`).join('');
-  ctx.wrap.appendChild(grid); ctx.fit(grid, C / R);
+  let zoom = false;
+  ctx.wrap.appendChild(grid);
+  const refit = ctx.fit(grid, C / R, () => zoom ? 2 : 1);
   const cells = $$('.mc', grid);
+  ctx.fr.innerHTML = `<button class="tbtn" data-z>${I.zoom}<span>${T.zoom}</span></button>`;
+  const zBtn = $('[data-z]', ctx.fr);
+  zBtn.onclick = () => {
+    zoom = !zoom; ctx.wrap.classList.toggle('zoom', zoom); zBtn.classList.toggle('on', zoom); refit(); sfx.tap();
+    if (zoom) requestAnimationFrame(() => { const w = ctx.wrap; w.scrollLeft = (w.scrollWidth - w.clientWidth) / 2; w.scrollTop = (w.scrollHeight - w.clientHeight) / 2; });
+  };
   ctx.extra.innerHTML = `<div class="seg"><button data-m="dig" class="on">${I.dig}${T.dig}</button><button data-m="flag">${I.flag}${T.flag}</button></div>`;
   const seg = $('.seg', ctx.extra);
   seg.onclick = e => { const b = e.target.closest('[data-m]'); if (!b) return; mode = b.dataset.m; $$('button', seg).forEach(x => x.classList.toggle('on', x === b)); sfx.tap(); };
@@ -1664,22 +1731,56 @@ ENGINES.atoms = ctx => {
     for (const [k, v] of bonds) { if (!v) continue; const [a, b] = k.split(',').map(Number); if (cellsOf(a, b).includes(c)) return k; }
     return null;
   };
-  let downNode = -1;
-  svg.addEventListener('pointerdown', e => { if (done) return; downNode = nodeAt(e); });
+  // Dragging: press an atom and swipe towards a neighbour. The bond snaps to the nearest direction
+  // and shows a live preview, so you don't have to let go exactly on the other atom.
+  const nbrDir = nodes.map(n => DIRS.map(([dx, dy]) => { let x = n.x + dx, y = n.y + dy; while (x >= 0 && y >= 0 && x < W && y < H) { if (at.has(y * W + x)) return at.get(y * W + x); x += dx; y += dy; } return -1; }));
+  const toSvg = e => { const r = svg.getBoundingClientRect(); return [(e.clientX - r.left) / r.width * W * U, (e.clientY - r.top) / r.height * H * U]; };
+  let downNode = -1, dragTo = -1, moved = false;
+  function preview(px, py) {
+    let g = svg.querySelector('.drag'); if (g) g.remove();
+    if (downNode < 0 || !moved) return;
+    const A = nodes[downNode];
+    g = document.createElementNS(svgNS, 'g'); g.setAttribute('class', 'drag');
+    if (dragTo >= 0) {
+      const B = nodes[dragTo], bad = !(bonds.get(ekey(downNode, dragTo)) || 0) && crossing(downNode, dragTo).length;
+      g.innerHTML = `<line class="dline${bad ? ' bad' : ''}" x1="${cx(A)}" y1="${cy(A)}" x2="${cx(B)}" y2="${cy(B)}"/><circle class="dring${bad ? ' bad' : ''}" cx="${cx(B)}" cy="${cy(B)}" r="4.6"/>`;
+    } else g.innerHTML = `<line class="dline loose" x1="${cx(A)}" y1="${cy(A)}" x2="${px}" y2="${py}"/>`;
+    svg.insertBefore(g, svg.querySelector('.node'));
+  }
+  svg.addEventListener('pointerdown', e => {
+    if (done) return;
+    downNode = nodeAt(e); dragTo = -1; moved = false;
+    if (downNode >= 0) svg.setPointerCapture(e.pointerId);
+  });
+  svg.addEventListener('pointermove', e => {
+    if (done || downNode < 0) return;
+    const [px, py] = toSvg(e), A = nodes[downNode], dx = px - cx(A), dy = py - cy(A), dist = Math.hypot(dx, dy);
+    if (dist < U * .45) { if (moved) { dragTo = -1; preview(px, py); } return; }
+    moved = true;
+    const d = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 0 : 1) : (dy > 0 ? 2 : 3);
+    const t = nbrDir[downNode][d];
+    if (t !== dragTo) { dragTo = t; if (t >= 0) sfx.soft(); }
+    preview(px, py);
+  });
+  svg.addEventListener('pointercancel', () => { downNode = -1; dragTo = -1; moved = false; render(); });
   svg.addEventListener('pointerup', e => {
     if (done) return;
-    const up = nodeAt(e);
-    if (downNode >= 0 && up >= 0 && up !== downNode) { cycle(downNode, up); sel = -1; }
-    else if (up >= 0 && up === downNode) {
-      if (sel === up) sel = -1;
-      else if (sel >= 0 && nbrs[sel].includes(up)) { cycle(sel, up); sel = -1; }
-      else { sel = up; sfx.soft(); }
-    } else if (downNode < 0 && up < 0) {
-      const k = bondAt(e);
-      if (k) { snap(); bonds.delete(k); sfx.soft(); }
+    if (downNode >= 0 && moved) {
+      if (dragTo >= 0) cycle(downNode, dragTo);
       sel = -1;
-    } else sel = -1;
-    downNode = -1; render(); checkWin();
+    } else {
+      const up = nodeAt(e);
+      if (up >= 0 && up === downNode) {
+        if (sel === up) sel = -1;
+        else if (sel >= 0 && nbrs[sel].includes(up)) { cycle(sel, up); sel = -1; }
+        else { sel = up; sfx.soft(); }
+      } else if (downNode < 0 && up < 0) {
+        const k = bondAt(e);
+        if (k) { snap(); bonds.delete(k); sfx.soft(); }
+        sel = -1;
+      } else sel = -1;
+    }
+    downNode = -1; dragTo = -1; moved = false; render(); checkWin();
   });
   render();
   return {
