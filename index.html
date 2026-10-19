@@ -19,7 +19,7 @@
   #stage{position:fixed;inset:0;height:auto}
   #stage .app{--top:max(20px,calc(env(safe-area-inset-top,0px) + 12px));--bot:max(8px,calc(env(safe-area-inset-bottom,0px) + 4px))}
 }
-@media (display-mode:standalone){#stage{bottom:auto;height:100lvh}}
+@media (display-mode:standalone){html,body{min-height:100lvh}#stage{bottom:auto;height:100lvh}}
 </style>
 <title>Puzzles</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap">
@@ -1683,6 +1683,15 @@ push('home');
 })();
 </script>
 
+<script>
+// Paint the whole page (and the phone's top bar on Android) in the app's own background colour, so no edge shows a different colour.
+(() => {
+  const app = document.querySelector('.app'), meta = document.querySelector('meta[name=theme-color]');
+  const paint = () => { const bg = getComputedStyle(app).getPropertyValue('--bg').trim() || '#111013';
+    document.documentElement.style.background = bg; document.body.style.background = bg; meta.content = bg; };
+  new MutationObserver(paint).observe(app, { attributes: true }); paint();
+})();
+</script>
 <script>if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));</script>
 </body>
 </html>

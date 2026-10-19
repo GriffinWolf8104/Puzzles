@@ -1,5 +1,5 @@
 /* Lets Puzzles open with no internet. Change VERSION whenever you upload a new index.html. */
-const VERSION = 'puzzles-2';
+const VERSION = 'puzzles-3';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
