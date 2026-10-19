@@ -20,6 +20,11 @@
   #stage .app{--top:max(20px,calc(env(safe-area-inset-top,0px) + 12px));--bot:max(8px,calc(env(safe-area-inset-bottom,0px) + 4px))}
 }
 @media (display-mode:standalone){html,body{min-height:100lvh}#stage{bottom:auto;height:100lvh}}
+/* Lists scroll all the way to the bottom edge instead of stopping above it */
+@media (max-width:520px),(max-height:640px){
+  .screen:has(> .pager:last-child),.screen:has(> .scroll:last-child){padding-bottom:0}
+  .page,.scroll{padding-bottom:calc(24px + var(--bot))}
+}
 </style>
 <title>Puzzles</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap">
@@ -1690,6 +1695,12 @@ push('home');
   const paint = () => { const bg = getComputedStyle(app).getPropertyValue('--bg').trim() || '#111013';
     document.documentElement.style.background = bg; document.body.style.background = bg; meta.content = bg; };
   new MutationObserver(paint).observe(app, { attributes: true }); paint();
+  // iPhone home-screen apps report a screen that's too short (it leaves out the status bar), so size to the real screen.
+  if (navigator.standalone) {
+    const stage = document.getElementById('stage');
+    const fit = () => { stage.style.bottom = 'auto'; stage.style.height = Math.max(screen.height, innerHeight) + 'px'; };
+    fit(); addEventListener('resize', fit);
+  }
 })();
 </script>
 <script>if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));</script>
