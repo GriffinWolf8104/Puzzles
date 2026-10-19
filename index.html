@@ -187,7 +187,7 @@ body{background:var(--page);color:var(--page-fg);font:15px/1.4 var(--ui);-webkit
 @keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 
 /* sudoku */
-.sgrid{display:grid;grid-template-columns:repeat(9,1fr);grid-template-rows:repeat(9,1fr);background:var(--surface);border-radius:12px;overflow:hidden;border:2px solid var(--strong);container-type:inline-size}
+.sgrid{position:relative;display:grid;grid-template-columns:repeat(9,1fr);grid-template-rows:repeat(9,1fr);background:var(--surface);border-radius:12px;overflow:hidden;border:2px solid var(--strong);container-type:inline-size}
 .sc{position:relative;display:grid;place-items:center;border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-size:6.4cqi;font-weight:500;color:var(--acc);font-variant-numeric:tabular-nums;transition:background .12s}
 .sgrid .sc:nth-child(9n){border-right:0}.sgrid .sc:nth-child(n+73){border-bottom:0}
 .sc.bR{border-right:2px solid var(--strong)}.sc.bB{border-bottom:2px solid var(--strong)}
@@ -200,8 +200,8 @@ body{background:var(--page);color:var(--page-fg);font:15px/1.4 var(--ui);-webkit
 @keyframes flash{0%{opacity:.85}}
 .nt{position:absolute;inset:2px;display:grid;grid-template-columns:repeat(3,1fr);font-size:2.6cqi;color:var(--muted);font-weight:600;line-height:1}
 .nt span{display:grid;place-items:center}
-.cage{position:absolute;inset:2px;border:0 dashed var(--muted);pointer-events:none;opacity:.8}
-.csum{position:absolute;top:1px;left:2px;font-size:2.3cqi;font-weight:700;color:var(--text);line-height:1;background:inherit;padding:1px;z-index:1}
+.app svg.cages{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;fill:none;stroke:var(--muted);stroke-width:3;stroke-dasharray:9 7;stroke-linecap:butt;opacity:.85}
+.csum{position:absolute;top:1px;left:2px;font-size:2.3cqi;font-weight:700;color:var(--text);line-height:1;background:inherit;padding:1px;z-index:2}
 .pad{display:flex;flex-direction:column;gap:9px;width:100%;max-width:340px}
 .pad .pr{display:flex;justify-content:space-between}
 .num{width:54px;height:54px;border-radius:50%;background:var(--surface);font-size:23px !important;font-weight:600 !important;display:grid;place-items:center;transition:transform .1s,background .15s}
@@ -953,6 +953,24 @@ function sdGen(diff) {
 }
 const peersOf = i => { const r = Math.floor(i / 9), c = i % 9, x = boxOf(i); return range(81).filter(j => j !== i && (Math.floor(j / 9) === r || j % 9 === c || boxOf(j) === x)); };
 const nb4 = (i, W, H) => { const x = i % W, y = Math.floor(i / W), o = []; if (x > 0) o.push(i - 1); if (x < W - 1) o.push(i + 1); if (y > 0) o.push(i - W); if (y < H - 1) o.push(i + W); return o; };
+/* Dashed killer cage outlines as one drawing over the grid: each cage gets a line set slightly inside its edge, with clean corners. */
+function cageOutlines(cage) {
+  const d = 10, same = (r, c, id) => r >= 0 && c >= 0 && r < 9 && c < 9 && cage[r * 9 + c] === id;
+  let p = '';
+  for (let r = 0; r < 9; r++) for (let c = 0; c < 9; c++) {
+    const id = cage[r * 9 + c], open = (dr, dc) => !same(r + dr, c + dc, id);
+    // top / bottom edges run along x; left / right edges run along y
+    for (const [dr, y] of [[-1, r * 100 + d], [1, r * 100 + 100 - d]]) if (open(dr, 0)) {
+      const X = c * 100, x1 = open(0, -1) ? X + d : open(dr, -1) ? X : X - d, x2 = open(0, 1) ? X + 100 - d : open(dr, 1) ? X + 100 : X + 100 + d;
+      p += `M${x1} ${y}H${x2}`;
+    }
+    for (const [dc, x] of [[-1, c * 100 + d], [1, c * 100 + 100 - d]]) if (open(0, dc)) {
+      const Y = r * 100, y1 = open(-1, 0) ? Y + d : open(-1, dc) ? Y : Y - d, y2 = open(1, 0) ? Y + 100 - d : open(1, dc) ? Y + 100 : Y + 100 + d;
+      p += `M${x} ${y1}V${y2}`;
+    }
+  }
+  return `<svg class="cages" viewBox="0 0 900 900" preserveAspectRatio="none"><path d="${p}"/></svg>`;
+}
 function makeCages(sol, maxSize) {
   const cage = Array(81).fill(-1), cages = [];
   for (const start of shuffle(range(81))) {
@@ -989,13 +1007,10 @@ ENGINES.sudoku = ctx => {
   grid.innerHTML = range(81).map(i => {
     const r = Math.floor(i / 9), c = i % 9;
     let extra = '';
-    if (killer) {
-      const id = cage[i], side = (j, ok) => ok && cage[j] === id ? 0 : 1.5;
-      const st = `border-top-width:${side(i - 9, r > 0)}px;border-bottom-width:${side(i + 9, r < 8)}px;border-left-width:${side(i - 1, c > 0)}px;border-right-width:${side(i + 1, c < 8)}px`;
-      extra = `<i class="cage" style="${st}"></i>` + (cages[id].head === i ? `<b class="csum">${cages[id].sum}</b>` : '');
-    }
+    if (killer && cages[cage[i]].head === i) extra = `<b class="csum">${cages[cage[i]].sum}</b>`;
     return `<button class="sc${c === 2 || c === 5 ? ' bR' : ''}${r === 2 || r === 5 ? ' bB' : ''}" data-i="${i}" aria-label="Row ${r + 1} column ${c + 1}">${extra}<span class="v"></span></button>`;
   }).join('');
+  if (killer) grid.insertAdjacentHTML('beforeend', cageOutlines(cage));
   ctx.wrap.appendChild(grid); ctx.fit(grid, 1);
   const cells = $$('.sc', grid);
 
