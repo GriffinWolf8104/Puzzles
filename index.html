@@ -283,6 +283,7 @@ button.tb:active{transform:scale(.92)}
 .mc.f.wrong{background:color-mix(in srgb,var(--danger) 30%,var(--surface2));color:var(--danger)}
 .mc.boom{background:var(--danger);color:#fff}
 .mc.m{color:var(--text)}
+.still *,.still *::before,.still *::after{transition:none!important;animation:none!important}
 .seg{display:flex;background:var(--surface);border-radius:999px;padding:4px;gap:2px}
 .seg button{display:flex;align-items:center;gap:6px;padding:9px 16px;border-radius:999px;font-weight:600;font-size:14.5px;transition:background .15s,color .15s}
 .seg button.on{background:var(--acc);color:var(--acc-ink)}
@@ -336,9 +337,8 @@ button.tb:active{transform:scale(.92)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 @media (prefers-reduced-motion:reduce){.app *,.app{transition:none!important;animation:none!important}}
 </style>
-</head>
-<body>
-<div id="stage">
+
+</head><body><div id="stage">
   <div class="app" id="app">
     <div class="sb">9:41</div>
     <div class="screens" id="screens"></div>
@@ -387,7 +387,7 @@ const store = {
   get(k, d) { try { const v = localStorage.getItem('puzzles.' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
   set(k, v) { try { localStorage.setItem('puzzles.' + k, JSON.stringify(v)); } catch (e) {} }
 };
-const DEF = { allow5050: true, mineCustom: { C: 12, R: 16, M: 40 }, theme: 'dark', accent: 'purple', music: false, sfx: true, timer: true, markWrong: true, diff: { sudoku: 'normal', kings: 'normal', mines: 'normal', atoms: 'normal', towers: 'normal' } };
+const DEF = { allow5050: true, mineCustom: { C: 12, R: 16, M: 40 }, theme: 'dark', accent: 'purple', music: false, sfx: true, timer: true, markWrong: true, mineAnim: true, diff: { sudoku: 'normal', kings: 'normal', mines: 'normal', atoms: 'normal', towers: 'normal' } };
 const saved = store.get('settings', {});
 const S = Object.assign({}, DEF, saved, { diff: Object.assign({}, DEF.diff, saved.diff || {}) });
 function save() { store.set('settings', S); applyTheme(); }
@@ -423,7 +423,7 @@ const T = {
 
   // Settings
   settings: 'Settings', display: 'Display', theme: 'Theme', sound: 'Sound', music: 'Background music', sfx: 'Sound effects',
-  gameplay: 'Gameplay', timer: 'Timer', markWrong: 'Mark wrong answers', difficultyTitle: 'Difficulty', defaultTag: 'Default',
+  gameplay: 'Gameplay', timer: 'Timer', markWrong: 'Mark wrong answers', mineAnim: 'Animations', mineAnimInfo: 'Turn off to reveal squares instantly', difficultyTitle: 'Difficulty', defaultTag: 'Default',
   savedNote: 'Settings are saved on this device.',
   allow5050: 'Allow 50/50 guesses', allow5050Info: 'Turn off for boards you can always solve with logic',
   noGuessFail: 'Couldn’t find a guess-free board this size, so this one may need a guess',
@@ -1030,7 +1030,7 @@ SCREENS.history = scr => {
 /* ---------- SETTINGS ---------- */
 SCREENS.settings = scr => {
   const sw = (k, label, info) => `<label class="row"><span class="lab">${label}${info ? `<small>${info}</small>` : ''}</span><input type="checkbox" class="sw" id="sw-${k}" data-k="${k}"></label>`;
-  const dRow = g => `<div class="glabel">${GAMES[g].name}</div><div class="group"><button class="row" data-d="${g}"><span class="lab">${T.difficultyTitle}</span><span class="val" data-dv="${g}"></span>${I.chev}</button>${g === 'mines' ? sw('allow5050', T.allow5050, T.allow5050Info) : ''}</div>`;
+  const dRow = g => `<div class="glabel">${GAMES[g].name}</div><div class="group"><button class="row" data-d="${g}"><span class="lab">${T.difficultyTitle}</span><span class="val" data-dv="${g}"></span>${I.chev}</button>${g === 'mines' ? sw('allow5050', T.allow5050, T.allow5050Info) + sw('mineAnim', T.mineAnim, T.mineAnimInfo) : ''}</div>`;
   scr.el.innerHTML = `${bar(btnBack)}<div class="scroll"><div class="h1">${T.settings}</div>
     <div class="glabel">${T.display}</div><div class="group"><button class="row" data-go="theme"><span class="lab">${T.theme}</span><span class="val" id="themeVal"></span>${I.chev}</button></div>
     <div class="glabel">${T.sound}</div><div class="group">${sw('music', T.music)}${sw('sfx', T.sfx)}</div>
@@ -1157,7 +1157,8 @@ SCREENS.game = scr => {
   document.addEventListener('visibilitychange', onHide); addEventListener('pagehide', persist);
   store.set('last', { game, variant: variant || null, daily: daily || null });
   const tick = setInterval(() => { if (scr.running && !scr.paused && document.visibilityState === 'visible') { scr.t++; drawTimer(); if (scr.t % 5 === 0) persist(); } }, 1000);
-  function drawTimer() { timerEl.classList.toggle('off', !S.timer); timerEl.textContent = S.timer ? fmt(scr.t) : DLABEL[diff]; }
+  const still = () => game === 'mines' && !S.mineAnim, wait = ms => still() ? 0 : ms;
+  function drawTimer() { scr.el.classList.toggle('still', still()); timerEl.classList.toggle('off', !S.timer); timerEl.textContent = S.timer ? fmt(scr.t) : DLABEL[diff]; }
   function start() {
     if (ro) ro.disconnect();
     wrap.innerHTML = ''; wrap.classList.remove('zoom'); extra.innerHTML = ''; fr.innerHTML = '';
@@ -1174,7 +1175,7 @@ SCREENS.game = scr => {
         setTimeout(() => sheet(`<h2>${title}</h2>${body}<div class="btns">${daily ? '' : `<button class="btn primary" data-n>${T.newGame}</button>`}<button class="btn ${daily ? 'primary' : 'ghost'}" data-h>${T.back}</button></div>`, (el, close) => {
           if (!daily) $('[data-n]', el).onclick = () => { close(); start(); };
           $('[data-h]', el).onclick = () => { close(); pop(); };
-        }), 500);
+        }), wait(500));
       },
     });
     // A Daily is built from the date, so everyone gets the same one (a saved Daily already carries its puzzle)
@@ -1193,7 +1194,7 @@ SCREENS.game = scr => {
           if (S.playerName && scr.posted) scr.posted.then(ok => { note.textContent = ok ? T.lbPosted : T.lbQueued; });
           l.onclick = () => { close(); const go = () => { pop(); push('leaderboard', { game }); }; S.playerName ? go() : setTimeout(() => askName(go), 350); };
         }
-      }), 450);
+      }), wait(450));
   }
   scr.lose = (msg) => {
     scr.running = false; sfx.boom();
@@ -1201,7 +1202,7 @@ SCREENS.game = scr => {
       <div class="btns"><button class="btn primary" data-u>${T.undoLast}</button><button class="btn outline" data-n>${daily ? T.back : T.newGame}</button></div>`, (el, close) => {
         $('[data-u]', el).onclick = () => { close(); G.undo(); };
         $('[data-n]', el).onclick = () => { close(); daily ? pop() : start(); };
-      }), 600);
+      }), wait(600));
   };
   scr.el.addEventListener('click', e => {
     const a = e.target.closest('[data-a]'); if (!a || !G) return;
@@ -2218,5 +2219,4 @@ push('home');
 })();
 </script>
 <script>if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));</script>
-</body>
-</html>
+</body></html>
