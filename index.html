@@ -118,6 +118,35 @@ body{background:var(--page);color:var(--page-fg);font:15px/1.4 var(--ui);-webkit
 .row+.row::before{content:"";position:absolute;top:0;left:16px;right:0;border-top:1px solid var(--line)}
 .row .lab{flex:1;min-width:0}
 .row .lab small{display:block;color:var(--muted);font-size:12.5px;margin-top:1px}
+.resume{display:flex;align-items:center;gap:12px;margin:0 16px 14px;padding:10px 14px 10px 10px;background:var(--surface);border-radius:20px;text-align:left;flex:none}
+.resume[hidden]{display:none}
+.dbanner{display:flex;align-items:center;gap:14px;margin:0 16px 12px;padding:12px 14px 12px 12px;border-radius:22px;text-align:left;flex:none;background:var(--acc);color:var(--acc-ink)}
+.dbanner .art{width:52px;height:52px;border-radius:15px;background:color-mix(in srgb,var(--acc-ink) 16%,transparent);display:grid;place-items:center;flex:none}
+.app .dbanner .art svg{width:86%;height:86%;stroke:none}
+.dbanner .rl{flex:1;min-width:0}.dbanner b{display:block;font-family:var(--display);font-weight:800;font-size:21px;letter-spacing:-.01em}
+.dbanner small{font-size:13.5px;opacity:.85}.dbanner .chev{width:18px;height:18px;opacity:.8}
+.dbanner:active{transform:scale(.98)}
+.resume .art{width:46px;height:46px;border-radius:13px;background:var(--surface2);display:grid;place-items:center;flex:none}
+.app .resume .art svg,.app .hart svg{width:82%;height:82%;stroke:none}
+.resume .rl{flex:1;min-width:0}.resume b{display:block;font-size:17px;color:var(--acc)}.resume small{color:var(--muted);font-size:13.5px}
+.resume .chev{color:var(--muted);width:18px;height:18px}
+.bsub{font-weight:600;opacity:.75;font-size:15px}.bsub::before{content:"·";margin:0 8px 0 2px}
+.hrow{min-height:58px}.hart{width:34px;height:34px;border-radius:9px;background:var(--surface2);display:grid;place-items:center;flex:none}
+.hrow .val{font-variant-numeric:tabular-nums;white-space:nowrap}.hrow .val.win{color:var(--text);font-weight:600}.hrow .val svg{width:18px;height:18px;color:var(--acc)}
+.hempty{text-align:center;padding:40px 30px}
+.lbtabs{display:flex;gap:8px;overflow-x:auto;padding:2px 16px 14px;scrollbar-width:none}.lbtabs::-webkit-scrollbar{display:none}
+.lbtabs .chip{flex:none;padding:8px 15px}.lbtabs .chip.on{background:var(--acc);color:var(--acc-ink)}
+.lbname .row{margin:0 16px 12px;width:calc(100% - 32px);background:var(--surface);border-radius:16px}
+.lbrow .rank{width:26px;text-align:center;font-weight:800;color:var(--muted);font-variant-numeric:tabular-nums}
+.lbrow .rank.r1,.lbrow .rank.r2,.lbrow .rank.r3{color:var(--acc)}
+.lbrow .lab{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.lbrow em{font-style:normal;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--acc-ink);background:var(--acc);border-radius:5px;padding:2px 6px;margin-left:8px;vertical-align:1px}
+.lbrow.me{background:color-mix(in srgb,var(--acc) 10%,var(--surface))}.lbrow .val{color:var(--text);font-weight:700;font-variant-numeric:tabular-nums}
+.lbh svg{width:16px;height:16px;color:var(--muted)}
+.tin{width:100%;height:52px;border-radius:14px;border:1.5px solid var(--line);background:var(--bg);color:var(--text);padding:0 14px;font:600 17px var(--ui);margin:4px 0 16px;user-select:text;-webkit-user-select:text}
+.tin:focus{outline:none;border-color:var(--acc)}
+.dhead{display:flex;flex-direction:column;gap:2px;padding:0 24px 14px;color:var(--muted);font-size:14px}.dhead b{color:var(--text);font-size:17px}
+.drow .val.play{color:var(--acc);font-weight:700}.dnote{text-align:center;padding:16px 28px;font-size:13.5px}.dnext{color:var(--text);font-weight:600}
+.dtag{display:inline-block;background:var(--acc);color:var(--acc-ink);font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:6px;margin-right:7px;vertical-align:1px}.hclear{padding:18px 16px 0}
 .row .val{color:var(--muted);font-size:14.5px}
 .row .chev{color:var(--muted);width:16px;height:16px}
 .row:active{background:var(--surface2)}
@@ -158,6 +187,8 @@ body{background:var(--page);color:var(--page-fg);font:15px/1.4 var(--ui);-webkit
 .landing .hero .art svg{width:82%;height:82%;stroke:none}
 .app .art img{width:74%;height:74%;object-fit:contain;border-radius:16px}
 .landing h1{font-family:var(--display);font-weight:800;font-size:46px;letter-spacing:-.03em;line-height:1;text-align:center}
+.landing.saved .hero{gap:10px}.landing.saved .hero .art{width:118px;height:118px;border-radius:30px}.landing.saved h1{font-size:40px}
+@media (max-height:700px){.landing.saved .btns{gap:9px}.landing.saved .btn{height:52px}.landing.saved .btn.ghost{height:40px}}
 .landing .sub{color:var(--muted);font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
 .chip{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:99px;background:var(--surface);font-weight:600;font-size:14px}
 .chip svg{width:14px;height:14px;color:var(--muted)}
@@ -321,7 +352,17 @@ button.tb:active{transform:scale(.92)}
 (() => {
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
-const rnd = n => Math.floor(Math.random() * n);
+// All puzzle making goes through RAND. For Dailys it's swapped for a seeded one, so every phone builds the same puzzle from the date.
+let RAND = Math.random, SEEDED = false;
+const rnd = n => Math.floor(RAND() * n);
+function seeded(seed, fn) {
+  let h = 1779033703 ^ seed.length;
+  for (const ch of seed) { h = Math.imul(h ^ ch.charCodeAt(0), 3432918353); h = h << 13 | h >>> 19; }
+  let a = h >>> 0; const prev = RAND;
+  RAND = () => { a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  SEEDED = true;
+  try { return fn(); } finally { RAND = prev; SEEDED = false; }
+}
 const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = rnd(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const range = n => [...Array(n).keys()];
 const fmt = s => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
@@ -331,6 +372,10 @@ const app = $('#app'), screensEl = $('#screens');
    To use your own picture for a game, put the image file (png, jpg, svg or webp) in the same
    folder as this page and type its file name between the quotes, e.g.  mines: 'mines.png',
    Leave the quotes empty ('') to keep the built-in drawing. */
+// Daily leaderboard. Paste your Supabase Project URL and publishable key between the quotes
+// (see SETUP-LEADERBOARD.md). Leave them empty and the leaderboard stays switched off.
+const LEADERBOARD = { url: 'https://ofxbbkyhrilcdvhvgbno.supabase.co', key: 'sb_publishable_XxNryWK9Tw5loX2ShUVZCg_Cz9U5izN' };
+
 const IMAGES = {
   atoms: '', sudoku: '', mines: '', kings: '', towers: '',   // home screen tiles + game start screens
   classic: '', killer: '', samurai: '', jigsaw: '',          // Sudoku variant tiles
@@ -405,6 +450,25 @@ const T = {
     towersLost: 'Out of guesses',
   },
   solved: 'Solved!', newPuzzle: 'New puzzle', newGame: 'New game',
+  // Dailys
+  dailys: 'Dailys', dailyTag: 'Daily', dailyBanner: 'Today’s puzzles for everyone', dailyCount: '{n} of {total} solved today',
+  dailyNote: 'Everyone gets the same puzzles today. New ones arrive at midnight.',
+  dailyNext: 'New puzzles in {time}', streak: '{n} day streak', streakNone: 'Solve one today to start a streak',
+  dailyInProgress: 'In progress', tryAgain: 'Try again',
+  dailySolvedTitle: 'Solved today', dailySolvedBody: 'You did today’s {name} in {time}. A new one arrives at midnight.',
+  // Leaderboard
+  leaderboard: 'Leaderboard', lbToday: 'Today’s Dailys', lbEmpty: 'No times yet today. Be the first!',
+  lbOff: 'The leaderboard isn’t switched on yet. Follow the steps in SETUP-LEADERBOARD.md to connect it.',
+  lbError: 'Can’t reach the leaderboard right now. Check your internet and try again.', lbLoading: 'Loading…',
+  lbYou: 'You', lbHints: 'Used hints', lbPosted: 'Your time is on today’s leaderboard.', lbQueued: 'Your time will be posted when you’re back online.',
+  lbNameTitle: 'Your leaderboard name', lbNameHelp: 'This is what other players see next to your times.', lbNamePlaceholder: 'Your name',
+  lbNameSave: 'Save', lbNameRow: 'Name on leaderboard', lbPostHelp: 'Post your time to today’s leaderboard?', lbNameNone: 'Not set', lbPostMine: 'Post my time',
+  // Continue and History
+  continueGame: 'Continue', history: 'History', yourStats: 'Your stats',
+  historyEmpty: 'Puzzles you finish will show up here.',
+  solvedCount: '{n} solved', bestTime: 'best {time}', notSolved: 'Not solved', solvedIn: 'Solved in {time}',
+  today: 'Today', yesterday: 'Yesterday', playAgain: 'Play again', shareCode: 'Share code', close: 'Close',
+  clearHistory: 'Clear history', clearHistoryAsk: 'Clear your whole puzzle history? This can’t be undone.', clearIt: 'Clear', cancel: 'Cancel',
   mineHit: 'That was a mine', loseNote: 'Undo your last move and keep going, or start fresh.', undoLast: 'Undo last move',
   outOfGuesses: 'Out of guesses', codeWas: 'The code was',
   // Little pop-up messages
@@ -485,6 +549,9 @@ const I = {
   home: '<svg viewBox="0 0 24 24"><path d="M3.5 11 12 4l8.5 7"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-5h4v5"/></svg>',
   undo: '<svg viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>',
   back: '<svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>',
+  trophy: '<svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4"/><path d="M12 13v4M8.5 20h7M10 17h4"/></svg>',
+  refresh: '<svg viewBox="0 0 24 24"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/><path d="M19.5 4v4.5H15"/></svg>',
+  history: '<svg viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1"/><path d="M3.5 4v4.5H8"/><path d="M12 7.5V12l3 2"/></svg>',
   gear: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
   bulb: '<svg viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>',
   pencil: '<svg viewBox="0 0 24 24"><path d="M4 20l1-4L16 5l3 3L8 19z"/><path d="M14 7l3 3"/></svg>',
@@ -577,6 +644,9 @@ const ART = (() => {
       });
       return svg(s);
     },
+    daily: () => svg(plate + '<path d="M12 31V24a12 12 0 0 1 12-12h52a12 12 0 0 1 12 12v7z" style="fill:var(--acc)"/>' + frame() +
+      '<rect x="33" y="7" width="5" height="11" rx="2.5" style="fill:var(--text)"/><rect x="62" y="7" width="5" height="11" rx="2.5" style="fill:var(--text)"/>' +
+      `<text x="50" y="61" class="an" style="font-size:31px;font-family:var(--display);font-weight:800">${new Date().getDate()}</text>`),
     soon: () => svg('<path d="M50 30v40M30 50h40" style="stroke:var(--line)" stroke-width="5" stroke-linecap="round"/>'),
   };
 })();
@@ -632,29 +702,67 @@ const bar = (left, right = '') => `<header class="bar"><div class="grp">${left}<
 const btnBack = `<button class="ib" data-nav="back" aria-label="Back">${I.back}</button>`;
 const btnHome = `<button class="ib" data-nav="home" aria-label="Home">${I.home}</button>`;
 const btnGear = `<button class="ib" data-nav="settings" aria-label="Settings">${I.gear}</button>`;
+const btnHistory = `<button class="ib" data-nav="history" aria-label="${T.history}">${I.history}</button>`;
+const btnBoard = `<button class="ib" data-nav="leaderboard" aria-label="${T.leaderboard}">${I.trophy}</button>`;
 screensEl.addEventListener('click', e => {
   const b = e.target.closest('[data-nav]'); if (!b) return;
   const n = b.dataset.nav;
-  if (n === 'back') pop(); else if (n === 'home') popToRoot(); else if (n === 'settings') push('settings');
+  if (n === 'back') pop(); else if (n === 'home') popToRoot(); else if (n === 'settings') push('settings'); else if (n === 'history') push('history'); else if (n === 'leaderboard') push('leaderboard');
 });
+
+/* ---------- SAVED GAMES AND HISTORY ---------- */
+// One unfinished game is kept per puzzle type, so you can pick it back up after leaving the app.
+const SAVE_KINDS = [['atoms'], ['mines'], ['kings'], ['towers'], ...Object.keys(VARIANTS).map(v => ['sudoku', v])];
+const gkey = (g, v, daily) => daily ? `daily.${daily}.${g}` : g + (v ? ':' + v : '');
+const savedGame = (g, v, daily) => store.get('save.' + gkey(g, v, daily), null);
+const dropSave = (g, v, daily) => store.set('save.' + gkey(g, v, daily), null);
+// Dailys: one of each, the same for everyone on the same date
+const DAILY = [['sudoku', 'classic', 'hard'], ['kings', null, 'normal'], ['mines', null, 'normal'], ['atoms', null, 'normal'], ['towers', null, 'normal']];
+const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
+const gname = (g, v) => g === 'sudoku' ? `${VARIANTS[v || 'classic'].name} ${GAMES.sudoku.name}` : GAMES[g].name;
+const gart = (g, v) => art(g === 'sudoku' ? v || 'classic' : g);
+function latestSave() {
+  let best = null;
+  const kinds = [...SAVE_KINDS.map(([g, v]) => [g, v, null]), ...DAILY.map(([g, v]) => [g, v, today()])];
+  for (const [g, v, dl] of kinds) { const sv = savedGame(g, v, dl); if (sv && (!best || sv.at > best.sv.at)) best = { g, v, sv }; }
+  return best;
+}
+function resumeGame(g, v, sv) { push('game', { game: g, variant: v || undefined, diff: sv.d, imported: sv.p, restore: sv.s, t: sv.t, h: sv.h, daily: sv.daily || null }); }
+// Finished puzzles, newest first. Keeps the puzzle code so it can be played again.
+function addHistory(entry) {
+  const h = store.get('history', []).filter(x => x.id !== entry.id);
+  h.unshift(entry); store.set('history', h.slice(0, 300));
+}
 
 /* ---------- HOME ---------- */
 SCREENS.home = scr => {
   const order = ['atoms', 'sudoku', 'mines', 'kings', 'towers'];
-  scr.el.innerHTML = `${bar('', btnGear)}
+  scr.el.innerHTML = `${bar(btnHistory + btnBoard, btnGear)}
     <div class="h1">${T.appTitle}</div>
+    <button class="dbanner" data-daily></button>
+    <button class="resume" hidden></button>
     <div class="pager">
-      <div class="page"><div class="tiles">${order.map(g => `<button class="tile" data-g="${g}"><div class="art">${art(g)}</div><span class="pill">${GAMES[g].short}</span></button>`).join('')}</div></div>
+      <div class="page"><div class="tiles">${order.map(g => `<button class="tile" data-g="${g}"><div class="art">${art(g)}</div><span class="pill">${g === 'daily' ? T.dailys : GAMES[g].short}</span></button>`).join('')}</div></div>
     </div>
 `;
   const pager = $('.pager', scr.el), dots = $$('.dots i', scr.el);
   pager.addEventListener('scroll', () => { const p = Math.round(pager.scrollLeft / pager.clientWidth); dots.forEach((d, i) => d.classList.toggle('on', i === p)); });
   dots.forEach((d, i) => d.onclick = () => pager.scrollTo({ left: i * pager.clientWidth, behavior: 'smooth' }));
+  const res = $('.resume', scr.el), dban = $('.dbanner', scr.el);
+  dban.onclick = () => push('daily');
+  scr.refresh = () => {
+    const day = today(), solved = new Set(store.get('history', []).filter(x => x.daily === day && x.r === 'win').map(x => x.g)).size, st = dailyStreak();
+    dban.innerHTML = `<span class="art">${art('daily')}</span><span class="rl"><b>${T.dailys}</b><small>${solved ? fill(T.dailyCount, { n: solved, total: DAILY.length }) : T.dailyBanner}${st ? ' · ' + fill(T.streak, { n: st }) : ''}</small></span>${I.chev}`;
+    const l = latestSave(); res.hidden = !l; if (!l) return;
+    res.innerHTML = `<span class="art">${gart(l.g, l.v)}</span><span class="rl"><b>${T.continueGame}</b><small>${l.sv.daily ? T.dailyTag + ' ' : ''}${gname(l.g, l.v)} · ${DLABEL[l.sv.d]}${S.timer ? ' · ' + fmt(l.sv.t) : ''}</small></span>${I.chev}`;
+    res.onclick = () => resumeGame(l.g, l.v, l.sv);
+  };
+  scr.refresh();
   scr.el.addEventListener('click', e => {
     const t = e.target.closest('.tile'); if (!t) return;
     if (t.dataset.soon) return toast('More puzzles will live here');
     const g = t.dataset.g;
-    if (g === 'sudoku') push('variants'); else push('landing', { game: g });
+    if (g === 'sudoku') push('variants'); else if (g === 'daily') push('daily'); else push('landing', { game: g });
   });
 };
 
@@ -683,16 +791,24 @@ SCREENS.landing = scr => {
       <button class="chip" data-a="diff"><span class="dl"></span>${I.chev}</button>
     </div>
     <div class="btns">
+      <button class="btn primary" data-a="cont" hidden></button>
       <button class="btn primary" data-a="play">${T.play}</button>
       <button class="btn outline" data-a="import">${T.import}</button>
       <button class="btn ghost" data-a="how">${T.how}</button>
     </div></div>`;
-  scr.refresh = () => { $('.dl', scr.el).textContent = DLABEL[S.diff[game]]; };
+  scr.refresh = () => {
+    $('.dl', scr.el).textContent = DLABEL[S.diff[game]];
+    const sv = savedGame(game, variant), cont = $('[data-a="cont"]', scr.el), play = $('[data-a="play"]', scr.el);
+    cont.hidden = !sv; $('.landing', scr.el).classList.toggle('saved', !!sv);
+    if (sv) cont.innerHTML = `${T.continueGame}<span class="bsub">${DLABEL[sv.d]}${S.timer ? ' · ' + fmt(sv.t) : ''}</span>`;
+    play.textContent = sv ? T.newGame : T.play; play.className = 'btn ' + (sv ? 'outline' : 'primary');
+  };
   scr.refresh();
   scr.el.addEventListener('click', e => {
     const a = e.target.closest('[data-a]'); if (!a) return;
     const act = a.dataset.a;
     if (act === 'play') push('game', { game, variant });
+    if (act === 'cont') { const sv = savedGame(game, variant); if (sv) resumeGame(game, variant, sv); }
     if (act === 'diff') push('difficulty', { game });
     if (act === 'how') sheet(`<h2>${T.howTitle}</h2><ul>${HOW[isSd ? variant : game]}</ul><div class="btns"><button class="btn primary" data-x>${T.gotIt}</button></div>`, (el, close) => $('[data-x]', el).onclick = close);
     if (act === 'import') openImport(game, variant);
@@ -751,6 +867,166 @@ function openShare(code) {
   });
 }
 
+/* ---------- LEADERBOARD ---------- */
+// Daily times go to a small online table (Supabase). Unsent times wait on the phone until it's back online.
+const lbOn = () => !!(LEADERBOARD.url && LEADERBOARD.key);
+const lbApi = path => LEADERBOARD.url.replace(/\/+$/, '') + '/rest/v1/' + path;
+const lbHeaders = () => Object.assign({ apikey: LEADERBOARD.key, 'Content-Type': 'application/json' }, LEADERBOARD.key.startsWith('eyJ') ? { Authorization: 'Bearer ' + LEADERBOARD.key } : {});
+function playerId() {
+  let id = store.get('player', null);
+  if (!id) { id = [...crypto.getRandomValues(new Uint8Array(9))].map(b => b.toString(36).padStart(2, '0')).join(''); store.set('player', id); }
+  return id;
+}
+function postScore(day, game, t, hints) {
+  const q = store.get('lbQueue', []).filter(x => !(x.day === day && x.game === game));
+  q.push({ day, game, t, hints }); store.set('lbQueue', q); return flushScores();
+}
+async function flushScores() {
+  if (!lbOn() || !S.playerName) return false;
+  const y = new Date(); y.setDate(y.getDate() - 1);
+  const yday = `${y.getFullYear()}-${String(y.getMonth() + 1).padStart(2, '0')}-${String(y.getDate()).padStart(2, '0')}`;
+  const q = store.get('lbQueue', []).filter(x => x.day >= yday);   // older ones can't be posted any more
+  if (!q.length) { store.set('lbQueue', []); return true; }
+  const rows = q.map(x => ({ day: x.day, game: x.game, player: playerId(), name: S.playerName, seconds: Math.max(1, x.t), hints: x.hints || 0 }));
+  try {
+    const r = await fetch(lbApi('daily_scores?on_conflict=day,game,player'), { method: 'POST', headers: Object.assign(lbHeaders(), { Prefer: 'resolution=ignore-duplicates,return=minimal' }), body: JSON.stringify(rows) });
+    if (r.ok) { store.set('lbQueue', []); return true; }
+  } catch (e) {}
+  return false;
+}
+function askName(after) {
+  sheet(`<h2>${T.lbNameTitle}</h2><p class="m">${T.lbNameHelp}</p><input class="tin" id="lbname" maxlength="20" autocomplete="nickname" placeholder="${T.lbNamePlaceholder}" value="${(S.playerName || '').replace(/"/g, '&quot;')}">
+    <div class="btns"><button class="btn primary" data-y>${T.lbNameSave}</button><button class="btn ghost" data-x>${T.cancel}</button></div>`, (el, close) => {
+    const inp = $('#lbname', el); setTimeout(() => inp.focus(), 300);
+    const done = () => { const v = inp.value.trim().slice(0, 20); if (!v) return inp.focus(); S.playerName = v; save(); close(); flushScores().then(() => after && after()); };
+    $('[data-y]', el).onclick = done; inp.onkeydown = e => { if (e.key === 'Enter') done(); };
+    $('[data-x]', el).onclick = close;
+  });
+}
+addEventListener('online', () => flushScores());
+SCREENS.leaderboard = scr => {
+  let game = scr.params.game || 'sudoku', req = 0;
+  const day = today();
+  scr.el.innerHTML = `${bar(btnBack, `<button class="ib" data-r aria-label="Refresh">${I.refresh}</button>`)}<div class="scroll"><div class="h1">${T.leaderboard}</div>
+    <div class="dhead"><b>${T.lbToday}</b><span>${new Date().toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' })}</span></div>
+    <div class="lbtabs">${DAILY.map(([g, v]) => `<button class="chip" data-g="${g}">${g === 'sudoku' ? GAMES.sudoku.name : GAMES[g].name}</button>`).join('')}</div>
+    <div class="lbname"></div><div class="lblist"></div></div>`;
+  const list = $('.lblist', scr.el), nameEl = $('.lbname', scr.el);
+  async function load() {
+    $$('.lbtabs .chip', scr.el).forEach(c => c.classList.toggle('on', c.dataset.g === game));
+    nameEl.innerHTML = lbOn() ? `<button class="row lbme"><span class="lab">${T.lbNameRow}</span><span class="val">${S.playerName || T.lbNameNone}</span>${I.chev}</button>` : '';
+    if (!lbOn()) { list.innerHTML = `<p class="m hempty">${T.lbOff}</p>`; return; }
+    const mine = ++req; list.innerHTML = `<p class="m hempty">${T.lbLoading}</p>`;
+    await flushScores();
+    try {
+      const r = await fetch(lbApi(`daily_scores?select=name,seconds,player,hints&day=eq.${day}&game=eq.${game}&order=seconds.asc,created_at.asc&limit=100`), { headers: lbHeaders() });
+      if (!r.ok) throw new Error(r.status);
+      const rows = await r.json(); if (mine !== req) return;
+      const me = playerId(), esc = t => String(t).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[ch]);
+      list.innerHTML = rows.length ? `<div class="group">${rows.map((x, i) => `<div class="row lbrow${x.player === me ? ' me' : ''}"><span class="rank r${i + 1}">${i + 1}</span><span class="lab">${esc(x.name)}${x.player === me ? `<em>${T.lbYou}</em>` : ''}</span>${x.hints ? `<span class="lbh" title="${T.lbHints}">${I.bulb}</span>` : ''}<span class="val">${fmt(x.seconds)}</span></div>`).join('')}</div>`
+        : `<p class="m hempty">${T.lbEmpty}</p>`;
+    } catch (e) { if (mine === req) list.innerHTML = `<p class="m hempty">${T.lbError}</p>`; }
+  }
+  scr.el.addEventListener('click', e => {
+    const c = e.target.closest('.lbtabs [data-g]'); if (c) { game = c.dataset.g; sfx.soft(); load(); }
+    if (e.target.closest('[data-r]')) load();
+    if (e.target.closest('.lbme')) askName(load);
+  });
+  scr.refresh = load;
+  load();
+};
+
+/* ---------- DAILYS ---------- */
+// Days in a row with at least one Daily solved
+function dailyStreak() {
+  const won = new Set(store.get('history', []).filter(x => x.daily && x.r === 'win').map(x => x.daily));
+  const d = new Date(); let n = 0;
+  const key = () => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  if (!won.has(key())) d.setDate(d.getDate() - 1);
+  while (won.has(key())) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+SCREENS.daily = scr => {
+  const streak = dailyStreak;
+  const left = () => { const n = new Date(), m = new Date(n); m.setHours(24, 0, 0, 0); const mins = Math.ceil((m - n) / 6e4); return `${Math.floor(mins / 60)}h ${mins % 60}m`; };
+  function draw() {
+    const day = today(), H = store.get('history', []).filter(x => x.daily === day), st = streak();
+    const rows = DAILY.map(([g, v, d]) => {
+      const sv = savedGame(g, v, day), win = H.find(x => x.g === g && x.r === 'win'), lost = H.find(x => x.g === g && x.r === 'lost');
+      const status = win ? `<span class="val win">${S.timer ? fmt(win.t) : ''} ${I.check}</span>` : sv ? `<span class="val">${T.dailyInProgress}${S.timer ? ' · ' + fmt(sv.t) : ''}</span>` : lost ? `<span class="val">${T.tryAgain}</span>` : `<span class="val play">${T.play}</span>`;
+      return `<button class="row hrow drow" data-g="${g}"><span class="hart">${gart(g, v)}</span><span class="lab">${gname(g, v)}<small>${DLABEL[d]}</small></span>${status}${I.chev}</button>`;
+    }).join('');
+    scr.el.innerHTML = `${bar(btnBack, btnGear)}<div class="scroll"><div class="h1">${T.dailys}</div>
+      <div class="dhead"><b>${new Date().toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' })}</b><span>${st ? fill(T.streak, { n: st }) : T.streakNone}</span></div>
+      <div class="group">${rows}</div>
+      <p class="m dnote">${T.dailyNote}<br><span class="dnext">${fill(T.dailyNext, { time: left() })}</span></p></div>`;
+  }
+  draw();
+  const timer = setInterval(() => { const n = $('.dnext', scr.el); if (n) n.textContent = fill(T.dailyNext, { time: left() }); if (scr.day !== today()) { scr.day = today(); draw(); } }, 30000);
+  scr.day = today();
+  scr.el.addEventListener('click', e => {
+    const r = e.target.closest('.drow'); if (!r) return;
+    const [g, v, d] = DAILY.find(x => x[0] === r.dataset.g), day = today();
+    const win = store.get('history', []).find(x => x.daily === day && x.g === g && x.r === 'win'), sv = savedGame(g, v, day);
+    if (sv) return resumeGame(g, v, sv);
+    if (win) return sheet(`<h2>${T.dailySolvedTitle}</h2><p class="m">${fill(T.dailySolvedBody, { name: gname(g, v), time: fmt(win.t) })}</p>
+      <div class="btns"><button class="btn outline" data-s>${T.shareCode}</button><button class="btn ghost" data-x>${T.close}</button></div>`, (el, close) => {
+      $('[data-s]', el).onclick = () => { close(); setTimeout(() => openShare(win.c), 350); };
+      $('[data-x]', el).onclick = close;
+    });
+    push('game', { game: g, variant: v || undefined, diff: d, daily: day });
+  });
+  scr.refresh = draw;
+  scr.destroy = () => clearInterval(timer);
+};
+
+/* ---------- HISTORY ---------- */
+SCREENS.history = scr => {
+  const dayName = ts => {
+    const d = new Date(ts), t = new Date(); t.setHours(0, 0, 0, 0);
+    const diff = Math.round((t - new Date(d).setHours(0, 0, 0, 0)) / 864e5);
+    return diff === 0 ? T.today : diff === 1 ? T.yesterday : d.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' });
+  };
+  const clock = ts => new Date(ts).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+  function draw() {
+    const H = store.get('history', []);
+    let h = `${bar(btnBack)}<div class="scroll"><div class="h1">${T.history}</div>`;
+    if (!H.length) h += `<p class="m hempty">${T.historyEmpty}</p>`;
+    else {
+      // stats: one row per puzzle type you've played
+      const stats = SAVE_KINDS.map(([g, v]) => {
+        const mine = H.filter(x => x.g === g && (x.v || null) === (v || null)), wins = mine.filter(x => x.r === 'win');
+        return mine.length ? { g, v, wins: wins.length, best: wins.length ? Math.min(...wins.map(x => x.t)) : null } : null;
+      }).filter(Boolean);
+      h += `<div class="glabel">${T.yourStats}</div><div class="group">${stats.map(x => `<div class="row hrow"><span class="hart">${gart(x.g, x.v)}</span><span class="lab">${gname(x.g, x.v)}</span><span class="val">${fill(T.solvedCount, { n: x.wins })}${x.best != null && S.timer ? ' · ' + fill(T.bestTime, { time: fmt(x.best) }) : ''}</span></div>`).join('')}</div>`;
+      let day = '';
+      H.forEach(x => {
+        const dn = dayName(x.at);
+        if (dn !== day) { h += `${day ? '</div>' : ''}<div class="glabel">${dn}</div><div class="group">`; day = dn; }
+        h += `<button class="row hrow" data-id="${x.id}"><span class="hart">${gart(x.g, x.v)}</span><span class="lab">${gname(x.g, x.v)}<small>${x.daily ? T.dailyTag + ' · ' : ''}${DLABEL[x.d] || ''} · ${clock(x.at)}</small></span><span class="val ${x.r === 'win' ? 'win' : 'lost'}">${x.r === 'win' ? (S.timer ? fmt(x.t) : I.check) : T.notSolved}</span>${I.chev}</button>`;
+      });
+      h += `</div><div class="btns hclear"><button class="btn ghost" data-clear>${T.clearHistory}</button></div>`;
+    }
+    scr.el.innerHTML = h + '</div>';
+  }
+  draw();
+  scr.el.addEventListener('click', e => {
+    if (e.target.closest('[data-clear]')) return sheet(`<h2>${T.clearHistory}</h2><p class="m">${T.clearHistoryAsk}</p><div class="btns"><button class="btn primary" data-y>${T.clearIt}</button><button class="btn ghost" data-x>${T.cancel}</button></div>`, (el, close) => {
+      $('[data-y]', el).onclick = () => { store.set('history', []); close(); draw(); };
+      $('[data-x]', el).onclick = close;
+    });
+    const r = e.target.closest('[data-id]'); if (!r) return;
+    const x = store.get('history', []).find(y => String(y.id) === r.dataset.id); if (!x) return;
+    sheet(`<h2>${gname(x.g, x.v)}</h2><p class="m">${DLABEL[x.d] || ''} · ${x.r === 'win' ? (S.timer ? fill(T.solvedIn, { time: fmt(x.t) }) : T.solved) : T.notSolved} · ${dayName(x.at)} ${clock(x.at)}</p>
+      <div class="btns"><button class="btn primary" data-p>${T.playAgain}</button><button class="btn outline" data-s>${T.shareCode}</button><button class="btn ghost" data-x>${T.close}</button></div>`, (el, close) => {
+      $('[data-p]', el).onclick = () => { const c = unpackCode(x.c); close(); if (c) push('game', { game: x.g, variant: x.v || undefined, diff: x.d, imported: c.p }); };
+      $('[data-s]', el).onclick = () => { close(); setTimeout(() => openShare(x.c), 350); };
+      $('[data-x]', el).onclick = close;
+    });
+  });
+  scr.refresh = draw;
+};
+
 /* ---------- SETTINGS ---------- */
 SCREENS.settings = scr => {
   const sw = (k, label, info) => `<label class="row"><span class="lab">${label}${info ? `<small>${info}</small>` : ''}</span><input type="checkbox" class="sw" id="sw-${k}" data-k="${k}"></label>`;
@@ -759,12 +1035,14 @@ SCREENS.settings = scr => {
     <div class="glabel">${T.display}</div><div class="group"><button class="row" data-go="theme"><span class="lab">${T.theme}</span><span class="val" id="themeVal"></span>${I.chev}</button></div>
     <div class="glabel">${T.sound}</div><div class="group">${sw('music', T.music)}${sw('sfx', T.sfx)}</div>
     <div class="glabel">${T.gameplay}</div><div class="group">${sw('timer', T.timer)}${sw('markWrong', T.markWrong)}</div>
+    ${lbOn() ? `<div class="glabel">${T.leaderboard}</div><div class="group"><button class="row" data-name><span class="lab">${T.lbNameRow}</span><span class="val" id="nameVal"></span>${I.chev}</button></div>` : ''}
     ${['sudoku', 'kings', 'mines', 'atoms', 'towers'].map(dRow).join('')}
     <p class="note">${T.savedNote}</p></div>`;
   scr.refresh = () => {
     $('#themeVal', scr.el).textContent = S.theme === 'love' ? T.loveName : `${S.theme === 'dark' ? T.dark : T.light} · ${T.accents[S.accent]}`;
     $$('.sw', scr.el).forEach(i => i.checked = !!S[i.dataset.k]);
     $$('[data-dv]', scr.el).forEach(v => v.textContent = DLABEL[S.diff[v.dataset.dv]]);
+    const nv = $('#nameVal', scr.el); if (nv) nv.textContent = S.playerName || T.lbNameNone;
   };
   scr.refresh();
   scr.el.addEventListener('change', e => {
@@ -774,6 +1052,7 @@ SCREENS.settings = scr => {
   });
   scr.el.addEventListener('click', e => {
     if (e.target.closest('[data-go]')) push('theme');
+    if (e.target.closest('[data-name]')) askName(scr.refresh);
     const d = e.target.closest('[data-d]'); if (d) push('difficulty', { game: d.dataset.d });
   });
 };
@@ -848,7 +1127,7 @@ function fitBoard(wrap, el, aspect, scale) {
   ro.observe(wrap); return { ro, refit };
 }
 SCREENS.game = scr => {
-  const { game, variant } = scr.params;
+  const { game, variant, daily } = scr.params;
   let imported = scr.params.imported;
   scr.el.innerHTML = `<header class="gbar"><div class="grp" style="display:flex">
       <button class="ib" data-nav="back" aria-label="Back to start screen">${I.back}</button>
@@ -861,55 +1140,85 @@ SCREENS.game = scr => {
   const wrap = $('.bwrap', scr.el), extra = $('.gextra', scr.el), fr = $('.gfr', scr.el), titleEl = $('.gtitle', scr.el), timerEl = $('.timer', scr.el);
   let G = null, ro = null, diff;
   scr.t = 0; scr.running = false; scr.paused = false;
-  const tick = setInterval(() => { if (scr.running && !scr.paused && document.visibilityState === 'visible') { scr.t++; drawTimer(); } }, 1000);
+  // Saving: progress is stored after every move and whenever the app goes into the background.
+  const key = gkey(game, variant, daily); let sid = 0, finished = false;
+  function persist() {
+    if (!G || !G.state || finished || (G.canSave && !G.canSave())) return;
+    store.set('save.' + key, { d: diff, p: G.code(), s: G.state(), t: scr.t, h: scr.hints, at: Date.now(), daily: daily || null });
+  }
+  function record(result) {
+    finished = true; dropSave(game, variant, daily);
+    if (daily && result === 'win' && lbOn()) scr.posted = postScore(daily, game, scr.t, scr.hints);
+    addHistory({ id: sid, g: game, v: variant || null, d: diff, t: scr.t, r: result, at: Date.now(), c: packCode(game, variant, diff, G.code()), daily: daily || null });
+  }
+  const later = () => setTimeout(persist, 0);
+  const onHide = () => { if (document.visibilityState === 'hidden') persist(); };
+  scr.el.addEventListener('click', later, true); scr.el.addEventListener('pointerup', later, true);
+  document.addEventListener('visibilitychange', onHide); addEventListener('pagehide', persist);
+  store.set('last', { game, variant: variant || null, daily: daily || null });
+  const tick = setInterval(() => { if (scr.running && !scr.paused && document.visibilityState === 'visible') { scr.t++; drawTimer(); if (scr.t % 5 === 0) persist(); } }, 1000);
   function drawTimer() { timerEl.classList.toggle('off', !S.timer); timerEl.textContent = S.timer ? fmt(scr.t) : DLABEL[diff]; }
   function start() {
     if (ro) ro.disconnect();
     wrap.innerHTML = ''; wrap.classList.remove('zoom'); extra.innerHTML = ''; fr.innerHTML = '';
-    diff = imported && scr.params.diff ? scr.params.diff : S.diff[game]; scr.t = 0; scr.running = true;
-    G = ENGINES[game]({
-      wrap, extra, fr, diff, variant, imported,
-      title: html => titleEl.innerHTML = html,
+    diff = (imported || daily) && scr.params.diff ? scr.params.diff : S.diff[game]; scr.running = true;
+    const restore = scr.params.restore; scr.params.restore = null;
+    scr.t = restore ? scr.params.t || 0 : 0; scr.hints = restore ? scr.params.h || 0 : 0; sid = Date.now(); finished = false;
+    const make = () => ENGINES[game]({
+      wrap, extra, fr, diff, variant, imported, restore, daily,
+      title: html => titleEl.innerHTML = (daily ? `<span class="dtag">${T.dailyTag}</span>` : '') + html,
       fit: (el, aspect, scale) => { const f = fitBoard(wrap, el, aspect, scale); ro = f.ro; return f.refit; },
-      win, lose: () => { scr.running = false; }, resumeClock: () => { scr.running = true; },
+      win, lose: () => { scr.running = false; record('lost'); }, resumeClock: () => { scr.running = true; finished = false; },
       end: (title, body) => {
-        scr.running = false; sfx.boom();
-        setTimeout(() => sheet(`<h2>${title}</h2>${body}<div class="btns"><button class="btn primary" data-n>${T.newGame}</button><button class="btn ghost" data-h>${T.back}</button></div>`, (el, close) => {
-          $('[data-n]', el).onclick = () => { close(); start(); };
+        scr.running = false; sfx.boom(); record('lost');
+        setTimeout(() => sheet(`<h2>${title}</h2>${body}<div class="btns">${daily ? '' : `<button class="btn primary" data-n>${T.newGame}</button>`}<button class="btn ${daily ? 'primary' : 'ghost'}" data-h>${T.back}</button></div>`, (el, close) => {
+          if (!daily) $('[data-n]', el).onclick = () => { close(); start(); };
           $('[data-h]', el).onclick = () => { close(); pop(); };
         }), 500);
       },
     });
+    // A Daily is built from the date, so everyone gets the same one (a saved Daily already carries its puzzle)
+    G = daily && !imported ? seeded(`${daily}:${game}`, make) : make();
     imported = null; drawTimer();
   }
   function win() {
-    scr.running = false; sfx.win();
+    scr.running = false; sfx.win(); record('win');
     setTimeout(() => sheet(`<h2>${T.solved}</h2>${S.timer ? `<div class="bigtime">${fmt(scr.t)}</div>` : ''}<p class="m">${variant ? VARIANTS[variant].name + ' ' : ''}${GAMES[game].name} · ${DLABEL[diff]}</p>
-      <div class="btns"><button class="btn primary" data-n>${T.newPuzzle}</button><button class="btn ghost" data-h>${T.back}</button></div>`, (el, close) => {
-        $('[data-n]', el).onclick = () => { close(); start(); };
+      ${daily && lbOn() ? `<p class="m lbnote">${S.playerName ? '' : T.lbPostHelp}</p>` : ''}
+      <div class="btns">${daily ? '' : `<button class="btn primary" data-n>${T.newPuzzle}</button>`}${daily && lbOn() ? `<button class="btn primary" data-l>${S.playerName ? T.leaderboard : T.lbPostMine}</button>` : ''}<button class="btn ${daily && !lbOn() ? 'primary' : 'ghost'}" data-h>${T.back}</button></div>`, (el, close) => {
+        if (!daily) $('[data-n]', el).onclick = () => { close(); start(); };
         $('[data-h]', el).onclick = () => { close(); pop(); };
+        const l = $('[data-l]', el), note = $('.lbnote', el);
+        if (l) {
+          if (S.playerName && scr.posted) scr.posted.then(ok => { note.textContent = ok ? T.lbPosted : T.lbQueued; });
+          l.onclick = () => { close(); const go = () => { pop(); push('leaderboard', { game }); }; S.playerName ? go() : setTimeout(() => askName(go), 350); };
+        }
       }), 450);
   }
   scr.lose = (msg) => {
     scr.running = false; sfx.boom();
     setTimeout(() => sheet(`<h2>${msg}</h2><p class="m">${T.loseNote}</p>
-      <div class="btns"><button class="btn primary" data-u>${T.undoLast}</button><button class="btn outline" data-n>${T.newGame}</button></div>`, (el, close) => {
+      <div class="btns"><button class="btn primary" data-u>${T.undoLast}</button><button class="btn outline" data-n>${daily ? T.back : T.newGame}</button></div>`, (el, close) => {
         $('[data-u]', el).onclick = () => { close(); G.undo(); };
-        $('[data-n]', el).onclick = () => { close(); start(); };
+        $('[data-n]', el).onclick = () => { close(); daily ? pop() : start(); };
       }), 600);
   };
   scr.el.addEventListener('click', e => {
     const a = e.target.closest('[data-a]'); if (!a || !G) return;
     if (a.dataset.a === 'undo') { G.undo(); sfx.soft(); }
-    if (a.dataset.a === 'hint') G.hint();
+    if (a.dataset.a === 'hint') { scr.hints++; G.hint(); }
     if (a.dataset.a === 'share') openShare(packCode(game, variant, diff, G.code()));
   });
-  const onKey = e => { if (stack[stack.length - 1] === scr && $('#sheetRoot').hidden && G && G.key) G.key(e); };
+  const onKey = e => { if (stack[stack.length - 1] === scr && $('#sheetRoot').hidden && G && G.key) { G.key(e); later(); } };
   document.addEventListener('keydown', onKey);
   scr.pause = () => { scr.paused = true; };
   scr.resume = () => { scr.paused = false; };
   scr.refresh = () => { drawTimer(); G && G.render(); };
-  scr.destroy = () => { clearInterval(tick); if (ro) ro.disconnect(); document.removeEventListener('keydown', onKey); };
+  scr.destroy = () => {
+    persist(); store.set('last', null);
+    clearInterval(tick); if (ro) ro.disconnect(); document.removeEventListener('keydown', onKey);
+    document.removeEventListener('visibilitychange', onHide); removeEventListener('pagehide', persist);
+  };
   scr.loseFn = scr.lose;
   ENGINE_CTX_LOSE = scr.lose;
   start();
@@ -981,7 +1290,7 @@ function makeCages(sol, maxSize) {
   for (const start of shuffle(range(81))) {
     if (cage[start] >= 0) continue;
     const id = cages.length, cells = [start]; cage[start] = id; let used = 1 << sol[start];
-    const target = 1 + rnd(maxSize) + (Math.random() < .5 ? 1 : 0);
+    const target = 1 + rnd(maxSize) + (RAND() < .5 ? 1 : 0);
     for (let tries = 0; cells.length < Math.min(target, maxSize) && tries < 25; tries++) {
       const from = cells[rnd(cells.length)];
       const nb = nb4(from, 9, 9).filter(j => cage[j] < 0 && !(used & (1 << sol[j])));
@@ -1059,6 +1368,7 @@ ENGINES.sudoku = ctx => {
     killerUnique(puz, sol, cage, cages);
   } else ({ puz, sol } = sdGen(ctx.diff));
   const val = puz.slice(), given = puz.map(v => v > 0), notes = Array(81).fill(0), hist = [];
+  if (ctx.restore) ctx.restore.val.forEach((v, i) => { if (!given[i]) { val[i] = v; notes[i] = ctx.restore.notes[i]; } });
   let sel = val.findIndex(v => !v), pencil = false, done = false;
   ctx.title(`<b>${VARIANTS[killer ? 'killer' : 'classic'].name}</b> · ${GAMES.sudoku.name}`);
 
@@ -1120,6 +1430,7 @@ ENGINES.sudoku = ctx => {
   return {
     render,
     code: () => ({ puz, sol, cage }),
+    state: () => ({ val, notes }),
     undo() { const h = hist.pop(); if (!h) return toast(T.nothingToUndo); val.splice(0, 81, ...h.val); notes.splice(0, 81, ...h.notes); render(); },
     hint() {
       if (done) return;
@@ -1226,6 +1537,7 @@ function sudokuX(ctx) {
   const { L, puz, sol } = ctx.imported ? { L: samurai ? layoutSamurai() : layoutJigsaw(ctx.imported.reg), puz: ctx.imported.puz, sol: ctx.imported.sol } : genX(ctx.variant, ctx.diff);
   const { R, C, active, block, peers } = L, N = R * C;
   const val = puz.slice(), given = puz.map(v => v > 0), notes = Array(N).fill(0), hist = [];
+  if (ctx.restore) ctx.restore.val.forEach((v, i) => { if (!given[i]) { val[i] = v; notes[i] = ctx.restore.notes[i]; } });
   let sel = L.cells.find(i => !val[i]), pencil = false, done = false, zoom = false;
   ctx.title(`<b>${VARIANTS[ctx.variant].name}</b> · ${GAMES.sudoku.name}`);
 
@@ -1290,6 +1602,7 @@ function sudokuX(ctx) {
   return {
     render,
     code: () => samurai ? { puz, sol } : { puz, sol, reg: L.block },
+    state: () => ({ val, notes }),
     undo() { const h = hist.pop(); if (!h) return toast(T.nothingToUndo); val.splice(0, N, ...h.val); notes.splice(0, N, ...h.notes); render(); },
     hint() {
       if (done) return;
@@ -1321,6 +1634,7 @@ ENGINES.towers = ctx => {
   const pool = shuffle(range(K)), code = ctx.imported ? ctx.imported.code.slice() : range(P).map(i => repeats ? rnd(K) : pool[i]);
   const rows = [], hints = new Set();
   let cur = Array(P).fill(-1), slot = 0, done = false, hist = [];
+  if (ctx.restore) { rows.push(...ctx.restore.rows); ctx.restore.hints.forEach(i => hints.add(i)); cur = ctx.restore.cur; slot = Math.max(0, cur.indexOf(-1)); }
   const board = document.createElement('div'); board.className = 'tower'; board.style.setProperty('--p', P); board.style.setProperty('--pc', Math.ceil(P / 2));
   ctx.wrap.appendChild(board);
   ctx.extra.innerHTML = `<div class="tpal">${range(K).map(k => `<button class="tcol" data-k="${k}" style="--c:${TCOL[k][1]}" aria-label="${T.towersColours[k]}"></button>`).join('')}</div>
@@ -1380,6 +1694,7 @@ ENGINES.towers = ctx => {
   return {
     render,
     code: () => ({ K, G, code }),
+    state: () => ({ rows, cur, hints: [...hints] }),
     undo() { const h = hist.pop(); if (!h) return toast(T.nothingToUndo); cur = h.cur; slot = h.slot; render(); },
     hint() {
       if (done || rows.length >= G) return;
@@ -1406,6 +1721,7 @@ ENGINES.mines = ctx => {
   let mine = Array(N).fill(false), open = Array(N).fill(false), flag = Array(N).fill(false), placed = false, boom = -1, done = false, mode = 'dig';
   const hist = [];
   if (ctx.imported) { ctx.imported.mines.forEach(i => mine[i] = true); placed = true; }
+  if (ctx.restore) { open = ctx.restore.open.map(Boolean); flag = ctx.restore.flag.map(Boolean); }
   const nb8 = i => { const x = i % C, y = Math.floor(i / C), o = []; for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) { if (!dx && !dy) continue; const nx = x + dx, ny = y + dy; if (nx >= 0 && ny >= 0 && nx < C && ny < R) o.push(ny * C + nx); } return o; };
   const count = i => nb8(i).filter(j => mine[j]).length;
   const grid = document.createElement('div'); grid.className = 'mgrid';
@@ -1441,12 +1757,12 @@ ENGINES.mines = ctx => {
     const safe = new Set([first, ...nb8(first)]), spots = range(N).filter(i => !safe.has(i));
     const deal = () => { mine.fill(false); shuffle(spots).slice(0, M).forEach(i => mine[i] = true); };
     deal();
-    if (!S.allow5050) {
+    if (!S.allow5050 || ctx.daily) {
       // Solve with logic; where it gets stuck, move a mine from the edge of the cleared area
       // to somewhere still unexplored, then try again.
       const until = performance.now() + 2000;
       let st = mineSolve(first);
-      while (st && performance.now() < until) {
+      for (let it = 0; st && (SEEDED ? it < 4000 : performance.now() < until); it++) {
         const touchesOpen = i => nb8(i).some(j => st[j] === 1);
         const edge = range(N).filter(i => !st[i] && mine[i] && touchesOpen(i));
         const far = spots.filter(i => !st[i] && !mine[i] && !touchesOpen(i));
@@ -1518,10 +1834,13 @@ ENGINES.mines = ctx => {
   ['pointerup', 'pointerleave', 'pointercancel'].forEach(t => grid.addEventListener(t, () => clearTimeout(pressT)));
   grid.addEventListener('contextmenu', e => e.preventDefault());
   grid.addEventListener('click', e => { const c = e.target.closest('.mc'); if (!c || longFired) return; act(+c.dataset.i); });
+  if (ctx.daily && !placed) { const c0 = Math.floor(R / 2) * C + Math.floor(C / 2); place(c0); flood(c0); }
   render();
   return {
     render,
     code() { if (!placed) place(Math.floor(R / 2) * C + Math.floor(C / 2)); return { C, R, mines: range(N).filter(i => mine[i]) }; },
+    state: () => ({ open: open.map(Number), flag: flag.map(Number) }),
+    canSave: () => placed && boom < 0,
     undo() {
       const h = hist.pop(); if (!h) return toast(T.nothingToUndo);
       const wasOver = boom >= 0;
@@ -1580,7 +1899,7 @@ ENGINES.kings = ctx => {
   const N = ctx.imported ? ctx.imported.sol.length : { beginner: 5, easy: 6, normal: 7, hard: 8, expert: 9, insane: 10 }[ctx.diff];
   const { region, sol } = ctx.imported || kingsGen(N);
   const hueOrder = HUES.slice();
-  const st = Array(N * N).fill(0), hist = [];
+  const st = ctx.restore ? ctx.restore.st.slice() : Array(N * N).fill(0), hist = [];
   let lastTap = { i: -1, t: 0 }, done = false;
   const grid = document.createElement('div'); grid.className = 'kgrid';
   grid.style.gridTemplateColumns = `repeat(${N},1fr)`; grid.style.gridTemplateRows = `repeat(${N},1fr)`;
@@ -1619,6 +1938,7 @@ ENGINES.kings = ctx => {
   return {
     render,
     code: () => ({ region, sol }),
+    state: () => ({ st }),
     undo() { const h = hist.pop(); if (!h) return toast(T.nothingToUndo); st.splice(0, st.length, ...h); render(); },
     hint() {
       if (done) return;
@@ -1650,14 +1970,14 @@ function atomsGen(W, H, target) {
       if (!ok) continue;
       if (DIRS.some(([ex, ey]) => { const nx = tx + ex, ny = ty + ey; return nx >= 0 && ny >= 0 && nx < W && ny < H && grid[ny * W + nx] === 1; })) continue;
       const b = add(tx, ty); for (let k = 1; k < dist; k++) grid[(y + dy * k) * W + x + dx * k] = 2;
-      edges.set(ekey(a, b), Math.random() < .4 ? 2 : 1);
+      edges.set(ekey(a, b), RAND() < .4 ? 2 : 1);
     }
     for (let a = 0; a < nodes.length; a++) for (const [dx, dy] of [[1, 0], [0, 1]]) {
       let x = nodes[a].x + dx, y = nodes[a].y + dy;
       while (x < W && y < H && grid[y * W + x] === 0) { x += dx; y += dy; }
       if (x >= W || y >= H || grid[y * W + x] !== 1) continue;
       const b = at.get(y * W + x);
-      if (Math.random() < .35) { edges.set(ekey(a, b), Math.random() < .3 ? 2 : 1); for (let k = 1, px = nodes[a].x + dx, py = nodes[a].y + dy; px !== x || py !== y; k++, px += dx, py += dy) grid[py * W + px] = 2; }
+      if (RAND() < .35) { edges.set(ekey(a, b), RAND() < .3 ? 2 : 1); for (let k = 1, px = nodes[a].x + dx, py = nodes[a].y + dy; px !== x || py !== y; k++, px += dx, py += dy) grid[py * W + px] = 2; }
     }
     const res = { nodes, edges, at, W, H };
     if (!best || nodes.length > best.nodes.length) best = res;
@@ -1678,7 +1998,7 @@ ENGINES.atoms = ctx => {
   const [W, H, target] = ctx.imported ? [ctx.imported.W, ctx.imported.H, 0] : { beginner: [5, 6, 5], easy: [6, 8, 8], normal: [7, 9, 12], hard: [8, 10, 17], expert: [9, 11, 21], insane: [10, 13, 26] }[ctx.diff];
   const P = ctx.imported ? atomsFrom(ctx.imported) : atomsGen(W, H, target), { nodes, at } = P;
   const nbrs = nodes.map(n => DIRS.map(([dx, dy]) => { let x = n.x + dx, y = n.y + dy; while (x >= 0 && y >= 0 && x < W && y < H) { if (at.has(y * W + x)) return at.get(y * W + x); x += dx; y += dy; } return -1; }).filter(j => j >= 0));
-  let bonds = new Map(); const hist = []; let sel = -1, done = false;
+  let bonds = new Map(ctx.restore ? ctx.restore.bonds : []); const hist = []; let sel = -1, done = false;
   const U = 10;
   const svgNS = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(svgNS, 'svg');
@@ -1786,6 +2106,7 @@ ENGINES.atoms = ctx => {
   return {
     render,
     code: () => ({ W, H, nodes: nodes.map(n => [n.x, n.y]), edges: [...P.edges].map(([k, v]) => [...k.split(',').map(Number), v]) }),
+    state: () => ({ bonds: [...bonds].filter(([, v]) => v) }),
     undo() { const h = hist.pop(); if (!h) return toast(T.nothingToUndo); bonds = h; sel = -1; render(); },
     hint() {
       if (done) return;
@@ -1801,6 +2122,13 @@ ENGINES.atoms = ctx => {
 };
 
 push('home');
+// If the app was closed in the middle of a game, open it again right where you left off.
+(() => {
+  const last = store.get('last', null); if (!last || !ENGINES[last.game]) return;
+  if (last.daily && last.daily !== today()) return;
+  const sv = savedGame(last.game, last.variant, last.daily); if (!sv) return;
+  resumeGame(last.game, last.variant || undefined, sv);
+})();
 })();
 </script>
 
