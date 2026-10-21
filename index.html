@@ -1869,19 +1869,23 @@ function kingsPerm(N) {
     return false;
   })(0) ? sol : null;
 }
-function kingsCount(N, region, limit) {
-  let count = 0; const colU = Array(N).fill(false), regU = Array(N).fill(false);
+function kingsSols(N, region, limit) {
+  const out = [], sol = [], colU = Array(N).fill(false), regU = Array(N).fill(false);
   (function rec(r, pc) {
-    if (count >= limit) return; if (r === N) { count++; return; }
+    if (out.length >= limit) return; if (r === N) { out.push(sol.slice()); return; }
     for (let c = 0; c < N; c++) { if (colU[c] || Math.abs(c - pc) <= 1) continue; const g = region[r * N + c]; if (regU[g]) continue;
-      colU[c] = regU[g] = true; rec(r + 1, c); colU[c] = regU[g] = false; }
+      colU[c] = regU[g] = true; sol[r] = c; rec(r + 1, c); colU[c] = regU[g] = false; }
   })(0, -9);
-  return count;
+  return out;
 }
+const kingsCount = (N, region, limit) => kingsSols(N, region, limit).length;
+// Grows coloured regions around a random king layout, then reshapes them until there is exactly one answer
+// and it can be reached with logic alone (no guessing).
 function kingsGen(N) {
   let last = null;
-  for (let attempt = 0; attempt < 120; attempt++) {
+  for (let attempt = 0; attempt < 60; attempt++) {
     const sol = kingsPerm(N); if (!sol) continue;
+    const isKing = i => sol[Math.floor(i / N)] === i % N;
     const region = Array(N * N).fill(-1);
     sol.forEach((c, r) => region[r * N + c] = r);
     let left = N * N - N;
@@ -1890,10 +1894,76 @@ function kingsGen(N) {
       const i = front[rnd(front.length)], src = nb4(i, N, N).filter(j => region[j] >= 0);
       region[i] = region[src[rnd(src.length)]]; left--;
     }
-    last = { region, sol };
-    if (kingsCount(N, region, 2) === 1) return last;
+    // can cell i leave its region without splitting it?
+    const canMove = i => {
+      const g = region[i], cs = range(N * N).filter(j => j !== i && region[j] === g);
+      if (!cs.length) return false;
+      const seen = new Set([cs[0]]), q = [cs[0]];
+      while (q.length) { const a = q.pop(); for (const b of nb4(a, N, N)) if (b !== i && region[b] === g && !seen.has(b)) { seen.add(b); q.push(b); } }
+      return seen.size === cs.length;
+    };
+    const moveTo = i => { const hs = [...new Set(nb4(i, N, N).map(j => region[j]).filter(h => h !== region[i]))]; if (!hs.length || !canMove(i)) return false; region[i] = hs[rnd(hs.length)]; return true; };
+    for (let step = 0; step < 400; step++) {
+      const sols = kingsSols(N, region, 2);
+      last = { region: region.slice(), sol };
+      if (sols.length === 1) {
+        if (kingsLogic(N, region)) return last;
+        // one answer, but it needs a guess: nudge a random edge square and try again
+        const edge = shuffle(range(N * N).filter(i => !isKing(i) && nb4(i, N, N).some(j => region[j] !== region[i])));
+        if (!edge.some(moveTo)) break;
+        continue;
+      }
+      // another answer exists: move one of its kings' squares into a neighbouring region to rule it out
+      const alt = sols.find(a => a.some((c, r) => c !== sol[r]));
+      const spots = shuffle(range(N).filter(r => alt[r] !== sol[r]).map(r => r * N + alt[r]));
+      if (!spots.some(moveTo)) break;
+    }
   }
   return last;
+}
+/* Solves Kings the way a person would, without guessing. Returns true if it can finish the board.
+   Rules used: a row, column or region with one spot left gets its king; a region stuck in one row
+   (or column) clears the rest of that row, and the same the other way round, for groups of up to 3;
+   and a square is ruled out if a king there would leave some row, column or region with nowhere to go. */
+function kingsLogic(N, region) {
+  const cand = Array(N * N).fill(true), king = Array(N * N).fill(false);
+  const rowOf = i => Math.floor(i / N), colOf = i => i % N;
+  const units = [];
+  for (let k = 0; k < N; k++) units.push({ t: 'r', k, cells: range(N).map(c => k * N + c) });
+  for (let k = 0; k < N; k++) units.push({ t: 'c', k, cells: range(N).map(r => r * N + k) });
+  for (let k = 0; k < N; k++) units.push({ t: 'g', k, cells: range(N * N).filter(i => region[i] === k) });
+  const unitsOf = i => [units[rowOf(i)], units[N + colOf(i)], units[2 * N + region[i]]];
+  const hit = (i, j) => i !== j && (rowOf(i) === rowOf(j) || colOf(i) === colOf(j) || region[i] === region[j] || (Math.abs(rowOf(i) - rowOf(j)) <= 1 && Math.abs(colOf(i) - colOf(j)) <= 1));
+  const done = u => u.cells.some(i => king[i]);
+  let placed = 0;
+  const place = i => { king[i] = true; cand[i] = false; placed++; for (let j = 0; j < N * N; j++) if (cand[j] && hit(i, j)) cand[j] = false; };
+  const open = u => u.cells.filter(i => cand[i]);
+  for (let changed = true; changed && placed < N;) {
+    changed = false;
+    // 1. only one spot left
+    for (const u of units) { if (done(u)) continue; const o = open(u); if (!o.length) return false; if (o.length === 1) { place(o[0]); changed = true; } }
+    if (changed) continue;
+    // 2. groups of up to 3 regions squeezed into the same rows/columns (and rows/columns squeezed into regions)
+    const kinds = [['g', 'r', rowOf], ['g', 'c', colOf], ['r', 'g', i => region[i]], ['c', 'g', i => region[i]]];
+    for (const [from, to, key] of kinds) {
+      const live = units.filter(u => u.t === from && !done(u));
+      const combos = [];
+      for (let a = 0; a < live.length; a++) { combos.push([live[a]]); for (let b = a + 1; b < live.length; b++) { combos.push([live[a], live[b]]); for (let c = b + 1; c < live.length; c++) combos.push([live[a], live[b], live[c]]); } }
+      for (const set of combos) {
+        const inside = new Set(set.flatMap(u => open(u))), keys = new Set([...inside].map(key));
+        if (keys.size !== set.length) continue;
+        for (let j = 0; j < N * N; j++) if (cand[j] && keys.has(key(j)) && !inside.has(j)) { cand[j] = false; changed = true; }
+      }
+    }
+    if (changed) continue;
+    // 3. a king here would leave something with nowhere to go
+    for (let i = 0; i < N * N; i++) {
+      if (!cand[i]) continue;
+      const bad = units.some(u => !done(u) && !u.cells.includes(i) && u.cells.every(j => !cand[j] || hit(i, j)));
+      if (bad) { cand[i] = false; changed = true; }
+    }
+  }
+  return placed === N;
 }
 ENGINES.kings = ctx => {
   const N = ctx.imported ? ctx.imported.sol.length : { beginner: 5, easy: 6, normal: 7, hard: 8, expert: 9, insane: 10 }[ctx.diff];
