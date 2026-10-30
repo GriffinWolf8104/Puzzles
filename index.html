@@ -318,6 +318,50 @@ button.tb:active{transform:scale(.92)}
 .asvg .dline.bad,.asvg .dring.bad{stroke:var(--danger)}
 .asvg .dring{fill:none;stroke:var(--acc);stroke-width:.8}
 
+/* sets */
+.setgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.app svg.sdefs{position:absolute;width:0;height:0}
+.scard{background:var(--surface);border-radius:12px;display:grid;place-items:center;border:2px solid transparent;transition:transform .12s,border-color .12s,background .12s;min-height:0;padding:0}
+.app .scard svg{width:96%;height:96%}
+.scard.sel{border-color:var(--acc);transform:translateY(-3px);box-shadow:0 6px 16px -8px rgba(0,0,0,.45)}
+.scard.hint{border-color:var(--acc);border-style:dashed}
+.scard.got{animation:got .45s}
+@keyframes got{40%{transform:scale(1.06)}}
+.gextra.top{order:-1}
+.bwrap.top{align-items:start}
+.sfound{display:grid;grid-template-columns:repeat(var(--k),1fr);gap:6px;width:100%;max-width:380px}
+.sf{height:66px;border-bottom:3px solid var(--line);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:2px;padding:0 0 3px}
+.sf.on{border-bottom-color:var(--acc)}
+.sf i{width:100%;max-width:46px;height:20px;border-radius:5px;background:var(--surface);display:grid;place-items:center}.app .sf svg{width:100%;height:100%}
+.lives{display:flex;gap:3px;justify-content:center}
+.smsg{min-height:20px;font-size:13.5px;font-weight:600;color:var(--muted);text-align:center;padding:0 8px}
+.setgrid{position:relative}
+.app .ssub{position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%);height:48px;width:auto;padding:0 38px;font-size:16px !important}
+.app .ssub:active{transform:translateX(-50%) scale(.97)}
+.ssub:disabled{opacity:.4}
+.gextra.top{gap:8px;margin-bottom:16px}
+.lives i{width:22px;height:22px;color:var(--line)}.lives i.on{color:var(--danger)}
+.lives svg{width:100%;height:100%;fill:currentColor;stroke:none}
+.wtries{font-family:var(--display);font-weight:800;font-size:22px;color:var(--text);margin:0 0 4px}
+/* dailys levels */
+.dlcards{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px}
+.dlcard{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:16px 14px;border-radius:24px;background:var(--surface);text-align:left;min-height:210px}
+.dlcard.hard{background:var(--acc);color:var(--acc-ink)}
+.dlcard .art{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;background:color-mix(in srgb,currentColor 10%,transparent);margin-bottom:auto}
+.dlcard .art svg{width:86%;height:86%}
+.dlcard b{font-family:var(--display);font-weight:800;font-size:24px;margin-top:14px}
+.dlcard small{font-size:13px;opacity:.8;line-height:1.3}
+.dlcard .dlcount{font-size:12.5px;font-weight:700;opacity:.9;margin-top:6px}
+.dlcard:active{transform:scale(.98)}
+.dlseg{display:flex;justify-content:center;padding:0 16px 14px}
+.lbnone{padding:0 24px 6px}.lbt{font-weight:800}
+/* settings: sets colours */
+.scols{display:flex;gap:4px}.scols i{width:16px;height:16px;border-radius:50%}
+.scrow{display:flex;align-items:center;gap:10px;margin:10px 0}
+.sclab{width:58px;height:40px;flex:none;background:var(--bg);border-radius:10px;display:grid;place-items:center}.sclab svg{width:100%;height:100%}
+.scsw{display:flex;flex-wrap:wrap;gap:5px}
+.scsw button{width:23px;height:23px;border-radius:50%;background:var(--c);box-shadow:inset 0 0 0 2px rgba(0,0,0,.12)}
+.scsw button.on{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--text)}
 /* ---------- sheets & toast ---------- */
 .sheetRoot{position:absolute;inset:0;z-index:30}
 .scrim{position:absolute;inset:0;background:rgba(0,0,0,.45);opacity:0;transition:opacity .25s}
@@ -387,9 +431,12 @@ const store = {
   get(k, d) { try { const v = localStorage.getItem('puzzles.' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
   set(k, v) { try { localStorage.setItem('puzzles.' + k, JSON.stringify(v)); } catch (e) {} }
 };
-const DEF = { allow5050: true, mineCustom: { C: 12, R: 16, M: 40 }, theme: 'dark', accent: 'purple', music: false, sfx: true, timer: true, markWrong: true, mineAnim: true, diff: { sudoku: 'normal', kings: 'normal', mines: 'normal', atoms: 'normal', towers: 'normal' } };
+const DEF = { allow5050: true, mineCustom: { C: 12, R: 16, M: 40 }, theme: 'dark', accent: 'purple', music: false, sfx: true, timer: true, markWrong: true, mineAnim: true, livesKings: false, livesSets: false, dailyLevel: '', setCols: [0, 1, 2], diff: { sudoku: 'normal', kings: 'normal', mines: 'normal', atoms: 'normal', towers: 'normal', sets: 'normal' } };
 const saved = store.get('settings', {});
 const S = Object.assign({}, DEF, saved, { diff: Object.assign({}, DEF.diff, saved.diff || {}) });
+const SETS_LEVELS = ['easy', 'normal', 'hard'];
+if (!SETS_LEVELS.includes(S.diff.sets)) S.diff.sets = { beginner: 'easy', expert: 'hard', insane: 'hard' }[S.diff.sets] || 'normal';
+if ('lives' in S) { if (S.lives) S.livesKings = S.livesSets = true; delete S.lives; }   // was one switch for both
 function save() { store.set('settings', S); applyTheme(); }
 function applyTheme() { app.dataset.theme = S.theme; app.dataset.accent = S.accent; }
 applyTheme();
@@ -410,6 +457,7 @@ const T = {
     mines: { name: 'Minesweeper', short: 'Minesweeper' },
     kings: { name: 'Kings', short: 'Kings' },
     towers: { name: 'Towers', short: 'Towers' },
+    sets: { name: 'Sets', short: 'Sets' },
   },
   variants: { classic: 'Classic', killer: 'Killer', samurai: 'Samurai', jigsaw: 'Jigsaw' },
   difficulty: { beginner: 'Beginner', easy: 'Easy', normal: 'Normal', hard: 'Hard', expert: 'Expert', insane: 'Insane', custom: 'Custom' },
@@ -418,12 +466,16 @@ const T = {
     kings: { beginner: '5 × 5 board', easy: '6 × 6 board', normal: '7 × 7 board', hard: '8 × 8 board', expert: '9 × 9 board', insane: '10 × 10 board' },
     mines: { beginner: '7 × 9, 6 mines', easy: '8 × 10, 10 mines', normal: '9 × 12, 18 mines', hard: '10 × 13, 28 mines', expert: '10 × 14, 36 mines', insane: '12 × 16, 52 mines', custom: '{cols} × {rows}, {mines} mines' },
     atoms: { beginner: 'About 5 atoms', easy: 'About 8 atoms', normal: 'About 12 atoms', hard: 'About 17 atoms', expert: 'About 21 atoms', insane: 'About 26 atoms' },
+    sets: { easy: '3 × 3 cards, find 3 sets', normal: '4 × 3 cards, find 5 sets', hard: '5 × 3 cards, find 7 sets' },
     towers: { beginner: '3 beads, 5 colours, no repeats', easy: '4 beads, 6 colours, no repeats', normal: '4 beads, 6 colours, repeats allowed', hard: '5 beads, 7 colours', expert: '5 beads, 8 colours', insane: '6 beads, 8 colours, only 8 guesses' },
   },
 
   // Settings
   settings: 'Settings', display: 'Display', theme: 'Theme', sound: 'Sound', music: 'Background music', sfx: 'Sound effects',
-  gameplay: 'Gameplay', timer: 'Timer', markWrong: 'Mark wrong answers', mineAnim: 'Animations', mineAnimInfo: 'Turn off to reveal squares instantly', difficultyTitle: 'Difficulty', defaultTag: 'Default',
+  gameplay: 'Gameplay', timer: 'Timer', markWrong: 'Mark wrong answers', mineAnim: 'Animations', mineAnimInfo: 'Turn off to reveal squares instantly',
+  lives: 'Lives', livesInfo: '3 wrong guesses and the puzzle is over. Starts with your next puzzle.',
+  setColours: 'Colours', setColoursTitle: 'Sets colours', setColoursHelp: 'Pick the three colours the cards use.', setColourN: 'Colour {n}',
+  dailyLevelRow: 'Dailys difficulty', dailyLevelHelp: 'Pick one to skip the choice and go straight to those Dailys.', noPref: 'No preference', difficultyTitle: 'Difficulty', defaultTag: 'Default',
   savedNote: 'Settings are saved on this device.',
   allow5050: 'Allow 50/50 guesses', allow5050Info: 'Turn off for boards you can always solve with logic',
   noGuessFail: 'Couldn’t find a guess-free board this size, so this one may need a guess',
@@ -436,7 +488,7 @@ const T = {
   accents: { red: 'Red', orange: 'Orange', gold: 'Gold', green: 'Green', teal: 'Teal', blue: 'Blue', purple: 'Purple', pink: 'Pink' },
 
   // In games
-  hint: 'Hint', pencil: 'Pencil', zoom: 'Zoom', dig: 'Dig', flag: 'Flag', check: 'Check', share: 'Share',
+  hint: 'Hint', submit: 'Submit', pencil: 'Pencil', zoom: 'Zoom', dig: 'Dig', flag: 'Flag', check: 'Check', share: 'Share',
   kingsTip: 'Tap for a dot · double tap for a king',
   rightSpot: 'right spot', wrongSpot: 'wrong spot',
   towersColours: ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'pink', 'cyan'],
@@ -448,16 +500,22 @@ const T = {
     towersLastGuess: '1 guess left',
     towersWon: 'Cracked it',
     towersLost: 'Out of guesses',
+    sets: '{found} of {total} found',
   },
+  outOfLives: 'Out of lives', livesLeft: 'Wrong. {n} lives left', lifeLeft: 'Wrong. 1 life left',
+  tries: '{n} tries', oneTry: '1 try',
+  setNot: 'Not a set: two have the same {feat} and one doesn’t', setAlready: 'You already found that set', setHintMax: 'Find the last card yourself',
+  setFeats: ['colour', 'shape', 'filling', 'number'], setsFound: 'You found {n} of {total} sets.',
+  setColourNames: { purple: 'Purple', green: 'Green', orange: 'Orange', red: 'Red', blue: 'Blue', pink: 'Pink', teal: 'Teal', gold: 'Gold', brown: 'Brown', grey: 'Grey' },
   solved: 'Solved!', newPuzzle: 'New puzzle', newGame: 'New game',
   // Dailys
-  dailys: 'Dailys', dailyTag: 'Daily', dailyBanner: 'Today’s puzzles for everyone', dailyCount: '{n} of {total} solved today',
+  dailys: 'Dailys', dailyTag: 'Daily', dailyPick: 'Pick today’s level', dailyLevelInfo: { normal: 'A relaxed run of every puzzle', hard: 'The same puzzles, turned up' }, dailyBanner: 'Today’s puzzles for everyone', dailyCount: '{n} of {total} solved today',
   dailyNote: 'Everyone gets the same puzzles today. New ones arrive at midnight.',
   dailyNext: 'New puzzles in {time}', streak: '{n} day streak', streakNone: 'Solve one today to start a streak',
   dailyInProgress: 'In progress', tryAgain: 'Try again',
   dailySolvedTitle: 'Solved today', dailySolvedBody: 'You did today’s {name} in {time}. A new one arrives at midnight.',
   // Leaderboard
-  leaderboard: 'Leaderboard', lbToday: 'Today’s Dailys', lbEmpty: 'No times yet today. Be the first!',
+  leaderboard: 'Leaderboard', lbToday: 'Today’s Dailys', lbNoneLevel: 'No times yet.', lbRank: 'Fewest tries wins, then the fastest time.', lbEmpty: 'No times yet today. Be the first!',
   lbOff: 'The leaderboard isn’t switched on yet. Follow the steps in SETUP-LEADERBOARD.md to connect it.',
   lbError: 'Can’t reach the leaderboard right now. Check your internet and try again.', lbLoading: 'Loading…',
   lbYou: 'You', lbHints: 'Used hints', lbPosted: 'Your time is on today’s leaderboard.', lbQueued: 'Your time will be posted when you’re back online.',
@@ -502,6 +560,7 @@ const T = {
     killer: `<li>Normal sudoku rules: 1 to 9 once in every row, column and 3×3 box.</li><li>Dashed cages show a sum. The numbers in a cage add up to it and never repeat inside the cage.</li><li>Use <b>Pencil</b> for notes.</li>`,
     samurai: `<li>Five sudokus overlap. Every row, column and 3×3 box in each of the five grids holds 1 to 9 once.</li><li>The corner boxes of the middle grid are shared with the outer grids, so they have to work for both.</li><li>Tap <b>Zoom</b> to get a closer look and scroll around the board.</li>`,
     jigsaw: `<li>Fill every row and column with 1 to 9, each once.</li><li>Instead of 3×3 boxes, the thick lines mark nine odd-shaped pieces. Each piece also holds 1 to 9 once.</li><li>Use <b>Pencil</b> for notes.</li>`,
+    sets: `<li>Find every <b>set</b> hidden in the cards. The slots at the top show how many there are.</li><li>A set is three cards where each feature is either <b>all the same</b> or <b>all different</b>: colour, shape, filling and how many (1, 2 or 3).</li><li>Not every card has to be in a set.</li><li>If two cards share a feature and the third doesn't, it isn't a set.</li><li>Tap three cards, then press <b>Submit</b>. Fewer tries scores better on the leaderboard.</li>`,
     towers: `<li>A secret code of coloured beads sits at the top of the tower. Crack it before you run out of guesses.</li><li>Tap a colour to fill the selected bead, then press <b>Check</b>. Each guess stacks onto the tower.</li><li>The pegs tell you how close you were, but not which bead they mean. A filled peg is a right colour in the right spot. A ring is a right colour in the wrong spot.</li><li>Tap a filled bead to select it, and tap it again to clear it.</li><li>With Mark wrong answers on, colours that can't be in the code fade out.</li>`,
     kings: `<li>Place one king in every row, every column and every coloured region.</li><li>Kings can't touch each other, not even diagonally.</li><li><b>Tap once</b> to put a dot where a king can't go. <b>Double tap</b> for a king. Tap again to clear.</li>`,
     mines: `<li>Clear every square that isn't a mine.</li><li>A number tells you how many of the 8 squares around it hide a mine.</li><li>Switch between <b>Dig</b> and <b>Flag</b> at the bottom, or press and hold to flag.</li><li>Tap a number whose mines are all flagged to clear around it.</li>`,
@@ -561,6 +620,7 @@ const I = {
   zoom: '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5M11 8.5v5M8.5 11h5"/></svg>',
   share: '<svg viewBox="0 0 24 24"><path d="M12 15V4"/><path d="M8 8l4-4 4 4"/><path d="M6 12v7a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-7"/></svg>',
   chev: '<svg viewBox="0 0 24 24" class="chev"><path d="M9 5l7 7-7 7"/></svg>',
+  heart: '<svg viewBox="0 0 24 24"><path d="M12 20.5S3.5 15 3.5 9.2A4.4 4.4 0 0 1 12 7a4.4 4.4 0 0 1 8.5 2.2C20.5 15 12 20.5 12 20.5z"/></svg>',
   erase: '<svg viewBox="0 0 24 24"><path d="M20 6H9l-5 6 5 6h11z"/><path d="M12.5 9.5l5 5M17.5 9.5l-5 5"/></svg>',
   crown: '<svg viewBox="0 0 24 24" class="crown"><path d="M3.5 18.5 2.5 8l5.5 4.5L12 5l4 7.5L21.5 8l-1 10.5z"/></svg>',
   mine: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5.5" fill="currentColor"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>',
@@ -644,6 +704,12 @@ const ART = (() => {
       });
       return svg(s);
     },
+    sets: () => {
+      const crd = (x, y, inner) => `<rect x="${x}" y="${y}" width="34" height="23" rx="5" style="fill:var(--surface);stroke:var(--strong)" stroke-width="1.3"/><g transform="translate(${x + 17} ${y + 11.5}) scale(.3)">${inner}</g>`;
+      const P = SET_PATHS, a = 'var(--acc)';
+      return svg(plate + frame() + crd(14.5, 20, `<path d="${P[0]}" style="fill:${a};stroke:${a}" stroke-width="4"/>`) + crd(51.5, 20, `<path d="${P[1]}" fill="none" style="stroke:var(--text)" stroke-width="5"/>`) +
+        crd(14.5, 56, `<path transform="rotate(45)" d="${P[2]}" fill="none" style="stroke:${a}" stroke-width="5"/>`) + crd(51.5, 56, `<path d="${P[0]}" fill="none" style="stroke:var(--text)" stroke-width="5"/>`));
+    },
     daily: () => svg(plate + '<path d="M12 31V24a12 12 0 0 1 12-12h52a12 12 0 0 1 12 12v7z" style="fill:var(--acc)"/>' + frame() +
       '<rect x="33" y="7" width="5" height="11" rx="2.5" style="fill:var(--text)"/><rect x="62" y="7" width="5" height="11" rx="2.5" style="fill:var(--text)"/>' +
       `<text x="50" y="61" class="an" style="font-size:31px;font-family:var(--display);font-weight:800">${new Date().getDate()}</text>`),
@@ -712,18 +778,26 @@ screensEl.addEventListener('click', e => {
 
 /* ---------- SAVED GAMES AND HISTORY ---------- */
 // One unfinished game is kept per puzzle type, so you can pick it back up after leaving the app.
-const SAVE_KINDS = [['atoms'], ['mines'], ['kings'], ['towers'], ...Object.keys(VARIANTS).map(v => ['sudoku', v])];
+const SAVE_KINDS = [['atoms'], ['mines'], ['kings'], ['towers'], ['sets'], ...Object.keys(VARIANTS).map(v => ['sudoku', v])];
 const gkey = (g, v, daily) => daily ? `daily.${daily}.${g}` : g + (v ? ':' + v : '');
 const savedGame = (g, v, daily) => store.get('save.' + gkey(g, v, daily), null);
 const dropSave = (g, v, daily) => store.set('save.' + gkey(g, v, daily), null);
-// Dailys: one of each, the same for everyone on the same date
-const DAILY = [['sudoku', 'classic', 'hard'], ['kings', null, 'normal'], ['mines', null, 'normal'], ['atoms', null, 'normal'], ['towers', null, 'normal']];
+// Dailys: one of each at Normal and at Hard, the same for everyone on the same date.
+// A Daily's id is its date plus its level, like 2026-10-30:hard (older ones are just the date, which counts as Normal).
+const DAILY_GAMES = [['sudoku', 'classic'], ['kings', null], ['mines', null], ['atoms', null], ['towers', null], ['sets', null]];
+const DAILY_LEVELS = ['normal', 'hard'];
+const dailyId = (day, lv) => `${day}:${lv}`;
+const dDay = id => id ? id.slice(0, 10) : null;
+const dLevel = id => (id && id.split(':')[1]) || 'normal';
+// Towers and Sets are scored on tries first, then time
+const BY_TRIES = new Set(['towers', 'sets']);
+const triesText = n => n === 1 ? T.oneTry : fill(T.tries, { n });
 const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
 const gname = (g, v) => g === 'sudoku' ? `${VARIANTS[v || 'classic'].name} ${GAMES.sudoku.name}` : GAMES[g].name;
 const gart = (g, v) => art(g === 'sudoku' ? v || 'classic' : g);
 function latestSave() {
   let best = null;
-  const kinds = [...SAVE_KINDS.map(([g, v]) => [g, v, null]), ...DAILY.map(([g, v]) => [g, v, today()])];
+  const kinds = [...SAVE_KINDS.map(([g, v]) => [g, v, null]), ...DAILY_LEVELS.flatMap(lv => DAILY_GAMES.map(([g, v]) => [g, v, dailyId(today(), lv)]))];
   for (const [g, v, dl] of kinds) { const sv = savedGame(g, v, dl); if (sv && (!best || sv.at > best.sv.at)) best = { g, v, sv }; }
   return best;
 }
@@ -736,7 +810,7 @@ function addHistory(entry) {
 
 /* ---------- HOME ---------- */
 SCREENS.home = scr => {
-  const order = ['atoms', 'sudoku', 'mines', 'kings', 'towers'];
+  const order = ['atoms', 'sudoku', 'mines', 'kings', 'towers', 'sets'];
   scr.el.innerHTML = `${bar(btnHistory + btnBoard, btnGear)}
     <div class="h1">${T.appTitle}</div>
     <button class="dbanner" data-daily></button>
@@ -749,10 +823,10 @@ SCREENS.home = scr => {
   pager.addEventListener('scroll', () => { const p = Math.round(pager.scrollLeft / pager.clientWidth); dots.forEach((d, i) => d.classList.toggle('on', i === p)); });
   dots.forEach((d, i) => d.onclick = () => pager.scrollTo({ left: i * pager.clientWidth, behavior: 'smooth' }));
   const res = $('.resume', scr.el), dban = $('.dbanner', scr.el);
-  dban.onclick = () => push('daily');
+  dban.onclick = () => openDailys();
   scr.refresh = () => {
-    const day = today(), solved = new Set(store.get('history', []).filter(x => x.daily === day && x.r === 'win').map(x => x.g)).size, st = dailyStreak();
-    dban.innerHTML = `<span class="art">${art('daily')}</span><span class="rl"><b>${T.dailys}</b><small>${solved ? fill(T.dailyCount, { n: solved, total: DAILY.length }) : T.dailyBanner}${st ? ' · ' + fill(T.streak, { n: st }) : ''}</small></span>${I.chev}`;
+    const day = today(), lv = S.dailyLevel, solved = new Set(store.get('history', []).filter(x => dDay(x.daily) === day && x.r === 'win' && (!lv || dLevel(x.daily) === lv)).map(x => dLevel(x.daily) + x.g)).size, st = dailyStreak();
+    dban.innerHTML = `<span class="art">${art('daily')}</span><span class="rl"><b>${T.dailys}</b><small>${solved ? fill(T.dailyCount, { n: solved, total: DAILY_GAMES.length * (lv ? 1 : DAILY_LEVELS.length) }) : T.dailyBanner}${st ? ' · ' + fill(T.streak, { n: st }) : ''}</small></span>${I.chev}`;
     const l = latestSave(); res.hidden = !l; if (!l) return;
     res.innerHTML = `<span class="art">${gart(l.g, l.v)}</span><span class="rl"><b>${T.continueGame}</b><small>${l.sv.daily ? T.dailyTag + ' ' : ''}${gname(l.g, l.v)} · ${DLABEL[l.sv.d]}${S.timer ? ' · ' + fmt(l.sv.t) : ''}</small></span>${I.chev}`;
     res.onclick = () => resumeGame(l.g, l.v, l.sv);
@@ -762,7 +836,7 @@ SCREENS.home = scr => {
     const t = e.target.closest('.tile'); if (!t) return;
     if (t.dataset.soon) return toast('More puzzles will live here');
     const g = t.dataset.g;
-    if (g === 'sudoku') push('variants'); else if (g === 'daily') push('daily'); else push('landing', { game: g });
+    if (g === 'sudoku') push('variants'); else push('landing', { game: g });
   });
 };
 
@@ -877,9 +951,10 @@ function playerId() {
   if (!id) { id = [...crypto.getRandomValues(new Uint8Array(9))].map(b => b.toString(36).padStart(2, '0')).join(''); store.set('player', id); }
   return id;
 }
-function postScore(day, game, t, hints) {
-  const q = store.get('lbQueue', []).filter(x => !(x.day === day && x.game === game));
-  q.push({ day, game, t, hints }); store.set('lbQueue', q); return flushScores();
+function postScore(daily, game, t, hints, tries) {
+  const day = dDay(daily), level = dLevel(daily);
+  const q = store.get('lbQueue', []).filter(x => !(x.day === day && x.game === game && (x.level || 'normal') === level));
+  q.push({ day, game, level, t, hints, tries: tries || 0 }); store.set('lbQueue', q); return flushScores();
 }
 async function flushScores() {
   if (!lbOn() || !S.playerName) return false;
@@ -887,9 +962,9 @@ async function flushScores() {
   const yday = `${y.getFullYear()}-${String(y.getMonth() + 1).padStart(2, '0')}-${String(y.getDate()).padStart(2, '0')}`;
   const q = store.get('lbQueue', []).filter(x => x.day >= yday);   // older ones can't be posted any more
   if (!q.length) { store.set('lbQueue', []); return true; }
-  const rows = q.map(x => ({ day: x.day, game: x.game, player: playerId(), name: S.playerName, seconds: Math.max(1, x.t), hints: x.hints || 0 }));
+  const rows = q.map(x => ({ day: x.day, game: x.game, level: x.level || 'normal', player: playerId(), name: S.playerName, seconds: Math.max(1, x.t), hints: x.hints || 0, attempts: x.tries || 0 }));
   try {
-    const r = await fetch(lbApi('daily_scores?on_conflict=day,game,player'), { method: 'POST', headers: Object.assign(lbHeaders(), { Prefer: 'resolution=ignore-duplicates,return=minimal' }), body: JSON.stringify(rows) });
+    const r = await fetch(lbApi('daily_scores?on_conflict=day,game,level,player'), { method: 'POST', headers: Object.assign(lbHeaders(), { Prefer: 'resolution=ignore-duplicates,return=minimal' }), body: JSON.stringify(rows) });
     if (r.ok) { store.set('lbQueue', []); return true; }
   } catch (e) {}
   return false;
@@ -908,10 +983,19 @@ SCREENS.leaderboard = scr => {
   let game = scr.params.game || 'sudoku', req = 0;
   const day = today();
   scr.el.innerHTML = `${bar(btnBack, `<button class="ib" data-r aria-label="Refresh">${I.refresh}</button>`)}<div class="scroll"><div class="h1">${T.leaderboard}</div>
-    <div class="dhead"><b>${T.lbToday}</b><span>${new Date().toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' })}</span></div>
-    <div class="lbtabs">${DAILY.map(([g, v]) => `<button class="chip" data-g="${g}">${g === 'sudoku' ? GAMES.sudoku.name : GAMES[g].name}</button>`).join('')}</div>
+    <div class="dhead"><b>${T.lbToday}</b><span>${dateLine()}</span></div>
+    <div class="lbtabs">${DAILY_GAMES.map(([g]) => `<button class="chip" data-g="${g}">${GAMES[g].name}</button>`).join('')}</div>
     <div class="lbname"></div><div class="lblist"></div></div>`;
   const list = $('.lblist', scr.el), nameEl = $('.lbname', scr.el);
+  const esc = t => String(t).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[ch]);
+  // Ask for the level and tries too; a table set up before those existed still answers the plain question
+  async function fetchRows() {
+    const base = `daily_scores?day=eq.${day}&game=eq.${game}&limit=300&select=name,seconds,player,hints`;
+    let r = await fetch(lbApi(base + ',level,attempts'), { headers: lbHeaders() });
+    if (r.status === 400) r = await fetch(lbApi(base), { headers: lbHeaders() });
+    if (!r.ok) throw new Error(r.status);
+    return r.json();
+  }
   async function load() {
     $$('.lbtabs .chip', scr.el).forEach(c => c.classList.toggle('on', c.dataset.g === game));
     nameEl.innerHTML = lbOn() ? `<button class="row lbme"><span class="lab">${T.lbNameRow}</span><span class="val">${S.playerName || T.lbNameNone}</span>${I.chev}</button>` : '';
@@ -919,12 +1003,15 @@ SCREENS.leaderboard = scr => {
     const mine = ++req; list.innerHTML = `<p class="m hempty">${T.lbLoading}</p>`;
     await flushScores();
     try {
-      const r = await fetch(lbApi(`daily_scores?select=name,seconds,player,hints&day=eq.${day}&game=eq.${game}&order=seconds.asc,created_at.asc&limit=100`), { headers: lbHeaders() });
-      if (!r.ok) throw new Error(r.status);
-      const rows = await r.json(); if (mine !== req) return;
-      const me = playerId(), esc = t => String(t).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[ch]);
-      list.innerHTML = rows.length ? `<div class="group">${rows.map((x, i) => `<div class="row lbrow${x.player === me ? ' me' : ''}"><span class="rank r${i + 1}">${i + 1}</span><span class="lab">${esc(x.name)}${x.player === me ? `<em>${T.lbYou}</em>` : ''}</span>${x.hints ? `<span class="lbh" title="${T.lbHints}">${I.bulb}</span>` : ''}<span class="val">${fmt(x.seconds)}</span></div>`).join('')}</div>`
-        : `<p class="m hempty">${T.lbEmpty}</p>`;
+      const rows = await fetchRows(); if (mine !== req) return;
+      const me = playerId(), tries = BY_TRIES.has(game);
+      const sorted = rows.slice().sort((a, b) => (tries ? (a.attempts || 0) - (b.attempts || 0) : 0) || a.seconds - b.seconds);
+      const block = lv => {
+        const xs = sorted.filter(x => (x.level || 'normal') === lv).slice(0, 100);
+        return `<div class="glabel">${DLABEL[lv]}</div>` + (xs.length ? `<div class="group">${xs.map((x, i) => `<div class="row lbrow${x.player === me ? ' me' : ''}"><span class="rank r${i + 1}">${i + 1}</span><span class="lab">${esc(x.name)}${x.player === me ? `<em>${T.lbYou}</em>` : ''}</span>${x.hints ? `<span class="lbh" title="${T.lbHints}">${I.bulb}</span>` : ''}<span class="val">${tries && x.attempts ? `<b class="lbt">${triesText(x.attempts)}</b> · ` : ''}${fmt(x.seconds)}</span></div>`).join('')}</div>`
+          : `<p class="m lbnone">${T.lbNoneLevel}</p>`);
+      };
+      list.innerHTML = rows.length ? DAILY_LEVELS.map(block).join('') + (tries ? `<p class="m lbnone">${T.lbRank}</p>` : '') : `<p class="m hempty">${T.lbEmpty}</p>`;
     } catch (e) { if (mine === req) list.innerHTML = `<p class="m hempty">${T.lbError}</p>`; }
   }
   scr.el.addEventListener('click', e => {
@@ -939,25 +1026,48 @@ SCREENS.leaderboard = scr => {
 /* ---------- DAILYS ---------- */
 // Days in a row with at least one Daily solved
 function dailyStreak() {
-  const won = new Set(store.get('history', []).filter(x => x.daily && x.r === 'win').map(x => x.daily));
+  const won = new Set(store.get('history', []).filter(x => x.daily && x.r === 'win').map(x => dDay(x.daily)));
   const d = new Date(); let n = 0;
   const key = () => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   if (!won.has(key())) d.setDate(d.getDate() - 1);
   while (won.has(key())) { n++; d.setDate(d.getDate() - 1); }
   return n;
 }
+// The Dailys banner goes straight to your chosen level, or asks which one
+function openDailys() { S.dailyLevel ? push('daily', { level: S.dailyLevel }) : push('dailypick'); }
+const dateLine = () => new Date().toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' });
+SCREENS.dailypick = scr => {
+  function draw() {
+    const day = today(), H = store.get('history', []);
+    const card = lv => {
+      const n = new Set(H.filter(x => x.daily === dailyId(day, lv) && x.r === 'win').map(x => x.g)).size;
+      return `<button class="dlcard ${lv}" data-lv="${lv}"><span class="art">${art('daily')}</span><b>${DLABEL[lv]}</b><small>${T.dailyLevelInfo[lv]}</small><span class="dlcount">${fill(T.dailyCount, { n, total: DAILY_GAMES.length })}</span></button>`;
+    };
+    const st = dailyStreak();
+    scr.el.innerHTML = `${bar(btnBack, btnGear)}<div class="scroll"><div class="h1">${T.dailys}</div>
+      <div class="dhead"><b>${dateLine()}</b><span>${st ? fill(T.streak, { n: st }) : T.streakNone}</span></div>
+      <div class="glabel">${T.dailyPick}</div><div class="dlcards">${DAILY_LEVELS.map(card).join('')}</div>
+      <p class="m dnote">${T.dailyNote}</p></div>`;
+  }
+  draw();
+  scr.el.addEventListener('click', e => { const c = e.target.closest('[data-lv]'); if (c) push('daily', { level: c.dataset.lv }); });
+  scr.refresh = draw;
+};
 SCREENS.daily = scr => {
   const streak = dailyStreak;
+  let level = scr.params.level || 'normal';
   const left = () => { const n = new Date(), m = new Date(n); m.setHours(24, 0, 0, 0); const mins = Math.ceil((m - n) / 6e4); return `${Math.floor(mins / 60)}h ${mins % 60}m`; };
+  const result = (g, x) => `${S.timer ? fmt(x.t) : ''}${BY_TRIES.has(g) && x.a ? (S.timer ? ' · ' : '') + triesText(x.a) : ''}`;
   function draw() {
-    const day = today(), H = store.get('history', []).filter(x => x.daily === day), st = streak();
-    const rows = DAILY.map(([g, v, d]) => {
-      const sv = savedGame(g, v, day), win = H.find(x => x.g === g && x.r === 'win'), lost = H.find(x => x.g === g && x.r === 'lost');
-      const status = win ? `<span class="val win">${S.timer ? fmt(win.t) : ''} ${I.check}</span>` : sv ? `<span class="val">${T.dailyInProgress}${S.timer ? ' · ' + fmt(sv.t) : ''}</span>` : lost ? `<span class="val">${T.tryAgain}</span>` : `<span class="val play">${T.play}</span>`;
-      return `<button class="row hrow drow" data-g="${g}"><span class="hart">${gart(g, v)}</span><span class="lab">${gname(g, v)}<small>${DLABEL[d]}</small></span>${status}${I.chev}</button>`;
+    const day = today(), id = dailyId(day, level), H = store.get('history', []).filter(x => x.daily === id), st = streak();
+    const rows = DAILY_GAMES.map(([g, v]) => {
+      const sv = savedGame(g, v, id), win = H.find(x => x.g === g && x.r === 'win'), lost = H.find(x => x.g === g && x.r === 'lost');
+      const status = win ? `<span class="val win">${result(g, win)} ${I.check}</span>` : sv ? `<span class="val">${T.dailyInProgress}${S.timer ? ' · ' + fmt(sv.t) : ''}</span>` : lost ? `<span class="val">${T.tryAgain}</span>` : `<span class="val play">${T.play}</span>`;
+      return `<button class="row hrow drow" data-g="${g}"><span class="hart">${gart(g, v)}</span><span class="lab">${gname(g, v)}<small>${DLABEL[level]}</small></span>${status}${I.chev}</button>`;
     }).join('');
     scr.el.innerHTML = `${bar(btnBack, btnGear)}<div class="scroll"><div class="h1">${T.dailys}</div>
-      <div class="dhead"><b>${new Date().toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' })}</b><span>${st ? fill(T.streak, { n: st }) : T.streakNone}</span></div>
+      <div class="dhead"><b>${dateLine()}</b><span>${st ? fill(T.streak, { n: st }) : T.streakNone}</span></div>
+      <div class="dlseg"><div class="seg">${DAILY_LEVELS.map(lv => `<button data-lv="${lv}" class="${lv === level ? 'on' : ''}">${DLABEL[lv]}</button>`).join('')}</div></div>
       <div class="group">${rows}</div>
       <p class="m dnote">${T.dailyNote}<br><span class="dnext">${fill(T.dailyNext, { time: left() })}</span></p></div>`;
   }
@@ -965,16 +1075,17 @@ SCREENS.daily = scr => {
   const timer = setInterval(() => { const n = $('.dnext', scr.el); if (n) n.textContent = fill(T.dailyNext, { time: left() }); if (scr.day !== today()) { scr.day = today(); draw(); } }, 30000);
   scr.day = today();
   scr.el.addEventListener('click', e => {
+    const l = e.target.closest('.dlseg [data-lv]'); if (l) { level = l.dataset.lv; sfx.soft(); draw(); return; }
     const r = e.target.closest('.drow'); if (!r) return;
-    const [g, v, d] = DAILY.find(x => x[0] === r.dataset.g), day = today();
-    const win = store.get('history', []).find(x => x.daily === day && x.g === g && x.r === 'win'), sv = savedGame(g, v, day);
+    const [g, v] = DAILY_GAMES.find(x => x[0] === r.dataset.g), id = dailyId(today(), level);
+    const win = store.get('history', []).find(x => x.daily === id && x.g === g && x.r === 'win'), sv = savedGame(g, v, id);
     if (sv) return resumeGame(g, v, sv);
-    if (win) return sheet(`<h2>${T.dailySolvedTitle}</h2><p class="m">${fill(T.dailySolvedBody, { name: gname(g, v), time: fmt(win.t) })}</p>
+    if (win) return sheet(`<h2>${T.dailySolvedTitle}</h2><p class="m">${fill(T.dailySolvedBody, { name: `${DLABEL[level]} ${gname(g, v)}`, time: result(g, win) || fmt(win.t) })}</p>
       <div class="btns"><button class="btn outline" data-s>${T.shareCode}</button><button class="btn ghost" data-x>${T.close}</button></div>`, (el, close) => {
       $('[data-s]', el).onclick = () => { close(); setTimeout(() => openShare(win.c), 350); };
       $('[data-x]', el).onclick = close;
     });
-    push('game', { game: g, variant: v || undefined, diff: d, daily: day });
+    push('game', { game: g, variant: v || undefined, diff: level, daily: id });
   });
   scr.refresh = draw;
   scr.destroy = () => clearInterval(timer);
@@ -996,14 +1107,15 @@ SCREENS.history = scr => {
       // stats: one row per puzzle type you've played
       const stats = SAVE_KINDS.map(([g, v]) => {
         const mine = H.filter(x => x.g === g && (x.v || null) === (v || null)), wins = mine.filter(x => x.r === 'win');
-        return mine.length ? { g, v, wins: wins.length, best: wins.length ? Math.min(...wins.map(x => x.t)) : null } : null;
+        const tri = BY_TRIES.has(g) && wins.filter(x => x.a).sort((p, q) => p.a - q.a || p.t - q.t)[0];
+        return mine.length ? { g, v, wins: wins.length, best: wins.length ? Math.min(...wins.map(x => x.t)) : null, tri } : null;
       }).filter(Boolean);
-      h += `<div class="glabel">${T.yourStats}</div><div class="group">${stats.map(x => `<div class="row hrow"><span class="hart">${gart(x.g, x.v)}</span><span class="lab">${gname(x.g, x.v)}</span><span class="val">${fill(T.solvedCount, { n: x.wins })}${x.best != null && S.timer ? ' · ' + fill(T.bestTime, { time: fmt(x.best) }) : ''}</span></div>`).join('')}</div>`;
+      h += `<div class="glabel">${T.yourStats}</div><div class="group">${stats.map(x => `<div class="row hrow"><span class="hart">${gart(x.g, x.v)}</span><span class="lab">${gname(x.g, x.v)}</span><span class="val">${fill(T.solvedCount, { n: x.wins })}${x.tri ? ' · ' + fill(T.bestTime, { time: triesText(x.tri.a) + (S.timer ? ', ' + fmt(x.tri.t) : '') }) : x.best != null && S.timer ? ' · ' + fill(T.bestTime, { time: fmt(x.best) }) : ''}</span></div>`).join('')}</div>`;
       let day = '';
       H.forEach(x => {
         const dn = dayName(x.at);
         if (dn !== day) { h += `${day ? '</div>' : ''}<div class="glabel">${dn}</div><div class="group">`; day = dn; }
-        h += `<button class="row hrow" data-id="${x.id}"><span class="hart">${gart(x.g, x.v)}</span><span class="lab">${gname(x.g, x.v)}<small>${x.daily ? T.dailyTag + ' · ' : ''}${DLABEL[x.d] || ''} · ${clock(x.at)}</small></span><span class="val ${x.r === 'win' ? 'win' : 'lost'}">${x.r === 'win' ? (S.timer ? fmt(x.t) : I.check) : T.notSolved}</span>${I.chev}</button>`;
+        h += `<button class="row hrow" data-id="${x.id}"><span class="hart">${gart(x.g, x.v)}</span><span class="lab">${gname(x.g, x.v)}<small>${x.daily ? T.dailyTag + ' · ' : ''}${DLABEL[x.d] || ''} · ${clock(x.at)}</small></span><span class="val ${x.r === 'win' ? 'win' : 'lost'}">${x.r === 'win' ? (BY_TRIES.has(x.g) && x.a ? triesText(x.a) + (S.timer ? ' · ' + fmt(x.t) : '') : S.timer ? fmt(x.t) : I.check) : T.notSolved}</span>${I.chev}</button>`;
       });
       h += `</div><div class="btns hclear"><button class="btn ghost" data-clear>${T.clearHistory}</button></div>`;
     }
@@ -1017,7 +1129,7 @@ SCREENS.history = scr => {
     });
     const r = e.target.closest('[data-id]'); if (!r) return;
     const x = store.get('history', []).find(y => String(y.id) === r.dataset.id); if (!x) return;
-    sheet(`<h2>${gname(x.g, x.v)}</h2><p class="m">${DLABEL[x.d] || ''} · ${x.r === 'win' ? (S.timer ? fill(T.solvedIn, { time: fmt(x.t) }) : T.solved) : T.notSolved} · ${dayName(x.at)} ${clock(x.at)}</p>
+    sheet(`<h2>${gname(x.g, x.v)}</h2><p class="m">${DLABEL[x.d] || ''} · ${x.r === 'win' ? (S.timer ? fill(T.solvedIn, { time: fmt(x.t) }) : T.solved) + (BY_TRIES.has(x.g) && x.a ? ' · ' + triesText(x.a) : '') : T.notSolved} · ${dayName(x.at)} ${clock(x.at)}</p>
       <div class="btns"><button class="btn primary" data-p>${T.playAgain}</button><button class="btn outline" data-s>${T.shareCode}</button><button class="btn ghost" data-x>${T.close}</button></div>`, (el, close) => {
       $('[data-p]', el).onclick = () => { const c = unpackCode(x.c); close(); if (c) push('game', { game: x.g, variant: x.v || undefined, diff: x.d, imported: c.p }); };
       $('[data-s]', el).onclick = () => { close(); setTimeout(() => openShare(x.c), 350); };
@@ -1030,19 +1142,22 @@ SCREENS.history = scr => {
 /* ---------- SETTINGS ---------- */
 SCREENS.settings = scr => {
   const sw = (k, label, info) => `<label class="row"><span class="lab">${label}${info ? `<small>${info}</small>` : ''}</span><input type="checkbox" class="sw" id="sw-${k}" data-k="${k}"></label>`;
-  const dRow = g => `<div class="glabel">${GAMES[g].name}</div><div class="group"><button class="row" data-d="${g}"><span class="lab">${T.difficultyTitle}</span><span class="val" data-dv="${g}"></span>${I.chev}</button>${g === 'mines' ? sw('allow5050', T.allow5050, T.allow5050Info) + sw('mineAnim', T.mineAnim, T.mineAnimInfo) : ''}</div>`;
+  const dRow = g => `<div class="glabel">${GAMES[g].name}</div><div class="group"><button class="row" data-d="${g}"><span class="lab">${T.difficultyTitle}</span><span class="val" data-dv="${g}"></span>${I.chev}</button>${g === 'mines' ? sw('allow5050', T.allow5050, T.allow5050Info) + sw('mineAnim', T.mineAnim, T.mineAnimInfo) : ''}${g === 'kings' ? sw('livesKings', T.lives, T.livesInfo) : ''}${g === 'sets' ? sw('livesSets', T.lives, T.livesInfo) + `<button class="row" data-setcols><span class="lab">${T.setColours}</span><span class="val scols"></span>${I.chev}</button>` : ''}</div>`;
   scr.el.innerHTML = `${bar(btnBack)}<div class="scroll"><div class="h1">${T.settings}</div>
     <div class="glabel">${T.display}</div><div class="group"><button class="row" data-go="theme"><span class="lab">${T.theme}</span><span class="val" id="themeVal"></span>${I.chev}</button></div>
     <div class="glabel">${T.sound}</div><div class="group">${sw('music', T.music)}${sw('sfx', T.sfx)}</div>
     <div class="glabel">${T.gameplay}</div><div class="group">${sw('timer', T.timer)}${sw('markWrong', T.markWrong)}</div>
+    <div class="glabel">${T.dailys}</div><div class="group"><button class="row" data-dlv><span class="lab">${T.dailyLevelRow}</span><span class="val" id="dlvVal"></span>${I.chev}</button></div>
     ${lbOn() ? `<div class="glabel">${T.leaderboard}</div><div class="group"><button class="row" data-name><span class="lab">${T.lbNameRow}</span><span class="val" id="nameVal"></span>${I.chev}</button></div>` : ''}
-    ${['sudoku', 'kings', 'mines', 'atoms', 'towers'].map(dRow).join('')}
+    ${['sudoku', 'kings', 'mines', 'atoms', 'towers', 'sets'].map(dRow).join('')}
     <p class="note">${T.savedNote}</p></div>`;
   scr.refresh = () => {
     $('#themeVal', scr.el).textContent = S.theme === 'love' ? T.loveName : `${S.theme === 'dark' ? T.dark : T.light} · ${T.accents[S.accent]}`;
     $$('.sw', scr.el).forEach(i => i.checked = !!S[i.dataset.k]);
     $$('[data-dv]', scr.el).forEach(v => v.textContent = DLABEL[S.diff[v.dataset.dv]]);
     const nv = $('#nameVal', scr.el); if (nv) nv.textContent = S.playerName || T.lbNameNone;
+    $('#dlvVal', scr.el).textContent = S.dailyLevel ? DLABEL[S.dailyLevel] : T.noPref;
+    $('.scols', scr.el).innerHTML = range(3).map(i => `<i style="background:${setColour(i)}"></i>`).join('');
   };
   scr.refresh();
   scr.el.addEventListener('change', e => {
@@ -1054,8 +1169,34 @@ SCREENS.settings = scr => {
     if (e.target.closest('[data-go]')) push('theme');
     if (e.target.closest('[data-name]')) askName(scr.refresh);
     const d = e.target.closest('[data-d]'); if (d) push('difficulty', { game: d.dataset.d });
+    if (e.target.closest('[data-dlv]')) pickDailyLevel(scr.refresh);
+    if (e.target.closest('[data-setcols]')) pickSetColours(scr.refresh);
   });
 };
+function pickDailyLevel(after) {
+  const opts = [['', T.noPref], ...DAILY_LEVELS.map(lv => [lv, DLABEL[lv]])];
+  sheet(`<h2>${T.dailyLevelRow}</h2><p class="m">${T.dailyLevelHelp}</p><div class="group">${opts.map(([v, l]) => `<button class="row${S.dailyLevel === v ? ' on' : ''}" data-v="${v}"><span class="lab">${l}</span>${I.check.replace('<svg', '<svg class="tick"')}</button>`).join('')}</div>
+    <div class="btns"><button class="btn ghost" data-x>${T.done}</button></div>`, (el, close) => {
+    el.addEventListener('click', e => { const b = e.target.closest('[data-v]'); if (!b) return; S.dailyLevel = b.dataset.v; save(); sfx.tap(); $$('[data-v]', el).forEach(x => x.classList.toggle('on', x === b)); after(); });
+    $('[data-x]', el).onclick = close;
+  });
+}
+// Sets colours: three slots, each picks from the palette. Picking a colour another slot uses swaps the two.
+function pickSetColours(after) {
+  sheet(`<h2>${T.setColoursTitle}</h2><p class="m">${T.setColoursHelp}</p><div class="scpick"></div>
+    <div class="btns"><button class="btn primary" data-x>${T.done}</button></div>`, (el, close) => {
+    const box = $('.scpick', el);
+    const draw = () => box.innerHTML = range(3).map(i => `<div class="scrow"><div class="sclab">${setCard(4 * i, 3)}</div><div class="scsw">${SET_COLS.map(([k, hex], j) => `<button class="${S.setCols[i] === j ? 'on' : ''}" data-slot="${i}" data-c="${j}" style="--c:${hex}" aria-label="${fill(T.setColourN, { n: i + 1 })}: ${T.setColourNames[k]}"></button>`).join('')}</div></div>`).join('');
+    draw();
+    box.addEventListener('click', e => {
+      const b = e.target.closest('[data-c]'); if (!b) return;
+      const i = +b.dataset.slot, j = +b.dataset.c, cols = S.setCols.slice(), other = cols.indexOf(j);
+      if (other >= 0 && other !== i) cols[other] = cols[i];
+      cols[i] = j; S.setCols = cols; save(); sfx.tap(); draw(); after();
+    });
+    $('[data-x]', el).onclick = close;
+  });
+}
 
 /* ---------- THEME ---------- */
 SCREENS.theme = scr => {
@@ -1090,7 +1231,7 @@ SCREENS.theme = scr => {
 /* ---------- DIFFICULTY ---------- */
 SCREENS.difficulty = scr => {
   const g = scr.params.game;
-  const levels = g === 'mines' ? [...DIFFS, 'custom'] : DIFFS;
+  const levels = g === 'mines' ? [...DIFFS, 'custom'] : g === 'sets' ? SETS_LEVELS : DIFFS;
   const mc = S.mineCustom;
   const desc = d => d === 'custom' ? fill(DDESC.mines.custom, { cols: mc.C, rows: mc.R, mines: mc.M }) : DDESC[g][d];
   const slider = (k, label, min, max) => `<label class="row slide"><span class="lab">${label}</span><input type="range" id="mc-${k}" data-mc="${k}" min="${min}" max="${max}" value="${mc[k]}"><b class="sv" data-sv="${k}">${mc[k]}</b></label>`;
@@ -1148,8 +1289,9 @@ SCREENS.game = scr => {
   }
   function record(result) {
     finished = true; dropSave(game, variant, daily);
-    if (daily && result === 'win' && lbOn()) scr.posted = postScore(daily, game, scr.t, scr.hints);
-    addHistory({ id: sid, g: game, v: variant || null, d: diff, t: scr.t, r: result, at: Date.now(), c: packCode(game, variant, diff, G.code()), daily: daily || null });
+    const a = G.attempts ? G.attempts() : undefined;
+    if (daily && result === 'win' && lbOn()) scr.posted = postScore(daily, game, scr.t, scr.hints, a);
+    addHistory({ id: sid, g: game, v: variant || null, d: diff, t: scr.t, r: result, at: Date.now(), c: packCode(game, variant, diff, G.code()), daily: daily || null, a });
   }
   const later = () => setTimeout(persist, 0);
   const onHide = () => { if (document.visibilityState === 'hidden') persist(); };
@@ -1161,13 +1303,13 @@ SCREENS.game = scr => {
   function drawTimer() { scr.el.classList.toggle('still', still()); timerEl.classList.toggle('off', !S.timer); timerEl.textContent = S.timer ? fmt(scr.t) : DLABEL[diff]; }
   function start() {
     if (ro) ro.disconnect();
-    wrap.innerHTML = ''; wrap.classList.remove('zoom'); extra.innerHTML = ''; fr.innerHTML = '';
+    wrap.innerHTML = ''; wrap.classList.remove('zoom'); extra.innerHTML = ''; extra.className = 'gextra'; extra.style.transform = ''; wrap.classList.remove('top'); fr.innerHTML = '';
     diff = (imported || daily) && scr.params.diff ? scr.params.diff : S.diff[game]; scr.running = true;
     const restore = scr.params.restore; scr.params.restore = null;
     scr.t = restore ? scr.params.t || 0 : 0; scr.hints = restore ? scr.params.h || 0 : 0; sid = Date.now(); finished = false;
     const make = () => ENGINES[game]({
       wrap, extra, fr, diff, variant, imported, restore, daily,
-      title: html => titleEl.innerHTML = (daily ? `<span class="dtag">${T.dailyTag}</span>` : '') + html,
+      title: html => titleEl.innerHTML = (daily ? `<span class="dtag">${T.dailyTag}${dLevel(daily) === 'hard' ? ' · ' + DLABEL.hard : ''}</span>` : '') + html,
       fit: (el, aspect, scale) => { const f = fitBoard(wrap, el, aspect, scale); ro = f.ro; return f.refit; },
       win, lose: () => { scr.running = false; record('lost'); }, resumeClock: () => { scr.running = true; finished = false; },
       end: (title, body) => {
@@ -1184,7 +1326,8 @@ SCREENS.game = scr => {
   }
   function win() {
     scr.running = false; sfx.win(); record('win');
-    setTimeout(() => sheet(`<h2>${T.solved}</h2>${S.timer ? `<div class="bigtime">${fmt(scr.t)}</div>` : ''}<p class="m">${variant ? VARIANTS[variant].name + ' ' : ''}${GAMES[game].name} · ${DLABEL[diff]}</p>
+    const a = G.attempts && G.attempts();
+    setTimeout(() => sheet(`<h2>${T.solved}</h2>${S.timer ? `<div class="bigtime">${fmt(scr.t)}</div>` : ''}${a ? `<p class="wtries">${triesText(a)}</p>` : ''}<p class="m">${variant ? VARIANTS[variant].name + ' ' : ''}${GAMES[game].name} · ${DLABEL[diff]}</p>
       ${daily && lbOn() ? `<p class="m lbnote">${S.playerName ? '' : T.lbPostHelp}</p>` : ''}
       <div class="btns">${daily ? '' : `<button class="btn primary" data-n>${T.newPuzzle}</button>`}${daily && lbOn() ? `<button class="btn primary" data-l>${S.playerName ? T.leaderboard : T.lbPostMine}</button>` : ''}<button class="btn ${daily && !lbOn() ? 'primary' : 'ghost'}" data-h>${T.back}</button></div>`, (el, close) => {
         if (!daily) $('[data-n]', el).onclick = () => { close(); start(); };
@@ -1226,6 +1369,10 @@ SCREENS.game = scr => {
 };
 let ENGINE_CTX_LOSE = null;
 const ENGINES = {};
+// Lives (Sets and Kings, when switched on in Settings): hearts in the bottom right corner
+const livesHTML = n => `<div class="lives" aria-label="${n} lives">${range(3).map(i => `<i class="${i < n ? 'on' : ''}">${I.heart}</i>`).join('')}</div>`;
+function drawLives(fr, n) { fr.innerHTML = n == null ? '' : livesHTML(n); }
+const lifeToast = n => toast(n === 1 ? T.lifeLeft : fill(T.livesLeft, { n }));
 
 /* ---------- SUDOKU ---------- */
 const popc = m => { let n = 0; while (m) { m &= m - 1; n++; } return n; };
@@ -1696,6 +1843,7 @@ ENGINES.towers = ctx => {
     render,
     code: () => ({ K, G, code }),
     state: () => ({ rows, cur, hints: [...hints] }),
+    attempts: () => rows.length,
     undo() { const h = hist.pop(); if (!h) return toast(T.nothingToUndo); cur = h.cur; slot = h.slot; render(); },
     hint() {
       if (done || rows.length >= G) return;
@@ -1971,7 +2119,8 @@ ENGINES.kings = ctx => {
   const { region, sol } = ctx.imported || kingsGen(N);
   const hueOrder = HUES.slice();
   const st = ctx.restore ? ctx.restore.st.slice() : Array(N * N).fill(0), hist = [];
-  let lastTap = { i: -1, t: 0 }, done = false;
+  let lastTap = { i: -1, t: 0 }, done = false, over = false;
+  let lives = ctx.restore ? ctx.restore.lives ?? null : S.livesKings ? 3 : null;
   const grid = document.createElement('div'); grid.className = 'kgrid';
   grid.style.gridTemplateColumns = `repeat(${N},1fr)`; grid.style.gridTemplateRows = `repeat(${N},1fr)`;
   grid.innerHTML = range(N * N).map(i => {
@@ -1984,6 +2133,7 @@ ENGINES.kings = ctx => {
   ctx.wrap.appendChild(grid); ctx.fit(grid, 1);
   const cells = $$('.kc', grid);
   ctx.extra.innerHTML = `<div class="krow">${T.kingsTip}</div>`;
+  drawLives(ctx.fr, lives);
   function conflicts() {
     const ks = range(N * N).filter(i => st[i] === 2), bad = new Set();
     for (let a = 0; a < ks.length; a++) for (let b = a + 1; b < ks.length; b++) {
@@ -2000,25 +2150,167 @@ ENGINES.kings = ctx => {
   }
   function check() { const { ks, bad } = render(); if (ks.length === N && !bad.size) { done = true; ctx.win(); } else if (S.markWrong && bad.size) sfx.bad(); }
   grid.addEventListener('click', e => {
-    const c = e.target.closest('.kc'); if (!c || done) return;
+    const c = e.target.closest('.kc'); if (!c || done || over) return;
     const i = +c.dataset.i, now = performance.now();
-    if (lastTap.i === i && now - lastTap.t < 330) { st[i] = 2; lastTap = { i: -1, t: 0 }; sfx.tap(); check(); return; }
+    if (lastTap.i === i && now - lastTap.t < 330) {
+      lastTap = { i: -1, t: 0 };
+      if (lives != null && sol[Math.floor(i / N)] !== i % N) {   // with lives on, a king in the wrong place costs one
+        st[i] = 1; lives--; sfx.bad(); render(); drawLives(ctx.fr, lives);
+        c.classList.remove('shake'); c.getBoundingClientRect(); c.classList.add('shake');
+        if (lives <= 0) { over = true; ctx.end(T.outOfLives, ''); } else lifeToast(lives);
+        return;
+      }
+      st[i] = 2; sfx.tap(); check(); return;
+    }
     hist.push(st.slice()); st[i] = st[i] === 0 ? 1 : 0; lastTap = { i, t: now }; sfx.soft(); render();
   });
   render();
   return {
     render,
     code: () => ({ region, sol }),
-    state: () => ({ st }),
-    undo() { const h = hist.pop(); if (!h) return toast(T.nothingToUndo); st.splice(0, st.length, ...h); render(); },
+    state: () => ({ st, lives }),
+    canSave: () => !over,
+    undo() { if (over) return; const h = hist.pop(); if (!h) return toast(T.nothingToUndo); st.splice(0, st.length, ...h); render(); },
     hint() {
-      if (done) return;
+      if (done || over) return;
       const rows = range(N).filter(r => st[r * N + sol[r]] !== 2); if (!rows.length) return;
       const wrong = range(N * N).filter(i => st[i] === 2 && sol[Math.floor(i / N)] !== i % N);
       hist.push(st.slice());
       if (wrong.length) { const i = wrong[0]; st[i] = 0; render(); toast(T.removedKing); return; }
       const r = rows[rnd(rows.length)], i = r * N + sol[r];
       st[i] = 2; sfx.tap(); check();
+    },
+  };
+};
+
+/* ---------- SETS ---------- */
+// A card is a number whose base-3 digits are its colour, shape, filling and (Hard and up) how many shapes.
+// Three cards make a set when every feature is all the same or all different, i.e. each digit adds up to a multiple of 3.
+// Softer, slightly muted colours so the cards are easy on the eyes
+const SET_COLS = [['purple', '#8a76c9'], ['green', '#6fae7e'], ['orange', '#d47a45'], ['red', '#c8605a'], ['blue', '#5b86c4'], ['pink', '#c46a98'], ['teal', '#4fa3a0'], ['gold', '#c9a443'], ['brown', '#9a7350'], ['grey', '#8590a0']];
+// All three shapes fill the same 42 × 42 box, so they look the same size
+const SET_PATHS = [
+  'M-17 -20H17Q-12 0 17 20H-17Q12 0 -17 -20Z',                                                     // hourglass
+  'M0 -21L6 -6L21 0L6 6L0 21L-6 6L-21 0L-6 -6Z',                                                 // star
+  'M-8 -17A8 8 0 0 1 8 -17L8 -8L17 -8A8 8 0 0 1 17 8L8 8L8 17A8 8 0 0 1 -8 17L-8 8L-17 8A8 8 0 0 1 -17 -8L-8 -8Z',   // cross (turned 45°)
+];
+// Sets has three levels: [features, cards, sets to find]. Older level names map to the nearest one.
+const SETS_LV = { easy: [4, 9, 3], normal: [4, 12, 5], hard: [4, 15, 7] };
+Object.assign(SETS_LV, { beginner: SETS_LV.easy, expert: SETS_LV.hard, insane: SETS_LV.hard });
+const setDigit = (c, f) => Math.floor(c / 3 ** f) % 3;
+const isSet = (a, b, c, F) => range(F).every(f => (setDigit(a, f) + setDigit(b, f) + setDigit(c, f)) % 3 === 0);
+function setsIn(cards, F) {
+  const o = [], n = cards.length;
+  for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) for (let k = j + 1; k < n; k++) if (isSet(cards[i], cards[j], cards[k], F)) o.push([i, j, k]);
+  return o;
+}
+// Deal cards, then keep swapping single cards until the board holds exactly K sets
+function setsGen(F, n, K) {
+  const M = 3 ** F;
+  for (let round = 0; ; round++) {
+    const cards = [], pick = () => { let c; do c = rnd(M); while (cards.includes(c)); return c; };
+    for (let i = 0; i < n; i++) cards.push(pick());
+    let s = setsIn(cards, F).length;
+    for (let it = 0; it < 3000 && s !== K; it++) {
+      const i = rnd(n), old = cards[i]; cards[i] = -1; cards[i] = pick();
+      const s2 = setsIn(cards, F).length;
+      if (Math.abs(s2 - K) <= Math.abs(s - K) || RAND() < .1) s = s2; else cards[i] = old;
+    }
+    if (s === K || round > 20) return cards;
+  }
+}
+const setColour = i => (SET_COLS[S.setCols[i]] || SET_COLS[i])[1];
+const setDefs = () => `<svg class="sdefs" width="0" height="0" aria-hidden="true"><defs>${range(3).map(i => `<pattern id="sx${i}" width="5" height="5" patternUnits="userSpaceOnUse"><path d="M0 2.5H5" stroke="${setColour(i)}" stroke-width="1.6"/></pattern>`).join('')}</defs></svg>`;
+function setCard(c, F) {
+  const ci = setDigit(c, 0), col = setColour(ci), sh = setDigit(c, 1), fl = setDigit(c, 2), n = F > 3 ? setDigit(c, 3) + 1 : 1;
+  const xs = [[0], [-25, 25], [-50, 0, 50]][n - 1];
+  const fill = fl === 0 ? col : fl === 1 ? `url(#sx${ci})` : 'none';
+  return `<svg viewBox="-80 -34 160 68">${xs.map(x => `<path transform="translate(${x} 0)${sh === 2 ? ' rotate(45)' : ''}" d="${SET_PATHS[sh]}" fill="${fill}" stroke="${col}" stroke-width="3" stroke-linejoin="round"/>`).join('')}</svg>`;
+}
+ENGINES.sets = ctx => {
+  const [F, n] = ctx.imported ? [ctx.imported.F, ctx.imported.cards.length] : SETS_LV[ctx.diff];
+  const cards = ctx.imported ? ctx.imported.cards : setsGen(F, n, SETS_LV[ctx.diff][2]);
+  const all = setsIn(cards, F), K = all.length, R = ctx.restore || {};
+  let found = (R.found || []).map(x => x.slice()), tries = R.tries || 0, hinted = (R.hinted || []).slice(), sel = [], done = false, over = false, msg = '', msgT;
+  let lives = ctx.restore ? R.lives ?? null : S.livesSets ? 3 : null;
+  const rows = Math.ceil(n / 3);
+  const board = document.createElement('div'); board.className = 'setgrid';
+  board.style.gridTemplateRows = `repeat(${rows},1fr)`;
+  board.innerHTML = setDefs() + cards.map((c, i) => `<button class="scard" data-i="${i}" aria-label="Card ${i + 1}">${setCard(c, F)}</button>`).join('');
+  // Submit sits under the cards, so the board leaves room for it
+  const A = 3 * 2.1 / rows, SUBH = 74;
+  board.insertAdjacentHTML('beforeend', `<button class="btn primary ssub" data-sub>${T.submit}</button>`);
+  const sub = $('[data-sub]', board);
+  ctx.wrap.appendChild(board);
+  ctx.fit(board, A, () => { const w = ctx.wrap.clientWidth, h = ctx.wrap.clientHeight, bh = Math.min(w / A, h); return Math.max(.5, Math.min(1, (h - SUBH) / bh)); });
+  const els = $$('.scard', board);
+  ctx.extra.classList.add('top'); ctx.wrap.classList.add('top');
+  // Keep the slots sitting just above the cards, with the pair centred in the space (moved, not resized, so the board fit isn't disturbed)
+  const centre = () => requestAnimationFrame(() => { const y = Math.max(0, ctx.wrap.clientHeight - board.offsetHeight - SUBH) / 2; ctx.extra.style.transform = board.style.transform = `translateY(${y}px)`; });
+  new ResizeObserver(centre).observe(ctx.wrap);
+  const key = x => x.slice().sort((a, b) => a - b).join();
+  let colKey = S.setCols.join();
+  function render() {
+    if (colKey !== S.setCols.join()) {   // colours changed in Settings
+      colKey = S.setCols.join(); $('.sdefs', board).outerHTML = setDefs(); els.forEach((el, i) => el.innerHTML = setCard(cards[i], F));
+    }
+    ctx.title(`<b>${GAMES.sets.name}</b> · ${fill(T.status.sets, { found: found.length, total: K })}${tries ? ' · ' + triesText(tries) : ''}`);
+    els.forEach((el, i) => { el.classList.toggle('sel', sel.includes(i)); el.classList.toggle('hint', hinted.includes(i)); });
+    ctx.extra.innerHTML = (lives != null ? livesHTML(lives) : '') + `<div class="sfound" style="--k:${K}">${range(K).map(i => found[i]
+      ? `<span class="sf on">${found[i].map(j => `<i>${setCard(cards[j], F)}</i>`).join('')}</span>` : '<span class="sf"></span>').join('')}</div><div class="smsg">${msg}</div>`;
+    sub.disabled = sel.length !== 3 || done || over;
+  }
+  // Messages show in a line above the cards instead of a pop-up, so they don't cover the board
+  function say(t) { msg = t; clearTimeout(msgT); msgT = setTimeout(() => { msg = ''; const m = $('.smsg', ctx.extra); if (m) m.textContent = ''; }, 2600); render(); }
+  function shake(list) { list.forEach(i => { const el = els[i]; el.classList.remove('shake'); el.getBoundingClientRect(); el.classList.add('shake'); }); }
+  function why(a, b, c) {
+    const f = range(F).find(f => (setDigit(a, f) + setDigit(b, f) + setDigit(c, f)) % 3 !== 0);
+    return fill(T.setNot, { feat: T.setFeats[f] });
+  }
+  function guess() {
+    const g = sel.slice(); sel = [];
+    if (found.some(x => key(x) === key(g))) { sfx.soft(); say(T.setAlready); return; }
+    tries++;
+    if (isSet(cards[g[0]], cards[g[1]], cards[g[2]], F)) {
+      found.push(g.slice().sort((a, b) => a - b));
+      if (hinted.length && hinted.every(i => g.includes(i))) hinted = [];
+      msg = ''; sfx.tap(); render();
+      g.forEach(i => { els[i].classList.remove('got'); els[i].getBoundingClientRect(); els[i].classList.add('got'); });
+      if (found.length === K) { done = true; ctx.win(); }
+      return;
+    }
+    sfx.bad(); shake(g);
+    if (lives != null) {
+      lives--;
+      if (lives <= 0) { over = true; render(); ctx.end(T.outOfLives, `<p class="m">${fill(T.setsFound, { n: found.length, total: K })}</p>`); return; }
+    }
+    say(why(...g.map(i => cards[i])));
+  }
+  board.addEventListener('click', e => {
+    const c = e.target.closest('.scard'); if (!c || done || over) return;
+    const i = +c.dataset.i;
+    if (sel.includes(i)) sel = sel.filter(x => x !== i); else if (sel.length < 3) sel.push(i); else return;
+    sfx.soft(); render();
+  });
+  sub.onclick = () => { if (sel.length === 3 && !done && !over) guess(); };
+  render();
+  return {
+    render,
+    code: () => ({ F, K, cards }),
+    state: () => ({ found, tries, hinted, lives }),
+    canSave: () => !over,
+    attempts: () => tries,
+    key(e) { if (e.key === 'Enter') sub.click(); },
+    undo() { if (!sel.length) return say(T.nothingToUndo); sel.pop(); render(); },
+    hint() {
+      if (done || over) return;
+      const left = all.filter(x => !found.some(y => key(y) === key(x)));
+      const target = left.find(x => hinted.every(i => x.includes(i))) || left[0];
+      if (!target.every(i => hinted.includes(i)) && hinted.length >= 2) return say(T.setHintMax);
+      if (!hinted.every(i => target.includes(i))) hinted = [];
+      const next = target.find(i => !hinted.includes(i));
+      if (hinted.length >= 2) return say(T.setHintMax);
+      hinted.push(next); sel = []; sfx.tap(); render();
     },
   };
 };
@@ -2196,7 +2488,7 @@ push('home');
 // If the app was closed in the middle of a game, open it again right where you left off.
 (() => {
   const last = store.get('last', null); if (!last || !ENGINES[last.game]) return;
-  if (last.daily && last.daily !== today()) return;
+  if (last.daily && dDay(last.daily) !== today()) return;
   const sv = savedGame(last.game, last.variant, last.daily); if (!sv) return;
   resumeGame(last.game, last.variant || undefined, sv);
 })();
