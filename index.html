@@ -178,7 +178,7 @@ body{background:var(--page);color:var(--page-fg);font:15px/1.4 var(--ui);-webkit
 .swatch i{width:22px;height:22px;border-radius:50%}
 .swatch.on{border-color:var(--acc);background:var(--surface2)}
 .love-dots{display:flex}
-.love-dots i{width:20px;height:20px;border-radius:50%;border:2px solid var(--surface);margin-left:-6px}
+.love-dots i{width:20px;height:20px;border-radius:50%;border:2px solid var(--surface);margin-left:-6px;box-shadow:0 0 0 1px var(--line)}
 
 /* ---------- landing ---------- */
 .landing{flex:1;display:flex;flex-direction:column;padding:0 28px 18px;min-height:0}
@@ -277,7 +277,7 @@ button.tb:active{transform:scale(.92)}
 .mgrid{display:grid;gap:3px;container-type:inline-size}
 .mc{border-radius:6px;background:var(--surface2);display:grid;place-items:center;font-weight:800;font-size:calc(100cqi / var(--cols) * .5);font-variant-numeric:tabular-nums;transition:background .12s}
 .mc.o{background:var(--surface)}
-.mc.o.n1{color:#4b8bff}.mc.o.n2{color:#33b07a}.mc.o.n3{color:#f0545a}.mc.o.n4{color:#a06bff}.mc.o.n5{color:#e08a2c}.mc.o.n6{color:#22aab0}.mc.o.n7{color:var(--text)}.mc.o.n8{color:var(--muted)}
+.mc.o.n1{color:var(--mn1)}.mc.o.n2{color:var(--mn2)}.mc.o.n3{color:var(--mn3)}.mc.o.n4{color:var(--mn4)}.mc.o.n5{color:var(--mn5)}.mc.o.n6{color:var(--mn6)}.mc.o.n7{color:var(--mn7)}.mc.o.n8{color:var(--mn8)}
 .mc svg{width:58%;height:58%}
 .mc.f{color:var(--acc)}
 .mc.f.wrong{background:color-mix(in srgb,var(--danger) 30%,var(--surface2));color:var(--danger)}
@@ -293,7 +293,7 @@ button.tb:active{transform:scale(.92)}
 .kgrid{display:grid;border:2.5px solid var(--kline);border-radius:10px;overflow:hidden;container-type:inline-size}
 .kc{display:grid;place-items:center;background:hsl(var(--h) var(--rs) var(--rl));border-top:1px solid color-mix(in srgb,var(--kline) 22%,transparent);border-left:1px solid color-mix(in srgb,var(--kline) 22%,transparent);color:var(--kline);position:relative}
 .kc.bt{border-top:2.5px solid var(--kline)}.kc.bl{border-left:2.5px solid var(--kline)}
-.app[data-theme="dark"] .kc,.app[data-theme="love"] .kc{color:var(--text)}
+.app[data-theme="dark"] .kc,.app[data-theme="love"] .kc,.app[data-tone="dark"] .kc{color:var(--text)}
 .kc .dot{width:16%;height:16%;border-radius:50%;background:currentColor;opacity:.55}
 .kc svg.crown{width:62%;height:62%;fill:currentColor;stroke:none;animation:pop .2s}
 .kc.bad{color:var(--danger)}
@@ -330,16 +330,17 @@ button.tb:active{transform:scale(.92)}
 .gextra.top{order:-1}
 .bwrap.top{align-items:start}
 .sfound{display:grid;grid-template-columns:repeat(var(--k),1fr);gap:6px;width:100%;max-width:380px}
-.sf{height:66px;border-bottom:3px solid var(--line);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:2px;padding:0 0 3px}
+.sf{height:84px;border-bottom:3px solid var(--line);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:2px;padding:0 0 3px}
 .sf.on{border-bottom-color:var(--acc)}
-.sf i{width:100%;max-width:46px;height:20px;border-radius:5px;background:var(--surface);display:grid;place-items:center}.app .sf svg{width:100%;height:100%}
+.sf i{width:100%;max-width:54px;height:25px;border-radius:5px;background:var(--surface);display:grid;place-items:center}.app .sf svg{width:100%;height:100%}
 .lives{display:flex;gap:3px;justify-content:center}
 .smsg{min-height:20px;font-size:13.5px;font-weight:600;color:var(--muted);text-align:center;padding:0 8px}
 .setgrid{position:relative}
 .app .ssub{position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%);height:48px;width:auto;padding:0 38px;font-size:16px !important}
 .app .ssub:active{transform:translateX(-50%) scale(.97)}
 .ssub:disabled{opacity:.4}
-.gextra.top{gap:8px;margin-bottom:16px}
+.gextra.top{gap:8px;margin-bottom:34px}
+.lives.tl{margin-top:6px}.lives.tl i{width:20px;height:20px}
 .lives i{width:22px;height:22px;color:var(--line)}.lives i.on{color:var(--danger)}
 .lives svg{width:100%;height:100%;fill:currentColor;stroke:none}
 .wtries{font-family:var(--display);font-weight:800;font-size:22px;color:var(--text);margin:0 0 4px}
@@ -354,7 +355,7 @@ button.tb:active{transform:scale(.92)}
 .dlcard .dlcount{font-size:12.5px;font-weight:700;opacity:.9;margin-top:6px}
 .dlcard:active{transform:scale(.98)}
 .dlseg{display:flex;justify-content:center;padding:0 16px 14px}
-.lbnone{padding:0 24px 6px}.lbt{font-weight:800}
+.lbnone{padding:0 24px 6px}.lblevel + .lblevel{margin-top:26px}.lbt{font-weight:800}
 /* settings: sets colours */
 .scols{display:flex;gap:4px}.scols i{width:16px;height:16px;border-radius:50%}
 .scrow{display:flex;align-items:center;gap:10px;margin:10px 0}
@@ -362,6 +363,24 @@ button.tb:active{transform:scale(.92)}
 .scsw{display:flex;flex-wrap:wrap;gap:5px}
 .scsw button{width:23px;height:23px;border-radius:50%;background:var(--c);box-shadow:inset 0 0 0 2px rgba(0,0,0,.12)}
 .scsw button.on{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--text)}
+/* puzzle colours */
+.swatch i.cw{background:conic-gradient(red,yellow,lime,cyan,blue,magenta,red);box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--c)}
+.scols i{border:1px solid rgba(127,127,127,.35)}
+.cshape{width:30px;height:30px;flex:none;display:grid;place-items:center}.app .cshape svg{width:30px;height:30px}
+.csw{width:26px;height:26px;border-radius:50%;background:var(--c);flex:none;box-shadow:inset 0 0 0 1px rgba(127,127,127,.4)}
+.note.top{padding-top:0;margin-top:-6px}
+.cbtns{padding:18px 16px 0}
+.cpre{display:grid;grid-template-columns:repeat(8,1fr);gap:8px;margin:6px 0 16px}
+.cpre button{aspect-ratio:1;border-radius:50%;background:var(--c);box-shadow:inset 0 0 0 1px rgba(127,127,127,.4)}
+.cpre button.on{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--text)}
+.cpre .cdef{grid-column:span 2;aspect-ratio:auto;border-radius:99px;font-size:12.5px;font-weight:700;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.cown{display:flex;gap:10px;align-items:center}
+.cwheel{position:relative;flex:none;display:flex;align-items:center;gap:8px;height:52px;padding:0 14px 0 8px;border-radius:14px;background:var(--bg);border:1.5px solid var(--line);font-weight:600;font-size:15px;margin:4px 0 16px;cursor:pointer}
+.cwheel::before{content:"";width:34px;height:34px;border-radius:50%;background:conic-gradient(red,yellow,lime,cyan,blue,magenta,red);box-shadow:0 0 0 3px var(--bg),0 0 0 6px var(--c)}
+.cwheel input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}
+.chex{font-family:ui-monospace,Menlo,monospace;text-transform:lowercase}
+.scsw .cust{display:grid;place-items:center;font-weight:800;font-size:15px;line-height:1;color:var(--text);background:var(--c);box-shadow:inset 0 0 0 1.5px var(--strong)}
+.scsw .cust svg{width:14px;height:14px}
 /* ---------- sheets & toast ---------- */
 .sheetRoot{position:absolute;inset:0;z-index:30}
 .scrim{position:absolute;inset:0;background:rgba(0,0,0,.45);opacity:0;transition:opacity .25s}
@@ -431,14 +450,52 @@ const store = {
   get(k, d) { try { const v = localStorage.getItem('puzzles.' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
   set(k, v) { try { localStorage.setItem('puzzles.' + k, JSON.stringify(v)); } catch (e) {} }
 };
-const DEF = { allow5050: true, mineCustom: { C: 12, R: 16, M: 40 }, theme: 'dark', accent: 'purple', music: false, sfx: true, timer: true, markWrong: true, mineAnim: true, livesKings: false, livesSets: false, dailyLevel: '', setCols: [0, 1, 2], diff: { sudoku: 'normal', kings: 'normal', mines: 'normal', atoms: 'normal', towers: 'normal', sets: 'normal' } };
+const DEF = { allow5050: true, mineCustom: { C: 12, R: 16, M: 40 }, theme: 'dark', accent: 'purple', music: false, sfx: true, timer: true, markWrong: true, mineAnim: true, livesKings: false, livesSets: false, colors: {}, accentHex: '#8b5cf6', customTheme: { bg: '#18222b', surface: '#22303b', text: '#eef3f6', acc: '#5fb3a1' }, dailyLevel: '', setCols: [0, 1, 2], diff: { sudoku: 'normal', kings: 'normal', mines: 'normal', atoms: 'normal', towers: 'normal', sets: 'normal' } };
 const saved = store.get('settings', {});
 const S = Object.assign({}, DEF, saved, { diff: Object.assign({}, DEF.diff, saved.diff || {}) });
 const SETS_LEVELS = ['easy', 'normal', 'hard'];
 if (!SETS_LEVELS.includes(S.diff.sets)) S.diff.sets = { beginner: 'easy', expert: 'hard', insane: 'hard' }[S.diff.sets] || 'normal';
 if ('lives' in S) { if (S.lives) S.livesKings = S.livesSets = true; delete S.lives; }   // was one switch for both
 function save() { store.set('settings', S); applyTheme(); }
-function applyTheme() { app.dataset.theme = S.theme; app.dataset.accent = S.accent; }
+function applyTheme() {
+  app.dataset.theme = S.theme; app.dataset.accent = S.accent;
+  THEME_VARS.forEach(v => app.style.removeProperty(v)); delete app.dataset.tone;
+  if (S.theme === 'custom') { const c = customVars(S.customTheme); app.dataset.tone = c.tone; Object.entries(c.vars).forEach(([k, v]) => app.style.setProperty(k, v)); }
+  else if (S.accent === 'custom' && S.theme !== 'love') { app.style.setProperty('--acc', S.accentHex); app.style.setProperty('--acc-ink', inkFor(S.accentHex)); }
+  applyColours();
+}
+/* Custom accent and custom theme. A custom theme is picked as four colours; the in-between shades are mixed from them. */
+const THEME_VARS = ['--bg', '--surface', '--surface2', '--line', '--text', '--muted', '--acc', '--acc-ink', '--strong', '--rs', '--rl', '--kline'];
+const rgbOf = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+const lum = h => { const [r, g, b] = rgbOf(h).map(v => { v /= 255; return v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; }); return .2126 * r + .7152 * g + .0722 * b; };
+const mixHex = (a, b, t) => '#' + rgbOf(a).map((v, i) => Math.round(v + (rgbOf(b)[i] - v) * t).toString(16).padStart(2, '0')).join('');
+const inkFor = h => lum(h) > .45 ? '#141315' : '#ffffff';
+function customVars({ bg, surface, text, acc }) {
+  const dark = lum(bg) < .35;
+  return { tone: dark ? 'dark' : 'light', vars: {
+    '--bg': bg, '--surface': surface, '--surface2': mixHex(surface, text, .08), '--line': mixHex(surface, text, .12), '--text': text,
+    '--muted': mixHex(text, bg, .4), '--strong': mixHex(text, bg, .55), '--acc': acc, '--acc-ink': inkFor(acc),
+    '--rs': dark ? '30%' : '60%', '--rl': dark ? '30%' : '82%', '--kline': dark ? mixHex(bg, '#000000', .5) : mixHex(text, bg, .15) } };
+}
+/* ---------- puzzle colours ----------
+   Towers, Kings and Minesweeper colours can be changed in Settings. A slot left empty uses the built-in colour. */
+const MINE_COLS = ['#4b8bff', '#33b07a', '#f0545a', '#a06bff', '#e08a2c', '#22aab0', 'var(--text)', 'var(--muted)'];
+const COLOR_GAMES = {
+  towers: { n: 8, def: i => TCOL[i][1], label: i => T.towersColours[i][0].toUpperCase() + T.towersColours[i].slice(1) },
+  kings: { n: 10, def: i => `hsl(${HUES[i]} var(--rs) var(--rl))`, label: i => fill(T.colourN, { n: i + 1 }) },
+  mines: { n: 8, def: i => MINE_COLS[i], label: i => fill(T.numberN, { n: i + 1 }) },
+  sets: { n: 3, def: i => SET_COLS[i][1], label: i => T.setShapes[i], icon: i => `<span class="cshape"><svg viewBox="-24 -24 48 48"><path${i === 2 ? ' transform="rotate(45)"' : ''} d="${SET_PATHS[i]}" fill="${setColour(i)}" stroke="${setColour(i)}" stroke-width="3" stroke-linejoin="round"/></svg></span>`, first: () => SET_COLS.map(c => c[1]) },   // kept in S.setCols
+};
+const isCustom = (g, i) => g === 'sets' ? S.setCols[i] !== i : !!(S.colors[g] && S.colors[g][i]);
+const gameColour = (g, i) => g === 'sets' ? setColour(i) : isCustom(g, i) ? S.colors[g][i] : COLOR_GAMES[g].def(i);
+const colourName = (g, i) => { if (!isCustom(g, i)) return T.defaultColour; if (g !== 'sets') return S.colors[g][i]; const v = S.setCols[i]; return typeof v === 'string' ? v : T.setColourNames[SET_COLS[v][0]]; };
+function applyColours() { range(8).forEach(i => app.style.setProperty('--mn' + (i + 1), gameColour('mines', i))); }
+// Any CSS colour (including theme variables) to #rrggbb, as the colour wheel needs
+function toHex(css) {
+  const t = document.createElement('i'); t.style.color = css; app.appendChild(t);
+  const m = getComputedStyle(t).color.match(/\d+(\.\d+)?/g) || [0, 0, 0]; t.remove();
+  return '#' + m.slice(0, 3).map(v => Math.round(+v).toString(16).padStart(2, '0')).join('');
+}
 applyTheme();
 
 /* ---------- WORDS ----------
@@ -474,7 +531,9 @@ const T = {
   settings: 'Settings', display: 'Display', theme: 'Theme', sound: 'Sound', music: 'Background music', sfx: 'Sound effects',
   gameplay: 'Gameplay', timer: 'Timer', markWrong: 'Mark wrong answers', mineAnim: 'Animations', mineAnimInfo: 'Turn off to reveal squares instantly',
   lives: 'Lives', livesInfo: '3 wrong guesses and the puzzle is over. Starts with your next puzzle.',
-  setColours: 'Colours', setColoursTitle: 'Sets colours', setColoursHelp: 'Pick the three colours the cards use.', setColourN: 'Colour {n}',
+  setColours: 'Colours', coloursTitle: 'Colours', colourN: 'Colour {n}', numberN: 'Number {n}', defaultColour: 'Default', customColour: 'Custom',
+  colourHelp: 'Tap a colour to change it.', matchAll: 'Use these colours in every game', matchAllNote: 'Copies these colours to Towers, Kings, Minesweeper and Sets (Sets uses the first three).', matched: 'Colours copied to every game',
+  resetColours: 'Reset to default', pickHex: 'Hex code', useDefault: 'Use default', colourWheel: 'Colour wheel', setColoursTitle: 'Sets colours', setColoursHelp: 'Pick the three colours the cards use.', setColourN: 'Colour {n}',
   dailyLevelRow: 'Dailys difficulty', dailyLevelHelp: 'Pick one to skip the choice and go straight to those Dailys.', noPref: 'No preference', difficultyTitle: 'Difficulty', defaultTag: 'Default',
   savedNote: 'Settings are saved on this device.',
   allow5050: 'Allow 50/50 guesses', allow5050Info: 'Turn off for boards you can always solve with logic',
@@ -483,12 +542,13 @@ const T = {
   // Theme
   dark: 'Dark', light: 'Light', accentColours: 'Accent colours', custom: 'Custom',
   loveName: 'My <3 theme', loveInfo: 'Black and grey, cream and purple',
-  loveNote: 'Your theme sets its own colours. Pick Dark or Light to use an accent colour.',
+  loveNote: 'This theme sets its own colours. Pick Dark or Light to use an accent colour.',
+  customTheme: 'Custom theme', customThemeInfo: 'Pick your own four colours', themeBg: 'Background', themeSurface: 'Cards and buttons', themeText: 'Text', themeAcc: 'Accent', customAccent: 'Custom',
   // Accent colour names, in the order they appear on the Theme screen
   accents: { red: 'Red', orange: 'Orange', gold: 'Gold', green: 'Green', teal: 'Teal', blue: 'Blue', purple: 'Purple', pink: 'Pink' },
 
   // In games
-  hint: 'Hint', submit: 'Submit', pencil: 'Pencil', zoom: 'Zoom', dig: 'Dig', flag: 'Flag', check: 'Check', share: 'Share',
+  hint: 'Hint', submit: 'Submit', shuffleCards: 'Shuffle', pencil: 'Pencil', zoom: 'Zoom', dig: 'Dig', flag: 'Flag', check: 'Check', share: 'Share',
   kingsTip: 'Tap for a dot · double tap for a king',
   rightSpot: 'right spot', wrongSpot: 'wrong spot',
   towersColours: ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'pink', 'cyan'],
@@ -505,7 +565,7 @@ const T = {
   outOfLives: 'Out of lives', livesLeft: 'Wrong. {n} lives left', lifeLeft: 'Wrong. 1 life left',
   tries: '{n} tries', oneTry: '1 try',
   setNot: 'Not a set: two have the same {feat} and one doesn’t', setAlready: 'You already found that set', setHintMax: 'Find the last card yourself',
-  setFeats: ['colour', 'shape', 'filling', 'number'], setsFound: 'You found {n} of {total} sets.',
+  setFeats: ['colour', 'shape', 'filling', 'number'], setShapes: ['Hourglass', 'Star', 'Cross'], setsFound: 'You found {n} of {total} sets.',
   setColourNames: { purple: 'Purple', green: 'Green', orange: 'Orange', red: 'Red', blue: 'Blue', pink: 'Pink', teal: 'Teal', gold: 'Gold', brown: 'Brown', grey: 'Grey' },
   solved: 'Solved!', newPuzzle: 'New puzzle', newGame: 'New game',
   // Dailys
@@ -515,7 +575,7 @@ const T = {
   dailyInProgress: 'In progress', tryAgain: 'Try again',
   dailySolvedTitle: 'Solved today', dailySolvedBody: 'You did today’s {name} in {time}. A new one arrives at midnight.',
   // Leaderboard
-  leaderboard: 'Leaderboard', lbToday: 'Today’s Dailys', lbNoneLevel: 'No times yet.', lbRank: 'Fewest tries wins, then the fastest time.', lbEmpty: 'No times yet today. Be the first!',
+  leaderboard: 'Leaderboard', lbToday: 'Today’s Dailys', lbNoneLevel: 'No times yet.', lbEmpty: 'No times yet today. Be the first!',
   lbOff: 'The leaderboard isn’t switched on yet. Follow the steps in SETUP-LEADERBOARD.md to connect it.',
   lbError: 'Can’t reach the leaderboard right now. Check your internet and try again.', lbLoading: 'Loading…',
   lbYou: 'You', lbHints: 'Used hints', lbPosted: 'Your time is on today’s leaderboard.', lbQueued: 'Your time will be posted when you’re back online.',
@@ -609,6 +669,7 @@ const I = {
   undo: '<svg viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>',
   back: '<svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>',
   trophy: '<svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4"/><path d="M12 13v4M8.5 20h7M10 17h4"/></svg>',
+  shuffle: '<svg viewBox="0 0 24 24"><path d="M3 7h3.5c4.5 0 6.5 10 11 10H21M3 17h3.5c1.6 0 2.8-1.3 3.8-3M13.7 10c1-1.7 2.2-3 3.8-3H21"/><path d="M18.5 4.5 21 7l-2.5 2.5M18.5 14.5 21 17l-2.5 2.5"/></svg>',
   refresh: '<svg viewBox="0 0 24 24"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/><path d="M19.5 4v4.5H15"/></svg>',
   history: '<svg viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1"/><path d="M3.5 4v4.5H8"/><path d="M12 7.5V12l3 2"/></svg>',
   gear: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
@@ -625,7 +686,7 @@ const I = {
   crown: '<svg viewBox="0 0 24 24" class="crown"><path d="M3.5 18.5 2.5 8l5.5 4.5L12 5l4 7.5L21.5 8l-1 10.5z"/></svg>',
   mine: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5.5" fill="currentColor"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>',
 };
-const HUES = [0, 32, 55, 100, 160, 195, 222, 268, 315];
+const HUES = [0, 32, 55, 100, 160, 195, 222, 268, 315, 135];
 /* Built-in game pictures. They all share one 4 × 4 board so they look like a set. */
 const ART = (() => {
   const c = i => 21.5 + 19 * i;                      // centre of column/row i
@@ -1011,7 +1072,7 @@ SCREENS.leaderboard = scr => {
         return `<div class="glabel">${DLABEL[lv]}</div>` + (xs.length ? `<div class="group">${xs.map((x, i) => `<div class="row lbrow${x.player === me ? ' me' : ''}"><span class="rank r${i + 1}">${i + 1}</span><span class="lab">${esc(x.name)}${x.player === me ? `<em>${T.lbYou}</em>` : ''}</span>${x.hints ? `<span class="lbh" title="${T.lbHints}">${I.bulb}</span>` : ''}<span class="val">${tries && x.attempts ? `<b class="lbt">${triesText(x.attempts)}</b> · ` : ''}${fmt(x.seconds)}</span></div>`).join('')}</div>`
           : `<p class="m lbnone">${T.lbNoneLevel}</p>`);
       };
-      list.innerHTML = rows.length ? DAILY_LEVELS.map(block).join('') + (tries ? `<p class="m lbnone">${T.lbRank}</p>` : '') : `<p class="m hempty">${T.lbEmpty}</p>`;
+      list.innerHTML = rows.length ? DAILY_LEVELS.map(lv => `<div class="lblevel">${block(lv)}</div>`).join('') : `<p class="m hempty">${T.lbEmpty}</p>`;
     } catch (e) { if (mine === req) list.innerHTML = `<p class="m hempty">${T.lbError}</p>`; }
   }
   scr.el.addEventListener('click', e => {
@@ -1142,7 +1203,7 @@ SCREENS.history = scr => {
 /* ---------- SETTINGS ---------- */
 SCREENS.settings = scr => {
   const sw = (k, label, info) => `<label class="row"><span class="lab">${label}${info ? `<small>${info}</small>` : ''}</span><input type="checkbox" class="sw" id="sw-${k}" data-k="${k}"></label>`;
-  const dRow = g => `<div class="glabel">${GAMES[g].name}</div><div class="group"><button class="row" data-d="${g}"><span class="lab">${T.difficultyTitle}</span><span class="val" data-dv="${g}"></span>${I.chev}</button>${g === 'mines' ? sw('allow5050', T.allow5050, T.allow5050Info) + sw('mineAnim', T.mineAnim, T.mineAnimInfo) : ''}${g === 'kings' ? sw('livesKings', T.lives, T.livesInfo) : ''}${g === 'sets' ? sw('livesSets', T.lives, T.livesInfo) + `<button class="row" data-setcols><span class="lab">${T.setColours}</span><span class="val scols"></span>${I.chev}</button>` : ''}</div>`;
+  const dRow = g => `<div class="glabel">${GAMES[g].name}</div><div class="group"><button class="row" data-d="${g}"><span class="lab">${T.difficultyTitle}</span><span class="val" data-dv="${g}"></span>${I.chev}</button>${g === 'mines' ? sw('allow5050', T.allow5050, T.allow5050Info) + sw('mineAnim', T.mineAnim, T.mineAnimInfo) : ''}${COLOR_GAMES[g] ? `<button class="row" data-cols="${g}"><span class="lab">${T.coloursTitle}</span><span class="val scols" data-cv="${g}"></span>${I.chev}</button>` : ''}${g === 'kings' ? sw('livesKings', T.lives, T.livesInfo) : ''}${g === 'sets' ? sw('livesSets', T.lives, T.livesInfo) : ''}</div>`;
   scr.el.innerHTML = `${bar(btnBack)}<div class="scroll"><div class="h1">${T.settings}</div>
     <div class="glabel">${T.display}</div><div class="group"><button class="row" data-go="theme"><span class="lab">${T.theme}</span><span class="val" id="themeVal"></span>${I.chev}</button></div>
     <div class="glabel">${T.sound}</div><div class="group">${sw('music', T.music)}${sw('sfx', T.sfx)}</div>
@@ -1157,7 +1218,7 @@ SCREENS.settings = scr => {
     $$('[data-dv]', scr.el).forEach(v => v.textContent = DLABEL[S.diff[v.dataset.dv]]);
     const nv = $('#nameVal', scr.el); if (nv) nv.textContent = S.playerName || T.lbNameNone;
     $('#dlvVal', scr.el).textContent = S.dailyLevel ? DLABEL[S.dailyLevel] : T.noPref;
-    $('.scols', scr.el).innerHTML = range(3).map(i => `<i style="background:${setColour(i)}"></i>`).join('');
+    $$('[data-cv]', scr.el).forEach(v => v.innerHTML = range(Math.min(4, COLOR_GAMES[v.dataset.cv].n)).map(i => `<i style="background:${gameColour(v.dataset.cv, i)}"></i>`).join(''));
   };
   scr.refresh();
   scr.el.addEventListener('change', e => {
@@ -1170,7 +1231,7 @@ SCREENS.settings = scr => {
     if (e.target.closest('[data-name]')) askName(scr.refresh);
     const d = e.target.closest('[data-d]'); if (d) push('difficulty', { game: d.dataset.d });
     if (e.target.closest('[data-dlv]')) pickDailyLevel(scr.refresh);
-    if (e.target.closest('[data-setcols]')) pickSetColours(scr.refresh);
+    const cg = e.target.closest('[data-cols]'); if (cg) push('colours', { game: cg.dataset.cols });
   });
 };
 function pickDailyLevel(after) {
@@ -1181,50 +1242,108 @@ function pickDailyLevel(after) {
     $('[data-x]', el).onclick = close;
   });
 }
-// Sets colours: three slots, each picks from the palette. Picking a colour another slot uses swaps the two.
-function pickSetColours(after) {
-  sheet(`<h2>${T.setColoursTitle}</h2><p class="m">${T.setColoursHelp}</p><div class="scpick"></div>
+
+/* ---------- PUZZLE COLOURS ---------- */
+const PRESETS = ['#ef4444', '#f97316', '#f59e0b', '#facc15', '#84cc16', '#22c55e', '#14b8a6', '#06b6d4', '#3b82f6', '#6366f1', '#8b5cf6', '#a855f7', '#ec4899', '#f43f5e', '#a16207', '#64748b',
+  '#c8605a', '#d47a45', '#c9a443', '#6fae7e', '#4fa3a0', '#5b86c4', '#8a76c9', '#c46a98', '#9a7350', '#8590a0', '#ffffff', '#111013'];
+// One colour: built-in default, preset swatches, the phone's colour wheel, or a hex code. Changes apply straight away.
+function pickColour({ title, value, def, set, done, first }) {
+  let cur = toHex(value);
+  const swatches = [...new Set([...(first || []), ...PRESETS])];
+  sheet(`<h2>${title}</h2>
+    <div class="cpre"><button class="cdef" data-p="def" style="--c:${def}"><span>${T.defaultColour}</span></button>${swatches.map(h => `<button data-p="${h}" style="--c:${h}" aria-label="${h}"></button>`).join('')}</div>
+    <div class="cown"><label class="cwheel" style="--c:${cur}"><input type="color" value="${cur}" aria-label="${T.colourWheel}"><span>${T.colourWheel}</span></label>
+      <input class="tin chex" maxlength="7" spellcheck="false" autocomplete="off" aria-label="${T.pickHex}" value="${cur}"></div>
     <div class="btns"><button class="btn primary" data-x>${T.done}</button></div>`, (el, close) => {
-    const box = $('.scpick', el);
-    const draw = () => box.innerHTML = range(3).map(i => `<div class="scrow"><div class="sclab">${setCard(4 * i, 3)}</div><div class="scsw">${SET_COLS.map(([k, hex], j) => `<button class="${S.setCols[i] === j ? 'on' : ''}" data-slot="${i}" data-c="${j}" style="--c:${hex}" aria-label="${fill(T.setColourN, { n: i + 1 })}: ${T.setColourNames[k]}"></button>`).join('')}</div></div>`).join('');
-    draw();
-    box.addEventListener('click', e => {
-      const b = e.target.closest('[data-c]'); if (!b) return;
-      const i = +b.dataset.slot, j = +b.dataset.c, cols = S.setCols.slice(), other = cols.indexOf(j);
-      if (other >= 0 && other !== i) cols[other] = cols[i];
-      cols[i] = j; S.setCols = cols; save(); sfx.tap(); draw(); after();
+    const wheel = $('input[type=color]', el), hex = $('.chex', el), lab = $('.cwheel', el);
+    const show = (h, from) => { cur = h; lab.style.setProperty('--c', h); if (from !== wheel) wheel.value = h; if (from !== hex) hex.value = h; $$('.cpre [data-p]', el).forEach(b => b.classList.toggle('on', b.dataset.p === h)); };
+    show(cur);
+    $('.cpre', el).addEventListener('click', e => {
+      const b = e.target.closest('[data-p]'); if (!b) return;
+      if (b.dataset.p === 'def') { set(null); show(toHex(def)); } else { set(b.dataset.p); show(b.dataset.p); }
+      sfx.tap();
     });
-    $('[data-x]', el).onclick = close;
+    wheel.addEventListener('input', () => { set(wheel.value); show(wheel.value, wheel); });
+    hex.addEventListener('input', () => { let v = hex.value.trim(); if (v[0] !== '#') v = '#' + v; if (/^#[0-9a-f]{6}$/i.test(v)) { set(v.toLowerCase()); show(v.toLowerCase(), hex); } });
+    $('[data-x]', el).onclick = () => { close(); done && done(); };
+    el.parentNode.querySelector('.scrim').onclick = () => { close(); done && done(); };
   });
 }
+SCREENS.colours = scr => {
+  const g = scr.params.game, C = COLOR_GAMES[g];
+  function draw() {
+    scr.el.innerHTML = `${bar(btnBack)}<div class="scroll"><div class="kicker">${GAMES[g].name}</div><div class="h1">${T.coloursTitle}</div>
+      <p class="note top">${T.colourHelp}</p>
+      <div class="group">${range(C.n).map(i => `<button class="row" data-i="${i}">${C.icon ? C.icon(i) : `<span class="csw" style="--c:${gameColour(g, i)}"></span>`}<span class="lab">${C.label(i)}</span><span class="val">${colourName(g, i)}</span>${I.chev}</button>`).join('')}</div>
+      <div class="btns cbtns"><button class="btn primary" data-match>${T.matchAll}</button><button class="btn ghost" data-reset>${T.resetColours}</button></div>
+      <p class="note">${T.matchAllNote}</p></div>`;
+  }
+  draw();
+  const setOne = (i, v) => {
+    if (g === 'sets') { const cols = S.setCols.slice(), j = v ? SET_COLS.findIndex(c => c[1] === v) : i; cols[i] = j >= 0 ? j : v; S.setCols = cols; }
+    else { const a = (S.colors[g] || []).slice(); a[i] = v; S.colors = Object.assign({}, S.colors, { [g]: a }); }
+    save(); draw();
+  };
+  scr.el.addEventListener('click', e => {
+    const row = e.target.closest('[data-i]');
+    if (row) { const i = +row.dataset.i; pickColour({ title: C.label(i), value: gameColour(g, i), def: C.def(i), first: C.first && C.first(), set: v => setOne(i, v) }); return; }
+    if (e.target.closest('[data-reset]')) { if (g === 'sets') S.setCols = [0, 1, 2]; else S.colors = Object.assign({}, S.colors, { [g]: [] }); save(); draw(); sfx.tap(); }
+    if (e.target.closest('[data-match]')) {
+      const mine = range(C.n).map(i => toHex(gameColour(g, i))), next = Object.assign({}, S.colors);
+      for (const o of Object.keys(COLOR_GAMES)) if (o !== g && o !== 'sets') { const a = (next[o] || []).slice(); range(Math.min(C.n, COLOR_GAMES[o].n)).forEach(i => a[i] = mine[i]); next[o] = a; }
+      if (g !== 'sets') next[g] = mine; S.colors = next; if (g !== 'sets') S.setCols = mine.slice(0, 3); save(); draw(); sfx.tap(); toast(T.matched);
+    }
+  });
+  scr.refresh = draw;
+};
 
 /* ---------- THEME ---------- */
 SCREENS.theme = scr => {
   const swatch = { red: '#f0545a', orange: '#f28a2e', gold: '#e8b625', green: '#2fb36d', teal: '#22b5b0', blue: '#4b8bff', purple: '#8b5cf6', pink: '#ec5fa8' };
-  scr.el.innerHTML = `${bar(btnBack)}<div class="scroll"><div class="h1">${T.theme}</div>
+  const tick = I.check.replace('<svg', '<svg class="tick"');
+  const CT = [['bg', T.themeBg], ['surface', T.themeSurface], ['text', T.themeText], ['acc', T.themeAcc]];
+  function draw() {
+    const ct = S.customTheme;
+    scr.el.innerHTML = `${bar(btnBack)}<div class="scroll"><div class="h1">${T.theme}</div>
     <div class="group">
-      <button class="row" data-m="dark"><span class="lab">${T.dark}</span>${I.check.replace('<svg', '<svg class="tick"')}</button>
-      <button class="row" data-m="light"><span class="lab">${T.light}</span>${I.check.replace('<svg', '<svg class="tick"')}</button>
+      <button class="row" data-m="dark"><span class="lab">${T.dark}</span>${tick}</button>
+      <button class="row" data-m="light"><span class="lab">${T.light}</span>${tick}</button>
     </div>
     <div class="glabel">${T.accentColours}</div>
     <div class="group" id="accGroup"><div class="accent-box">
       <div class="preview" aria-hidden="true"><b>${T.appTitle}</b><div class="pv-t"><i></i><i></i><i></i><i></i></div><div class="pv-b"></div></div>
-      <div class="swatches">${Object.entries(T.accents).map(([k, n]) => `<button class="swatch" data-c="${k}"><i style="background:${swatch[k]}"></i>${n}</button>`).join('')}</div>
+      <div class="swatches">${Object.entries(T.accents).map(([k, n]) => `<button class="swatch" data-c="${k}"><i style="background:${swatch[k]}"></i>${n}</button>`).join('')}<button class="swatch" data-c="custom"><i class="cw" style="--c:${S.accentHex}"></i>${T.customAccent}</button></div>
     </div></div>
     <div class="glabel">${T.custom}</div>
     <div class="group"><button class="row" data-m="love"><span class="lab">${T.loveName.replace('<', '&lt;')}<small>${T.loveInfo}</small></span>
-      <span class="love-dots"><i style="background:#141315"></i><i style="background:#3a363f"></i><i style="background:#f3e9d4"></i><i style="background:#a983e2"></i></span>${I.check.replace('<svg', '<svg class="tick"')}</button></div>
+      <span class="love-dots"><i style="background:#141315"></i><i style="background:#3a363f"></i><i style="background:#f3e9d4"></i><i style="background:#a983e2"></i></span>${tick}</button>
+      <button class="row" data-m="custom"><span class="lab">${T.customTheme}<small>${T.customThemeInfo}</small></span>
+      <span class="love-dots">${CT.map(([k]) => `<i style="background:${ct[k]}"></i>`).join('')}</span>${tick}</button></div>
+    <div class="group" id="ctGroup">${CT.map(([k, l]) => `<button class="row" data-ct="${k}"><span class="csw" style="--c:${ct[k]}"></span><span class="lab">${l}</span><span class="val">${ct[k]}</span>${I.chev}</button>`).join('')}</div>
     <p class="note" id="loveNote" hidden>${T.loveNote}</p></div>`;
+    sync();
+  }
   const sync = () => {
     $$('[data-m]', scr.el).forEach(r => r.classList.toggle('on', r.dataset.m === S.theme));
-    $$('[data-c]', scr.el).forEach(r => r.classList.toggle('on', r.dataset.c === S.accent && S.theme !== 'love'));
-    $('#accGroup', scr.el).classList.toggle('dis', S.theme === 'love');
-    $('#loveNote', scr.el).hidden = S.theme !== 'love';
+    const own = S.theme === 'love' || S.theme === 'custom';
+    $$('[data-c]', scr.el).forEach(r => r.classList.toggle('on', r.dataset.c === S.accent && !own));
+    $('#accGroup', scr.el).classList.toggle('dis', own);
+    $('#ctGroup', scr.el).hidden = S.theme !== 'custom';
+    $('#loveNote', scr.el).hidden = !own;
   };
-  sync();
+  draw();
   scr.el.addEventListener('click', e => {
     const m = e.target.closest('[data-m]'); if (m) { S.theme = m.dataset.m; save(); sync(); sfx.tap(); }
-    const c = e.target.closest('[data-c]'); if (c) { S.accent = c.dataset.c; save(); sync(); sfx.tap(); }
+    const c = e.target.closest('[data-c]');
+    if (c && c.dataset.c === 'custom') {
+      S.accent = 'custom'; if (S.theme === 'love' || S.theme === 'custom') S.theme = 'dark'; save(); sync();
+      pickColour({ title: T.accentColours, value: S.accentHex, def: '#8b5cf6', set: v => { S.accentHex = v || '#8b5cf6'; save(); draw(); } });
+    } else if (c) { S.accent = c.dataset.c; save(); sync(); sfx.tap(); }
+    const k = e.target.closest('[data-ct]');
+    if (k) {
+      const key = k.dataset.ct, def = { bg: '#18222b', surface: '#22303b', text: '#eef3f6', acc: '#5fb3a1' }[key];
+      pickColour({ title: CT.find(x => x[0] === key)[1], value: S.customTheme[key], def, set: v => { S.customTheme = Object.assign({}, S.customTheme, { [key]: v || def }); save(); draw(); } });
+    }
   });
 };
 
@@ -1776,6 +1895,7 @@ function sudokuX(ctx) {
 }
 
 /* ---------- TOWERS (colour code) ---------- */
+const tname = k => isCustom('towers', k) ? fill(T.colourN, { n: k + 1 }).toLowerCase() : T.towersColours[k];
 const TCOL = [['Red', '#ef4444'], ['Orange', '#f59e0b'], ['Yellow', '#facc15'], ['Green', '#22c55e'], ['Blue', '#3b82f6'], ['Purple', '#a855f7'], ['Pink', '#ec4899'], ['Cyan', '#06b6d4']];
 ENGINES.towers = ctx => {
   const [P, K, G, repeats] = ctx.imported ? [ctx.imported.code.length, ctx.imported.K, ctx.imported.G, true] : { beginner: [3, 5, 10, false], easy: [4, 6, 10, false], normal: [4, 6, 10, true], hard: [5, 7, 10, true], expert: [5, 8, 10, true], insane: [6, 8, 8, true] }[ctx.diff];
@@ -1785,7 +1905,7 @@ ENGINES.towers = ctx => {
   if (ctx.restore) { rows.push(...ctx.restore.rows); ctx.restore.hints.forEach(i => hints.add(i)); cur = ctx.restore.cur; slot = Math.max(0, cur.indexOf(-1)); }
   const board = document.createElement('div'); board.className = 'tower'; board.style.setProperty('--p', P); board.style.setProperty('--pc', Math.ceil(P / 2));
   ctx.wrap.appendChild(board);
-  ctx.extra.innerHTML = `<div class="tpal">${range(K).map(k => `<button class="tcol" data-k="${k}" style="--c:${TCOL[k][1]}" aria-label="${T.towersColours[k]}"></button>`).join('')}</div>
+  ctx.extra.innerHTML = `<div class="tpal">${range(K).map(k => `<button class="tcol" data-k="${k}" style="--c:${gameColour('towers', k)}" aria-label="${tname(k)}"></button>`).join('')}</div>
     <button class="btn primary tcheck" data-check>${T.check}</button>`;
   ctx.fr.innerHTML = `<div class="tkey"><i class="pk ex"></i>${T.rightSpot} <i class="pk near"></i>${T.wrongSpot}</div>`;
   const pal = $('.tpal', ctx.extra);
@@ -1798,8 +1918,8 @@ ENGINES.towers = ctx => {
   }
   const blocks = (g, opts = {}) => g.map((c, i) => {
     const cls = ['tb', c < 0 ? 'empty' : '', opts.cur && i === slot ? 'sel' : '', opts.cur && hints.has(i) ? 'lock' : ''].join(' ');
-    return opts.cur ? `<button class="${cls}" data-s="${i}" style="--c:${c < 0 ? '' : TCOL[c][1]}" aria-label="Block ${i + 1}"></button>`
-      : `<i class="${cls}" style="--c:${c < 0 ? '' : TCOL[c][1]}"></i>`;
+    return opts.cur ? `<button class="${cls}" data-s="${i}" style="--c:${c < 0 ? '' : gameColour('towers', c)}" aria-label="Block ${i + 1}"></button>`
+      : `<i class="${cls}" style="--c:${c < 0 ? '' : gameColour('towers', c)}"></i>`;
   }).join('');
   const pegs = r => `<div class="tfb">${range(P).map(i => `<i class="pk ${i < r.ex ? 'ex' : i < r.ex + r.near ? 'near' : ''}"></i>`).join('')}</div>`;
   function render() {
@@ -1813,7 +1933,7 @@ ENGINES.towers = ctx => {
     const curRow = board.querySelector('.trow.cur'); if (curRow) curRow.scrollIntoView({ block: 'nearest' });
     const out = new Set();
     if (S.markWrong) rows.forEach(r => { if (!r.ex && !r.near) r.g.forEach(c => out.add(c)); });
-    $$('.tcol', pal).forEach(b => b.classList.toggle('out', out.has(+b.dataset.k)));
+    $$('.tcol', pal).forEach(b => { b.classList.toggle('out', out.has(+b.dataset.k)); b.style.setProperty('--c', gameColour('towers', +b.dataset.k)); });
     ctx.title(`<b>${GAMES.towers.name}</b> · ${over ? (done ? T.status.towersWon : T.status.towersLost) : G - rows.length === 1 ? T.status.towersLastGuess : fill(T.status.towers, { left: G - rows.length })}`);
   }
   const nextSlot = from => { for (let k = 1; k <= P; k++) { const i = (from + k) % P; if (cur[i] < 0) return i; } return from; };
@@ -1851,7 +1971,7 @@ ENGINES.towers = ctx => {
       if (free.length <= 1) return toast(T.noMoreHints);
       const i = free[rnd(free.length)]; hints.add(i);
       hist = []; cur[i] = code[i]; if (slot === i || slot < 0) slot = nextSlot(i); sfx.tap(); render();
-      toast(fill(T.beadHint, { n: i + 1, colour: T.towersColours[code[i]] }));
+      toast(fill(T.beadHint, { n: i + 1, colour: tname(code[i]) }));
     },
     key(e) {
       if (/^[1-8]$/.test(e.key) && +e.key <= K) pick(+e.key - 1);
@@ -2117,7 +2237,6 @@ function kingsLogic(N, region) {
 ENGINES.kings = ctx => {
   const N = ctx.imported ? ctx.imported.sol.length : { beginner: 5, easy: 6, normal: 7, hard: 8, expert: 9, insane: 10 }[ctx.diff];
   const { region, sol } = ctx.imported || kingsGen(N);
-  const hueOrder = HUES.slice();
   const st = ctx.restore ? ctx.restore.st.slice() : Array(N * N).fill(0), hist = [];
   let lastTap = { i: -1, t: 0 }, done = false, over = false;
   let lives = ctx.restore ? ctx.restore.lives ?? null : S.livesKings ? 3 : null;
@@ -2126,8 +2245,8 @@ ENGINES.kings = ctx => {
   grid.innerHTML = range(N * N).map(i => {
     const r = Math.floor(i / N), c = i % N;
     const cls = (r > 0 && region[i - N] !== region[i] ? ' bt' : '') + (c > 0 && region[i - 1] !== region[i] ? ' bl' : '');
-    if (r === 0) return `<button class="kc${cls}" style="--h:${hueOrder[region[i]]};border-top:0" data-i="${i}"></button>`;
-    return `<button class="kc${cls}" style="--h:${hueOrder[region[i]]}${c === 0 ? ';border-left:0' : ''}" data-i="${i}"></button>`;
+    if (r === 0) return `<button class="kc${cls}" style="border-top:0" data-i="${i}"></button>`;
+    return `<button class="kc${cls}" style="${c === 0 ? 'border-left:0' : ''}" data-i="${i}"></button>`;
   }).join('');
   $$('.kc', grid).forEach((el, i) => { if (i % N === 0) el.style.borderLeft = '0'; });
   ctx.wrap.appendChild(grid); ctx.fit(grid, 1);
@@ -2145,7 +2264,7 @@ ENGINES.kings = ctx => {
   function render() {
     const { ks, bad } = conflicts();
     ctx.title(`<b>${GAMES.kings.name}</b> · ${fill(T.status.kings, { placed: ks.length, total: N })}`);
-    cells.forEach((el, i) => { el.innerHTML = st[i] === 2 ? I.crown : st[i] === 1 ? '<i class="dot"></i>' : ''; el.classList.toggle('bad', S.markWrong && bad.has(i)); });
+    cells.forEach((el, i) => { el.style.background = gameColour('kings', region[i]); el.innerHTML = st[i] === 2 ? I.crown : st[i] === 1 ? '<i class="dot"></i>' : ''; el.classList.toggle('bad', S.markWrong && bad.has(i)); });
     return { ks, bad };
   }
   function check() { const { ks, bad } = render(); if (ks.length === N && !bad.size) { done = true; ctx.win(); } else if (S.markWrong && bad.size) sfx.bad(); }
@@ -2219,7 +2338,7 @@ function setsGen(F, n, K) {
     if (s === K || round > 20) return cards;
   }
 }
-const setColour = i => (SET_COLS[S.setCols[i]] || SET_COLS[i])[1];
+const setColour = i => { const v = S.setCols[i]; return typeof v === 'string' ? v : (SET_COLS[v] || SET_COLS[i])[1]; };
 const setDefs = () => `<svg class="sdefs" width="0" height="0" aria-hidden="true"><defs>${range(3).map(i => `<pattern id="sx${i}" width="5" height="5" patternUnits="userSpaceOnUse"><path d="M0 2.5H5" stroke="${setColour(i)}" stroke-width="1.6"/></pattern>`).join('')}</defs></svg>`;
 function setCard(c, F) {
   const ci = setDigit(c, 0), col = setColour(ci), sh = setDigit(c, 1), fl = setDigit(c, 2), n = F > 3 ? setDigit(c, 3) + 1 : 1;
@@ -2233,6 +2352,7 @@ ENGINES.sets = ctx => {
   const all = setsIn(cards, F), K = all.length, R = ctx.restore || {};
   let found = (R.found || []).map(x => x.slice()), tries = R.tries || 0, hinted = (R.hinted || []).slice(), sel = [], done = false, over = false, msg = '', msgT;
   let lives = ctx.restore ? R.lives ?? null : S.livesSets ? 3 : null;
+  let order = R.order && R.order.length === n ? R.order.slice() : range(n);   // where each card sits; Shuffle changes it
   const rows = Math.ceil(n / 3);
   const board = document.createElement('div'); board.className = 'setgrid';
   board.style.gridTemplateRows = `repeat(${rows},1fr)`;
@@ -2254,10 +2374,11 @@ ENGINES.sets = ctx => {
     if (colKey !== S.setCols.join()) {   // colours changed in Settings
       colKey = S.setCols.join(); $('.sdefs', board).outerHTML = setDefs(); els.forEach((el, i) => el.innerHTML = setCard(cards[i], F));
     }
-    ctx.title(`<b>${GAMES.sets.name}</b> · ${fill(T.status.sets, { found: found.length, total: K })}${tries ? ' · ' + triesText(tries) : ''}`);
+    ctx.title(`<b>${GAMES.sets.name}</b> · ${fill(T.status.sets, { found: found.length, total: K })}${tries ? ' · ' + triesText(tries) : ''}${lives != null ? livesHTML(lives).replace('class="lives"', 'class="lives tl"') : ''}`);
+    els.forEach((el, i) => el.style.order = order.indexOf(i));
     els.forEach((el, i) => { el.classList.toggle('sel', sel.includes(i)); el.classList.toggle('hint', hinted.includes(i)); });
-    ctx.extra.innerHTML = (lives != null ? livesHTML(lives) : '') + `<div class="sfound" style="--k:${K}">${range(K).map(i => found[i]
-      ? `<span class="sf on">${found[i].map(j => `<i>${setCard(cards[j], F)}</i>`).join('')}</span>` : '<span class="sf"></span>').join('')}</div><div class="smsg">${msg}</div>`;
+    ctx.extra.innerHTML = `<div class="sfound" style="--k:${K}">${range(K).map(i => found[i]
+      ? `<span class="sf on">${found[i].slice().sort((a, b) => setDigit(cards[a], 3) - setDigit(cards[b], 3)).map(j => `<i>${setCard(cards[j], F)}</i>`).join('')}</span>` : '<span class="sf"></span>').join('')}</div><div class="smsg">${msg}</div>`;
     sub.disabled = sel.length !== 3 || done || over;
   }
   // Messages show in a line above the cards instead of a pop-up, so they don't cover the board
@@ -2293,11 +2414,17 @@ ENGINES.sets = ctx => {
     sfx.soft(); render();
   });
   sub.onclick = () => { if (sel.length === 3 && !done && !over) guess(); };
+  ctx.fr.innerHTML = `<button class="tbtn" data-shuf>${I.shuffle}<span>${T.shuffleCards}</span></button>`;
+  $('[data-shuf]', ctx.fr).onclick = () => {
+    if (done || over) return;
+    const old = order.join(); do order = range(n).sort(() => Math.random() - .5); while (order.join() === old && n > 1);
+    sfx.soft(); render();
+  };
   render();
   return {
     render,
     code: () => ({ F, K, cards }),
-    state: () => ({ found, tries, hinted, lives }),
+    state: () => ({ found, tries, hinted, lives, order }),
     canSave: () => !over,
     attempts: () => tries,
     key(e) { if (e.key === 'Enter') sub.click(); },
