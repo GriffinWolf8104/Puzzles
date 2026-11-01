@@ -295,6 +295,7 @@ button.tb:active{transform:scale(.92)}
 .kc.bt{border-top:2.5px solid var(--kline)}.kc.bl{border-left:2.5px solid var(--kline)}
 .app[data-theme="dark"] .kc,.app[data-theme="love"] .kc,.app[data-tone="dark"] .kc{color:var(--text)}
 .kc .dot{width:16%;height:16%;border-radius:50%;background:currentColor;opacity:.55}
+.kc .dot.auto{opacity:.3}
 .kc svg.crown{width:62%;height:62%;fill:currentColor;stroke:none;animation:pop .2s}
 .kc.bad{color:var(--danger)}
 .kc.bad::after{content:"";position:absolute;inset:0;background:var(--danger);opacity:.18}
@@ -450,7 +451,7 @@ const store = {
   get(k, d) { try { const v = localStorage.getItem('puzzles.' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
   set(k, v) { try { localStorage.setItem('puzzles.' + k, JSON.stringify(v)); } catch (e) {} }
 };
-const DEF = { allow5050: true, mineCustom: { C: 12, R: 16, M: 40 }, theme: 'dark', accent: 'purple', music: false, sfx: true, timer: true, markWrong: true, mineAnim: true, livesKings: false, livesSets: false, colors: {}, accentHex: '#8b5cf6', customTheme: { bg: '#18222b', surface: '#22303b', text: '#eef3f6', acc: '#5fb3a1' }, dailyLevel: '', setCols: [0, 1, 2], diff: { sudoku: 'normal', kings: 'normal', mines: 'normal', atoms: 'normal', towers: 'normal', sets: 'normal' } };
+const DEF = { allow5050: true, mineCustom: { C: 12, R: 16, M: 40 }, theme: 'dark', accent: 'purple', music: false, sfx: true, timer: true, markWrong: true, mineAnim: true, livesKings: false, autoDot: true, livesSets: false, colors: {}, accentHex: '#8b5cf6', customTheme: { bg: '#18222b', surface: '#22303b', text: '#eef3f6', acc: '#5fb3a1' }, dailyLevel: '', setCols: [0, 1, 2], diff: { sudoku: 'normal', kings: 'normal', mines: 'normal', atoms: 'normal', towers: 'normal', sets: 'normal' } };
 const saved = store.get('settings', {});
 const S = Object.assign({}, DEF, saved, { diff: Object.assign({}, DEF.diff, saved.diff || {}) });
 const SETS_LEVELS = ['easy', 'normal', 'hard'];
@@ -530,7 +531,7 @@ const T = {
   // Settings
   settings: 'Settings', display: 'Display', theme: 'Theme', sound: 'Sound', music: 'Background music', sfx: 'Sound effects',
   gameplay: 'Gameplay', timer: 'Timer', markWrong: 'Mark wrong answers', mineAnim: 'Animations', mineAnimInfo: 'Turn off to reveal squares instantly',
-  lives: 'Lives', livesInfo: '3 wrong guesses and the puzzle is over. Starts with your next puzzle.',
+  autoDot: 'Auto dots', autoDotInfo: 'Dots every square that can’t have a king once you place one', lives: 'Lives', livesInfo: '3 wrong guesses and the puzzle is over. Starts with your next puzzle.',
   setColours: 'Colours', coloursTitle: 'Colours', colourN: 'Colour {n}', numberN: 'Number {n}', defaultColour: 'Default', customColour: 'Custom',
   colourHelp: 'Tap a colour to change it.', matchAll: 'Use these colours in every game', matchAllNote: 'Copies these colours to Towers, Kings, Minesweeper and Sets (Sets uses the first three).', matched: 'Colours copied to every game',
   resetColours: 'Reset to default', pickHex: 'Hex code', useDefault: 'Use default', colourWheel: 'Colour wheel', setColoursTitle: 'Sets colours', setColoursHelp: 'Pick the three colours the cards use.', setColourN: 'Colour {n}',
@@ -622,7 +623,7 @@ const T = {
     jigsaw: `<li>Fill every row and column with 1 to 9, each once.</li><li>Instead of 3×3 boxes, the thick lines mark nine odd-shaped pieces. Each piece also holds 1 to 9 once.</li><li>Use <b>Pencil</b> for notes.</li>`,
     sets: `<li>Find every <b>set</b> hidden in the cards. The slots at the top show how many there are.</li><li>A set is three cards where each feature is either <b>all the same</b> or <b>all different</b>: colour, shape, filling and how many (1, 2 or 3).</li><li>Not every card has to be in a set.</li><li>If two cards share a feature and the third doesn't, it isn't a set.</li><li>Tap three cards, then press <b>Submit</b>. Fewer tries scores better on the leaderboard.</li>`,
     towers: `<li>A secret code of coloured beads sits at the top of the tower. Crack it before you run out of guesses.</li><li>Tap a colour to fill the selected bead, then press <b>Check</b>. Each guess stacks onto the tower.</li><li>The pegs tell you how close you were, but not which bead they mean. A filled peg is a right colour in the right spot. A ring is a right colour in the wrong spot.</li><li>Tap a filled bead to select it, and tap it again to clear it.</li><li>With Mark wrong answers on, colours that can't be in the code fade out.</li>`,
-    kings: `<li>Place one king in every row, every column and every coloured region.</li><li>Kings can't touch each other, not even diagonally.</li><li><b>Tap once</b> to put a dot where a king can't go. <b>Double tap</b> for a king. Tap again to clear.</li>`,
+    kings: `<li>Place one king in every row, every column and every coloured region.</li><li>Kings can't touch each other, not even diagonally.</li><li><b>Tap once</b> to put a dot where a king can't go. <b>Double tap</b> for a king. Tap again to clear.</li><li>With <b>Auto dots</b> on (Settings), squares a king rules out get a faint dot by themselves.</li>`,
     mines: `<li>Clear every square that isn't a mine.</li><li>A number tells you how many of the 8 squares around it hide a mine.</li><li>Switch between <b>Dig</b> and <b>Flag</b> at the bottom, or press and hold to flag.</li><li>Tap a number whose mines are all flagged to clear around it.</li>`,
     atoms: `<li>Each atom shows how many bonds it needs.</li><li>Bond atoms in straight lines, across or down, with one or two bonds between a pair.</li><li>Bonds can't cross, and every atom must end up in one molecule.</li><li>Tap an atom, then a neighbour (or drag between them). Tap the pair again for a double bond.</li><li>Tap a bond to remove it.</li>`,
   },
@@ -1203,7 +1204,7 @@ SCREENS.history = scr => {
 /* ---------- SETTINGS ---------- */
 SCREENS.settings = scr => {
   const sw = (k, label, info) => `<label class="row"><span class="lab">${label}${info ? `<small>${info}</small>` : ''}</span><input type="checkbox" class="sw" id="sw-${k}" data-k="${k}"></label>`;
-  const dRow = g => `<div class="glabel">${GAMES[g].name}</div><div class="group"><button class="row" data-d="${g}"><span class="lab">${T.difficultyTitle}</span><span class="val" data-dv="${g}"></span>${I.chev}</button>${g === 'mines' ? sw('allow5050', T.allow5050, T.allow5050Info) + sw('mineAnim', T.mineAnim, T.mineAnimInfo) : ''}${COLOR_GAMES[g] ? `<button class="row" data-cols="${g}"><span class="lab">${T.coloursTitle}</span><span class="val scols" data-cv="${g}"></span>${I.chev}</button>` : ''}${g === 'kings' ? sw('livesKings', T.lives, T.livesInfo) : ''}${g === 'sets' ? sw('livesSets', T.lives, T.livesInfo) : ''}</div>`;
+  const dRow = g => `<div class="glabel">${GAMES[g].name}</div><div class="group"><button class="row" data-d="${g}"><span class="lab">${T.difficultyTitle}</span><span class="val" data-dv="${g}"></span>${I.chev}</button>${g === 'mines' ? sw('allow5050', T.allow5050, T.allow5050Info) + sw('mineAnim', T.mineAnim, T.mineAnimInfo) : ''}${COLOR_GAMES[g] ? `<button class="row" data-cols="${g}"><span class="lab">${T.coloursTitle}</span><span class="val scols" data-cv="${g}"></span>${I.chev}</button>` : ''}${g === 'kings' ? sw('autoDot', T.autoDot, T.autoDotInfo) + sw('livesKings', T.lives, T.livesInfo) : ''}${g === 'sets' ? sw('livesSets', T.lives, T.livesInfo) : ''}</div>`;
   scr.el.innerHTML = `${bar(btnBack)}<div class="scroll"><div class="h1">${T.settings}</div>
     <div class="glabel">${T.display}</div><div class="group"><button class="row" data-go="theme"><span class="lab">${T.theme}</span><span class="val" id="themeVal"></span>${I.chev}</button></div>
     <div class="glabel">${T.sound}</div><div class="group">${sw('music', T.music)}${sw('sfx', T.sfx)}</div>
@@ -2261,10 +2262,18 @@ ENGINES.kings = ctx => {
     }
     return { ks, bad };
   }
+  // Squares a placed king rules out: its row, column, region and the eight around it
+  function blocked(ks) {
+    const out = new Set(); if (!S.autoDot) return out;
+    ks.forEach(k => { const rk = Math.floor(k / N), ck = k % N;
+      range(N * N).forEach(i => { const r = Math.floor(i / N), c = i % N;
+        if (i !== k && (r === rk || c === ck || region[i] === region[k] || (Math.abs(r - rk) <= 1 && Math.abs(c - ck) <= 1))) out.add(i); }); });
+    return out;
+  }
   function render() {
-    const { ks, bad } = conflicts();
+    const { ks, bad } = conflicts(), auto = blocked(ks);
     ctx.title(`<b>${GAMES.kings.name}</b> · ${fill(T.status.kings, { placed: ks.length, total: N })}`);
-    cells.forEach((el, i) => { el.style.background = gameColour('kings', region[i]); el.innerHTML = st[i] === 2 ? I.crown : st[i] === 1 ? '<i class="dot"></i>' : ''; el.classList.toggle('bad', S.markWrong && bad.has(i)); });
+    cells.forEach((el, i) => { el.style.background = gameColour('kings', region[i]); el.innerHTML = st[i] === 2 ? I.crown : st[i] === 1 ? '<i class="dot"></i>' : auto.has(i) ? '<i class="dot auto"></i>' : ''; el.classList.toggle('bad', S.markWrong && bad.has(i)); });
     return { ks, bad };
   }
   function check() { const { ks, bad } = render(); if (ks.length === N && !bad.size) { done = true; ctx.win(); } else if (S.markWrong && bad.size) sfx.bad(); }
