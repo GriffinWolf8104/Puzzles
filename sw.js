@@ -1,5 +1,5 @@
 /* Lets Puzzles open with no internet. Change VERSION whenever you upload a new index.html. */
-const VERSION = 'puzzles-29';
+const VERSION = 'puzzles-30';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
@@ -14,7 +14,9 @@ self.addEventListener('fetch', e => {
   // Only the app's own files and its font are kept for offline use; leaderboard data always comes fresh.
   const host = new URL(e.request.url).hostname;
   if (host !== location.hostname && !/(^|\.)(gstatic|googleapis)\.com$/.test(host)) return;
-  e.respondWith(fetch(e.request).then(r => {
+  // The app's own files skip the phone's web cache, so a new upload shows up on the next open
+  const req = host === location.hostname ? fetch(e.request.url, { cache: 'no-cache' }) : fetch(e.request);
+  e.respondWith(req.then(r => {
     const copy = r.clone();
     caches.open(VERSION).then(c => c.put(e.request, copy));
     return r;
