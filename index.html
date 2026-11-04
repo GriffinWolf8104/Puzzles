@@ -269,7 +269,8 @@ button.tb:active{transform:scale(.92)}
 .tcol{width:40px;height:40px;border-radius:50%;background:var(--c);position:relative;transition:transform .1s,opacity .2s}
 .tcol:active{transform:scale(.9)}
 .tcol.out{opacity:.22}
-.tcheck{max-width:340px;height:50px !important;font-size:17px !important}
+.tact{display:flex;gap:10px;width:100%;max-width:340px;margin:0 auto}.tundo{width:auto;flex:0 0 auto;padding:0 18px;height:50px !important;font-size:16px !important;background:var(--surface);border-radius:999px}.tundo svg{width:20px;height:20px}
+.tcheck{flex:1;max-width:340px;height:50px !important;font-size:17px !important}
 .tkey{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted)}
 .tkey .pk{margin-left:6px}
 .sheet .tower.reveal{margin:4px 0 6px;max-width:260px}
@@ -451,7 +452,7 @@ const store = {
   get(k, d) { try { const v = localStorage.getItem('puzzles.' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
   set(k, v) { try { localStorage.setItem('puzzles.' + k, JSON.stringify(v)); } catch (e) {} }
 };
-const DEF = { allow5050: true, mineCustom: { C: 12, R: 16, M: 40 }, theme: 'dark', accent: 'purple', music: false, sfx: true, timer: true, markWrong: true, mineAnim: true, livesKings: false, autoDot: true, livesSets: false, colors: {}, accentHex: '#8b5cf6', customTheme: { bg: '#18222b', surface: '#22303b', text: '#eef3f6', acc: '#5fb3a1' }, dailyLevel: '', setCols: [0, 1, 2], diff: { sudoku: 'normal', kings: 'normal', mines: 'normal', atoms: 'normal', towers: 'normal', sets: 'normal' } };
+const DEF = { allow5050: true, mineCustom: { C: 12, R: 16, M: 40 }, theme: 'dark', accent: 'purple', music: false, sfx: true, timer: true, markWrong: true, mineAnim: true, livesKings: false, autoDot: true, swipeBack: false, livesSets: false, colors: {}, accentHex: '#8b5cf6', customTheme: { bg: '#18222b', surface: '#22303b', text: '#eef3f6', acc: '#5fb3a1' }, dailyLevel: '', setCols: [0, 1, 2], diff: { sudoku: 'normal', kings: 'normal', mines: 'normal', atoms: 'normal', towers: 'normal', sets: 'normal' } };
 const saved = store.get('settings', {});
 const S = Object.assign({}, DEF, saved, { diff: Object.assign({}, DEF.diff, saved.diff || {}) });
 const SETS_LEVELS = ['easy', 'normal', 'hard'];
@@ -530,7 +531,7 @@ const T = {
 
   // Settings
   settings: 'Settings', display: 'Display', theme: 'Theme', sound: 'Sound', music: 'Background music', sfx: 'Sound effects',
-  gameplay: 'Gameplay', timer: 'Timer', markWrong: 'Mark wrong answers', mineAnim: 'Animations', mineAnimInfo: 'Turn off to reveal squares instantly',
+  undo: 'Undo', swipeBack: 'Swipe to go back', swipeBackInfo: 'Swipe in from the left edge to go back a page', gameplay: 'Gameplay', timer: 'Timer', markWrong: 'Mark wrong answers', mineAnim: 'Animations', mineAnimInfo: 'Turn off to reveal squares instantly',
   autoDot: 'Auto dots', autoDotInfo: 'Dots every square that can’t have a king once you place one', lives: 'Lives', livesInfo: '3 wrong guesses and the puzzle is over. Starts with your next puzzle.',
   setColours: 'Colours', coloursTitle: 'Colours', colourN: 'Colour {n}', numberN: 'Number {n}', defaultColour: 'Default', customColour: 'Custom',
   colourHelp: 'Tap a colour to change it.', matchAll: 'Use these colours in every game', matchAllNote: 'Copies these colours to Towers, Kings, Minesweeper and Sets (Sets uses the first three).', matched: 'Colours copied to every game',
@@ -837,6 +838,31 @@ screensEl.addEventListener('click', e => {
   const n = b.dataset.nav;
   if (n === 'back') pop(); else if (n === 'home') popToRoot(); else if (n === 'settings') push('settings'); else if (n === 'history') push('history'); else if (n === 'leaderboard') push('leaderboard');
 });
+
+// Optional: swipe in from the left edge to go back (Settings → Gameplay). The page follows your finger.
+(() => {
+  let t = null;
+  const top = () => stack[stack.length - 1];
+  screensEl.addEventListener('touchstart', e => {
+    t = null;
+    if (!S.swipeBack || stack.length < 2 || e.touches.length > 1 || !$('#sheetRoot').hidden) return;
+    const x = e.touches[0].clientX - screensEl.getBoundingClientRect().left;
+    if (x < 24) t = { x: e.touches[0].clientX, y: e.touches[0].clientY, dx: 0, on: false };
+  }, { passive: true });
+  screensEl.addEventListener('touchmove', e => {
+    if (!t) return;
+    const dx = e.touches[0].clientX - t.x, dy = e.touches[0].clientY - t.y;
+    if (!t.on) { if (Math.abs(dy) > 12 && Math.abs(dy) > dx) { t = null; return; } if (dx < 10) return; t.on = true; top().el.style.transition = 'none'; }
+    e.preventDefault(); t.dx = Math.max(0, dx); top().el.style.transform = `translateX(${t.dx}px)`;
+  }, { passive: false });
+  const end = () => {
+    if (!t || !t.on) { t = null; return; }
+    const el = top().el, go = t.dx > Math.min(110, screensEl.clientWidth * .3); t = null;
+    el.style.transition = ''; el.style.transform = '';
+    if (go) { const b = $('[data-nav=back]', el); b ? b.click() : pop(); }
+  };
+  screensEl.addEventListener('touchend', end); screensEl.addEventListener('touchcancel', end);
+})();
 
 /* ---------- SAVED GAMES AND HISTORY ---------- */
 // One unfinished game is kept per puzzle type, so you can pick it back up after leaving the app.
@@ -1208,7 +1234,7 @@ SCREENS.settings = scr => {
   scr.el.innerHTML = `${bar(btnBack)}<div class="scroll"><div class="h1">${T.settings}</div>
     <div class="glabel">${T.display}</div><div class="group"><button class="row" data-go="theme"><span class="lab">${T.theme}</span><span class="val" id="themeVal"></span>${I.chev}</button></div>
     <div class="glabel">${T.sound}</div><div class="group">${sw('music', T.music)}${sw('sfx', T.sfx)}</div>
-    <div class="glabel">${T.gameplay}</div><div class="group">${sw('timer', T.timer)}${sw('markWrong', T.markWrong)}</div>
+    <div class="glabel">${T.gameplay}</div><div class="group">${sw('timer', T.timer)}${sw('markWrong', T.markWrong)}${sw('swipeBack', T.swipeBack, T.swipeBackInfo)}</div>
     <div class="glabel">${T.dailys}</div><div class="group"><button class="row" data-dlv><span class="lab">${T.dailyLevelRow}</span><span class="val" id="dlvVal"></span>${I.chev}</button></div>
     ${lbOn() ? `<div class="glabel">${T.leaderboard}</div><div class="group"><button class="row" data-name><span class="lab">${T.lbNameRow}</span><span class="val" id="nameVal"></span>${I.chev}</button></div>` : ''}
     ${['sudoku', 'kings', 'mines', 'atoms', 'towers', 'sets'].map(dRow).join('')}
@@ -1907,7 +1933,7 @@ ENGINES.towers = ctx => {
   const board = document.createElement('div'); board.className = 'tower'; board.style.setProperty('--p', P); board.style.setProperty('--pc', Math.ceil(P / 2));
   ctx.wrap.appendChild(board);
   ctx.extra.innerHTML = `<div class="tpal">${range(K).map(k => `<button class="tcol" data-k="${k}" style="--c:${gameColour('towers', k)}" aria-label="${tname(k)}"></button>`).join('')}</div>
-    <button class="btn primary tcheck" data-check>${T.check}</button>`;
+    <div class="tact"><button class="btn ghost tundo" data-tundo>${I.undo}${T.undo}</button><button class="btn primary tcheck" data-check>${T.check}</button></div>`;
   ctx.fr.innerHTML = `<div class="tkey"><i class="pk ex"></i>${T.rightSpot} <i class="pk near"></i>${T.wrongSpot}</div>`;
   const pal = $('.tpal', ctx.extra);
 
@@ -1959,13 +1985,15 @@ ENGINES.towers = ctx => {
   });
   pal.addEventListener('click', e => { const b = e.target.closest('[data-k]'); if (b) pick(+b.dataset.k); });
   $('[data-check]', ctx.extra).onclick = check;
+  const undo = () => { const h = hist.pop(); if (!h) return toast(T.nothingToUndo); cur = h.cur; slot = h.slot; render(); };
+  $('[data-tundo]', ctx.extra).onclick = () => { undo(); sfx.soft(); };
   render();
   return {
     render,
     code: () => ({ K, G, code }),
     state: () => ({ rows, cur, hints: [...hints] }),
     attempts: () => rows.length,
-    undo() { const h = hist.pop(); if (!h) return toast(T.nothingToUndo); cur = h.cur; slot = h.slot; render(); },
+    undo,
     hint() {
       if (done || rows.length >= G) return;
       const free = range(P).filter(i => !hints.has(i));
