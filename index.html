@@ -75,6 +75,10 @@ body{background:var(--page);color:var(--page-fg);font:15px/1.4 var(--ui);-webkit
 
 /* ---------- navigation stack ---------- */
 .screens{position:absolute;inset:0;overflow:hidden}
+/* Room for a video: the screen's content moves out of the strip a floating video covers */
+.app[data-pip="top"]{--top:280px !important}.app[data-pip="bottom"]{--bot:266px !important}
+.pipzone{display:none}.app[data-pip] .pipzone{position:absolute;left:14px;right:14px;z-index:5;pointer-events:none;border:2px dashed var(--line);border-radius:28px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:14px;font-weight:600}
+.app[data-pip="top"] .pipzone{top:60px;height:206px}.app[data-pip="bottom"] .pipzone{bottom:16px;height:236px}
 .screen{position:absolute;inset:0;display:flex;flex-direction:column;padding-top:var(--top);padding-bottom:var(--bot);background:var(--bg);transition:transform .34s cubic-bezier(.2,.8,.2,1),filter .34s,background .3s;will-change:transform}
 .screen.enter{transform:translateX(100%)}
 .screen.behind{transform:translateX(-22%);filter:brightness(.7)}
@@ -407,6 +411,7 @@ button.tb:active{transform:scale(.92)}
   <div class="app" id="app">
     <div class="sb">9:41</div>
     <div class="screens" id="screens"></div>
+    <div class="pipzone" aria-hidden="true">Video space</div>
     <div class="sheetRoot" id="sheetRoot" hidden></div>
     <div class="toast" id="toast"></div>
   </div>
@@ -452,7 +457,7 @@ const store = {
   get(k, d) { try { const v = localStorage.getItem('puzzles.' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
   set(k, v) { try { localStorage.setItem('puzzles.' + k, JSON.stringify(v)); } catch (e) {} }
 };
-const DEF = { allow5050: true, mineCustom: { C: 12, R: 16, M: 40 }, theme: 'dark', accent: 'purple', music: false, sfx: true, timer: true, markWrong: true, mineAnim: true, livesKings: false, autoDot: true, swipeBack: false, livesSets: false, colors: {}, accentHex: '#8b5cf6', customTheme: { bg: '#18222b', surface: '#22303b', text: '#eef3f6', acc: '#5fb3a1' }, dailyLevel: '', setCols: [0, 1, 2], diff: { sudoku: 'normal', kings: 'normal', mines: 'normal', atoms: 'normal', towers: 'normal', sets: 'normal' } };
+const DEF = { allow5050: true, mineCustom: { C: 12, R: 16, M: 40 }, theme: 'dark', accent: 'purple', music: false, sfx: true, timer: true, markWrong: true, mineAnim: true, livesKings: false, autoDot: true, swipeBack: false, pip: '', livesSets: false, colors: {}, accentHex: '#8b5cf6', customTheme: { bg: '#18222b', surface: '#22303b', text: '#eef3f6', acc: '#5fb3a1' }, dailyLevel: '', setCols: [0, 1, 2], diff: { sudoku: 'normal', kings: 'normal', mines: 'normal', atoms: 'normal', towers: 'normal', sets: 'normal' } };
 const saved = store.get('settings', {});
 const S = Object.assign({}, DEF, saved, { diff: Object.assign({}, DEF.diff, saved.diff || {}) });
 const SETS_LEVELS = ['easy', 'normal', 'hard'];
@@ -461,6 +466,7 @@ if ('lives' in S) { if (S.lives) S.livesKings = S.livesSets = true; delete S.liv
 function save() { store.set('settings', S); applyTheme(); }
 function applyTheme() {
   app.dataset.theme = S.theme; app.dataset.accent = S.accent;
+  if (S.pip) app.dataset.pip = S.pip; else delete app.dataset.pip;
   THEME_VARS.forEach(v => app.style.removeProperty(v)); delete app.dataset.tone;
   if (S.theme === 'custom') { const c = customVars(S.customTheme); app.dataset.tone = c.tone; Object.entries(c.vars).forEach(([k, v]) => app.style.setProperty(k, v)); }
   else if (S.accent === 'custom' && S.theme !== 'love') { app.style.setProperty('--acc', S.accentHex); app.style.setProperty('--acc-ink', inkFor(S.accentHex)); }
@@ -531,7 +537,7 @@ const T = {
 
   // Settings
   settings: 'Settings', display: 'Display', theme: 'Theme', sound: 'Sound', music: 'Background music', sfx: 'Sound effects',
-  undo: 'Undo', swipeBack: 'Swipe to go back', swipeBackInfo: 'Swipe in from the left edge to go back a page', gameplay: 'Gameplay', timer: 'Timer', markWrong: 'Mark wrong answers', mineAnim: 'Animations', mineAnimInfo: 'Turn off to reveal squares instantly',
+  undo: 'Undo', pipRow: 'Room for a video', pipHelp: 'Keeps part of the screen clear for a video playing over the app, so everything stays in reach.', pipOff: 'Off', pipTop: 'Top', pipBottom: 'Bottom', swipeBack: 'Swipe to go back', swipeBackInfo: 'Swipe in from the left edge to go back a page', gameplay: 'Gameplay', timer: 'Timer', markWrong: 'Mark wrong answers', mineAnim: 'Animations', mineAnimInfo: 'Turn off to reveal squares instantly',
   autoDot: 'Auto dots', autoDotInfo: 'Dots every square that can’t have a king once you place one', lives: 'Lives', livesInfo: '3 wrong guesses and the puzzle is over. Starts with your next puzzle.',
   setColours: 'Colours', coloursTitle: 'Colours', colourN: 'Colour {n}', numberN: 'Number {n}', defaultColour: 'Default', customColour: 'Custom',
   colourHelp: 'Tap a colour to change it.', matchAll: 'Use these colours in every game', matchAllNote: 'Copies these colours to Towers, Kings, Minesweeper and Sets (Sets uses the first three).', matched: 'Colours copied to every game',
@@ -1232,7 +1238,7 @@ SCREENS.settings = scr => {
   const sw = (k, label, info) => `<label class="row"><span class="lab">${label}${info ? `<small>${info}</small>` : ''}</span><input type="checkbox" class="sw" id="sw-${k}" data-k="${k}"></label>`;
   const dRow = g => `<div class="glabel">${GAMES[g].name}</div><div class="group"><button class="row" data-d="${g}"><span class="lab">${T.difficultyTitle}</span><span class="val" data-dv="${g}"></span>${I.chev}</button>${g === 'mines' ? sw('allow5050', T.allow5050, T.allow5050Info) + sw('mineAnim', T.mineAnim, T.mineAnimInfo) : ''}${COLOR_GAMES[g] ? `<button class="row" data-cols="${g}"><span class="lab">${T.coloursTitle}</span><span class="val scols" data-cv="${g}"></span>${I.chev}</button>` : ''}${g === 'kings' ? sw('autoDot', T.autoDot, T.autoDotInfo) + sw('livesKings', T.lives, T.livesInfo) : ''}${g === 'sets' ? sw('livesSets', T.lives, T.livesInfo) : ''}</div>`;
   scr.el.innerHTML = `${bar(btnBack)}<div class="scroll"><div class="h1">${T.settings}</div>
-    <div class="glabel">${T.display}</div><div class="group"><button class="row" data-go="theme"><span class="lab">${T.theme}</span><span class="val" id="themeVal"></span>${I.chev}</button></div>
+    <div class="glabel">${T.display}</div><div class="group"><button class="row" data-go="theme"><span class="lab">${T.theme}</span><span class="val" id="themeVal"></span>${I.chev}</button><button class="row" data-pip><span class="lab">${T.pipRow}</span><span class="val" id="pipVal"></span>${I.chev}</button></div>
     <div class="glabel">${T.sound}</div><div class="group">${sw('music', T.music)}${sw('sfx', T.sfx)}</div>
     <div class="glabel">${T.gameplay}</div><div class="group">${sw('timer', T.timer)}${sw('markWrong', T.markWrong)}${sw('swipeBack', T.swipeBack, T.swipeBackInfo)}</div>
     <div class="glabel">${T.dailys}</div><div class="group"><button class="row" data-dlv><span class="lab">${T.dailyLevelRow}</span><span class="val" id="dlvVal"></span>${I.chev}</button></div>
@@ -1240,7 +1246,8 @@ SCREENS.settings = scr => {
     ${['sudoku', 'kings', 'mines', 'atoms', 'towers', 'sets'].map(dRow).join('')}
     <p class="note">${T.savedNote}</p></div>`;
   scr.refresh = () => {
-    $('#themeVal', scr.el).textContent = S.theme === 'love' ? T.loveName : `${S.theme === 'dark' ? T.dark : T.light} · ${T.accents[S.accent]}`;
+    $('#themeVal', scr.el).textContent = S.theme === 'love' ? T.loveName : S.theme === 'custom' ? T.customTheme : `${S.theme === 'dark' ? T.dark : T.light} · ${S.accent === 'custom' ? T.customAccent : T.accents[S.accent]}`;
+    $('#pipVal', scr.el).textContent = { '': T.pipOff, top: T.pipTop, bottom: T.pipBottom }[S.pip];
     $$('.sw', scr.el).forEach(i => i.checked = !!S[i.dataset.k]);
     $$('[data-dv]', scr.el).forEach(v => v.textContent = DLABEL[S.diff[v.dataset.dv]]);
     const nv = $('#nameVal', scr.el); if (nv) nv.textContent = S.playerName || T.lbNameNone;
@@ -1258,9 +1265,19 @@ SCREENS.settings = scr => {
     if (e.target.closest('[data-name]')) askName(scr.refresh);
     const d = e.target.closest('[data-d]'); if (d) push('difficulty', { game: d.dataset.d });
     if (e.target.closest('[data-dlv]')) pickDailyLevel(scr.refresh);
+    if (e.target.closest('[data-pip]')) pickPip(scr.refresh);
     const cg = e.target.closest('[data-cols]'); if (cg) push('colours', { game: cg.dataset.cols });
   });
 };
+// iPhone can't tell the app when a video floats over it, so this leaves a clear strip where the video usually sits
+function pickPip(after) {
+  const opts = [['', T.pipOff], ['top', T.pipTop], ['bottom', T.pipBottom]];
+  sheet(`<h2>${T.pipRow}</h2><p class="m">${T.pipHelp}</p><div class="group">${opts.map(([v, l]) => `<button class="row${S.pip === v ? ' on' : ''}" data-v="${v}"><span class="lab">${l}</span>${I.check.replace('<svg', '<svg class="tick"')}</button>`).join('')}</div>
+    <div class="btns"><button class="btn ghost" data-x>${T.done}</button></div>`, (el, close) => {
+    el.addEventListener('click', e => { const b = e.target.closest('[data-v]'); if (!b) return; S.pip = b.dataset.v; save(); sfx.tap(); $$('[data-v]', el).forEach(x => x.classList.toggle('on', x === b)); after(); });
+    $('[data-x]', el).onclick = close;
+  });
+}
 function pickDailyLevel(after) {
   const opts = [['', T.noPref], ...DAILY_LEVELS.map(lv => [lv, DLABEL[lv]])];
   sheet(`<h2>${T.dailyLevelRow}</h2><p class="m">${T.dailyLevelHelp}</p><div class="group">${opts.map(([v, l]) => `<button class="row${S.dailyLevel === v ? ' on' : ''}" data-v="${v}"><span class="lab">${l}</span>${I.check.replace('<svg', '<svg class="tick"')}</button>`).join('')}</div>
@@ -1988,6 +2005,7 @@ ENGINES.towers = ctx => {
   const undo = () => { const h = hist.pop(); if (!h) return toast(T.nothingToUndo); cur = h.cur; slot = h.slot; render(); };
   $('[data-tundo]', ctx.extra).onclick = () => { undo(); sfx.soft(); };
   render();
+  setTimeout(() => { board.scrollTop = board.scrollHeight; }, 60);   // after layout, so a short screen opens on the row you're filling
   return {
     render,
     code: () => ({ K, G, code }),
