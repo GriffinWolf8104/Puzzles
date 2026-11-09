@@ -502,6 +502,11 @@ button.tb:active{transform:scale(.92)}
 .chrvinfo .grow{flex:1;min-width:0}.rvbetter{flex:none;font:inherit;font-size:13px;font-weight:700;padding:7px 12px;border-radius:99px;background:#2fb36d;color:#fff}.rvbetter.on{background:var(--surface2);color:var(--text)}.rvgood .last::before{background:#2fb36d;opacity:.45}.chrvex{display:none;background:var(--surface);border-radius:16px;padding:12px 14px;font-size:14.5px;line-height:1.4;margin:2px 0 4px}.chrvex.on{display:block}.chrvex p{margin:0}
 .app .charrow{width:100%;height:100%;stroke:none}
 .chrvex ul{margin:4px 0 8px;padding-left:20px}.chrvex li{margin:3px 0}.chrvex p{margin:0 0 6px}.ezv{font-weight:800}.ezv.best{color:#2fb36d}.ezv.good{color:#5b9bd5}.ezv.inacc{color:#e8b625}.ezv.mistake{color:#f08a3c}.ezv.blunder{color:#ef5350}.ezh{display:block;font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-top:8px}.ezbest{border-top:1px solid var(--line);margin-top:8px;padding-top:4px}.ezbest .ezh{color:#2fb36d}.ezpts{font-weight:700;margin-top:6px!important}.ezpts .m{display:block;font-weight:500;font-size:13px;color:var(--muted)}.chrv.ez .rvm{font-size:13px;padding:6px 6px}
+.chrv{overflow-y:auto;-webkit-overflow-scrolling:touch}.chrv>*{flex-shrink:0}.chrvlist{flex:none;overflow:visible;min-height:0}
+.chrvsum{align-items:stretch}.rvs{justify-content:center;text-align:center;line-height:1.15;padding:6px 2px}
+.landing{overflow-y:auto}.landing .hero{flex:1 0 auto;padding:8px 0}
+@media (max-height:700px){.landing .hero{gap:10px}.landing .hero .art{width:112px;height:112px;border-radius:30px}.landing h1{font-size:38px}}
+@media (max-height:560px){.landing .hero .art{width:84px;height:84px;border-radius:24px}.landing h1{font-size:32px}}
 
 /* hint pop-up at the bottom */
 .hintcard{position:absolute;left:12px;right:12px;bottom:calc(var(--bot) + 10px);margin:0;z-index:30;padding:14px 12px 14px 16px;border-radius:22px;box-shadow:0 14px 40px rgba(0,0,0,.4);animation:hintup .32s cubic-bezier(.2,.8,.2,1)}
@@ -3380,6 +3385,31 @@ const CHESS_PUZZLES = ["5k2/3PR3/7p/4Q3/5K2/8/6PP/8 w - - 3 65|m|d7d8q",
 "8/ppp3pp/8/1P1kp2P/3bbp2/PK6/2r1P1P1/5B1R b - - 0 32|m|c2b2 b3a4 e4c2 a4a5 d4b6",
 "8/ppp4p/8/1P2kb2/P3pp2/K1b5/1r2P1P1/5B1R b - - 3 41|m|f5e6 h1h5 e5d6 h5d5 e6d5 a4a5 b2a2",
 "8/7p/3k4/1p2bb2/8/1K2p2B/2p1P3/8 b - - 1 62|m|d6c5 h3f5 c2c1q f5h7 c1b2",
+"8/1pp3pp/p3k1r1/3qR3/8/P6P/6r1/4R2K b - - 0 44|m|d5e5 e1e5 e6e5 h3h4 g2g4 h4h5 g4h4",
+"1Q6/6p1/p7/2p1k2p/6rP/8/1r6/7K b - - 0 55|m|b2b8 h1h2 b8b3 h2h1 b3h3",
+"8/p1p5/2P4p/1b1pkP2/6P1/7P/3r4/6K1 b - - 4 43|m|e5f4 f5f6 f4g3 f6f7 d2d1",
+"5r1k/ppp3pp/4Q3/4Np2/3r1B2/P1p3P1/2q2P1P/4RRK1 w - - 1 26|m|e5f7 h8g8 f7h6 g8h8 e6g8 f8g8 h6f7",
+"5r1k/p1Q3pp/1p6/5p2/r1N5/Pqp1B1P1/5P1P/4RRK1 w - - 3 32|m|e3d4 f8g8 c7g7 g8g7 e1e8",
+"3r2k1/Q5pp/1p6/4Np2/3B4/2p3P1/2q2P1P/1R3RK1 w - - 1 40|m|a7f7 g8h8 e5g6 h7g6 f7g7",
+"8/6Qp/3N4/4q2k/8/6P1/5P1P/5RK1 w - - 0 52|m|g3g4 h5h4 g7h6 h4g4 f2f3",
+"rk1r4/pp3Q2/4pp2/8/1npN4/4B3/PPP2PPP/R2R2K1 w - - 2 25|m|d4e6 d8d1 a1d1 b4c2 f7e8",
+"k2r4/4rQ2/ppNB1p2/3R4/4p3/7P/PPP2PP1/4R1K1 w - - 5 41|m|f7e7 d8d7 e7d7 f6f5 d7c8",
+"1r4k1/ppR2Rr1/1q3p1p/4pQ2/4P1P1/7P/1P3PB1/1K6 w - - 1 37|m|f7g7 g8f8 c7f7 f8e8 f5d7",
+"1Q4k1/2p2p1p/p1nq4/4p3/3pPp2/p2P1N1b/2P1BPP1/1K1RR3 b - - 0 28|b|c6b8 g2h3 d6b4 b1c1 a3a2",
+"2r1r1k1/p1p2p2/4pp1B/3p4/3PbP2/P3P2P/1qR3P1/4R1K1 b - - 2 23|m|b2c2 e1e2 c2e2 f4f5 e2g2",
+"7k/2b3p1/6Qp/3Bp2P/5r2/8/1PP2PP1/3R2K1 w - - 7 58|m|g6e8 f4f8 e8f8 h8h7 f8g8",
+"8/3R2pk/p4p1p/2b5/6P1/P6n/4r3/7K b - - 3 44|m|c5g1 d7d2 e2d2 a3a4 d2h2",
+"8/6p1/4k2p/p7/3n4/4b1K1/5p2/8 b - - 5 79|m|f2f1q g3h4 f1g2 h4h5 g2g5",
+"5k2/8/8/4K3/5P2/7P/5P2/4R3 w - - 19 58|m|e5f6 f8g8 e1e8 g8h7 e8d8 h7h6 d8h8",
+"8/8/6P1/8/3K4/8/6k1/4Q3 w - - 3 79|m|g6g7 g2f3 g7g8q f3f4 e1e4",
+"6R1/3n1pp1/p2k3p/4p3/4P3/5P1P/1r1r2P1/6K1 b - - 9 54|m|d2g2 g1h1 g2h2 h1g1 h2d2 g8g7 b2b1",
+"8/8/p6p/3kpp2/4n3/8/5r2/7K b - - 11 73|m|f5f4 h1g1 f4f3 g1h1 e4g3 h1g1 f2g2",
+"8/2Q5/k7/8/3K4/7P/5P2/8 w - - 7 78|m|c7b8 a6a5 d4c5 a5a6 b8a8",
+"4r3/p5P1/P4B2/3kP2P/3p1K2/2pr1p2/5P2/2R5 w - - 1 62|b|h5h6 e8g8 h6h7 g8g7 f6g7 d3d1 c1d1",
+"r2qk3/p1p3p1/3bp3/2p2P2/1pP1P1p1/2N5/P1P1QK2/RR5r b q - 2 28|m|d8h4 f2e3 h4g3 e2f3 g3f3 e3d2 b4c3",
+"R7/p1pk2p1/3b1q2/2p5/2P1P1p1/2p5/P1P5/4K2R b - - 1 38|m|d6g3 e1d1 f6f3 d1c1 f3h1",
+"r4rk1/p1p2ppp/4p3/2b1P3/2P1pq2/P1K5/2P3PP/6R1 b - - 1 24|m|f4e3 c3b2 e3a3 b2b1 a8b8",
+"6k1/6pp/B3pn2/4q3/3p4/7Q/PPr3r1/1R1R3K b - - 1 33|m|g2h2 h1g1 e5g5 g1f1 g5f4 h3f3 h2h1",
 "8/4k3/8/3Qp2p/1p1bBP2/8/PPP3PP/1K3R2 w - - 0 48|m|f4e5 d4f2 d5d6 e7f7 f1f2 f7e8 e4c6",
 "1rb2k2/ppp2P2/2n1p3/1B1p2N1/3P4/2b1P2P/PPP3P1/R4RK1 w - - 0 19|m|g5h7 f8g7 f7f8q g7g6 f8f7 g6h6 f1f6",
 "1k6/8/4NP2/2KB4/6P1/P7/1PP2P2/8 w - - 1 49|m|f6f7 b8a7 f7f8q a7a6 f8a8",
@@ -3452,7 +3482,31 @@ const CHESS_PUZZLES = ["5k2/3PR3/7p/4Q3/5K2/8/6PP/8 w - - 3 65|m|d7d8q",
 "3r1r1k/2p3pp/p7/Qp2P3/8/1P1B3q/2P5/R3R1K1 b - - 3 40|m|h3g3 g1h1 f8f2 a5c7 g3g2",
 "3Q4/5p2/7p/3K1k2/P7/7P/1P3N2/8 w - - 1 62|m|f2e4 f5f4 d8b6 h6h5 b6f2",
 "6Q1/2pk4/4b3/3pK3/2pP4/2P5/8/8 w - - 0 56|m|g8e6 d7d8 e5d5 c7c5 d5c6 c5d4 e6d7",
-"8/8/3Q4/6k1/1p6/P2B4/1P2K3/8 w - - 11 68|m|e2f3 b4a3 d6g6 g5h4 g6h6"];
+"8/8/3Q4/6k1/1p6/P2B4/1P2K3/8 w - - 11 68|m|e2f3 b4a3 d6g6 g5h4 g6h6",
+"8/2p4R/p4b2/3k4/5Pb1/2r4p/8/6K1 b - - 11 70|m|f6d4 g1h2 c3c2 h2g3 c2g2 g3h4 d4f6",
+"r2qk2r/ppp2ppp/2nbp3/3P1b2/6P1/2N1Pp2/PPPB1P1P/R2Q1RK1 b kq - 0 10|m|d8h4 h2h3 h4h3 d5c6 h3g2",
+"r3k2r/ppp2ppp/3b4/3p1q2/1n1Q4/2N1Pp2/PPP2P1P/R1B2R1K b kq - 3 14|m|f5h3 d4e5 d6e5 c1d2 h3h2",
+"7k/2p2p2/5q1p/8/3p4/6R1/r5P1/6K1 b - - 1 35|m|a2a1 g1h2 f6e5 h2h3 e5h5",
+"4r2r/4Pk2/3Q3p/8/8/P6P/2P3P1/4R1KR w - - 0 70|m|e1f1 f7g7 d6f6 g7g8 f6f7",
+"2r5/6pp/p3p3/K2pP3/3Pk3/4B2P/1r3P2/8 b - - 15 58|m|c8b8 e3c1 b2a2 c1a3 a2a3",
+"2r5/6pp/p3p3/K2pP3/3Pk2P/4B3/1r3P2/8 b - - 2 61|m|c8b8 e3c1 b2a2 c1a3 a2a3",
+"8/1p6/1P2k2p/8/3n4/5p2/7K/1r6 b - - 3 70|m|d4e2 h2h3 b1b4 h3h2 b4h4",
+"8/p1p2Qpp/5p2/3P2k1/3P4/5P2/1P2KPr1/6q1 b - - 14 41|m|g1f2 e2d3 f2c2 d3e3 c2e2",
+"8/5p1p/7P/3pk3/R2b4/P3p3/5rP1/4K3 b - - 3 51|m|d4c3 e1d1 e3e2 d1c2 e2e1q c2b3 f2b2",
+"8/k1p3p1/prQ1B2p/1pN1P3/5B2/2P5/P1P2PP1/3R1RK1 w - - 3 32|m|c6c7 a7a8 e6d5 b6b7 c7b7",
+"8/2p5/8/4k3/2q5/Kp6/8/8 b - - 1 77|m|c7c5 a3b2 c4c2 b2a3 c2a2",
+"6k1/p1p2pp1/4p3/5q2/1B6/P5b1/KP1r4/8 b - - 3 37|m|f5d5 a2b1 d2d1 b1c2 d5d3",
+"k7/3Q4/8/8/4K3/7P/P5P1/8 w - - 5 62|m|e4d5 a8b8 d5c6 b8a8 d7b7",
+"2k5/4Q3/8/8/4K3/7P/P5P1/8 w - - 13 66|m|e4d5 c8b8 d5c6 b8c8 e7e8",
+"1r2b3/pp3N1B/k1nQ4/3Np3/3P2Pq/8/PPP2P2/R1B1R1K1 w - - 1 27|m|d6a3 c6a5 d5c7 a6b6 a3c5",
+"8/2R5/8/8/4K3/PP5P/8/5k2 w - - 16 77|m|e4f3 f1g1 c7c1 g1h2 h3h4 h2h3 c1h1",
+"8/8/2Q5/8/1k2K3/1P6/8/8 w - - 1 72|m|e4d3 b4b3 c6b7 b3a4 d3c4 a4a5 b7a7",
+"8/8/8/1P6/3K4/2Q5/8/1k6 w - - 1 77|m|c3d2 b1a1 d4c3 a1b1 d2b2",
+"5rk1/R1p5/P2b4/8/3P2KP/8/5rP1/8 b - - 0 50|m|f2g2 g4h3 g2g3 h3h2 g3g5 h2h3 f8f3",
+"7r/2p2kpp/2P1p3/8/Q7/6KP/P4P2/3r3q b - - 7 44|m|d1d3 g3f4 h1f3 f4g5 h7h6 g5h4 f3h3",
+"1Rk5/2Pn1pp1/p2P4/8/4P3/8/5r1p/1K6 b - - 1 71|m|d7b8 c7b8q c8b8 d6d7 h2h1q",
+"3Q4/2r5/pb3pkp/8/6PP/8/2P4K/8 w - - 1 50|b|d8g8 c7g7 h4h5 g6g5 g8g7 g5f4 g7f6",
+"8/2R5/4bp2/4K1p1/7p/3k4/8/4Q3 w - - 0 60|m|e5e6 d3d4 e1c3 d4e4 c7c4"];
 const puzzleOf = (s, i) => { const [fen, k, mv] = s.split('|'), moves = mv.split(' '); return { i, fen, kind: k === 'm' ? 'mate' : 'best', n: Math.ceil(moves.length / 2), moves }; };
 function pickChessPuzzle(daily) {
   const all = CHESS_PUZZLES.map(puzzleOf);
@@ -3707,7 +3761,6 @@ SCREENS.chessreview = scr => {
     const txt = !easy() || !at ? '' : mine(at - 1) ? (r ? ezBreakdown(r) : '') : ezBot(bots[at - 1]);
     ex.innerHTML = txt; ex.classList.toggle('on', !!txt);
     drawList();
-    const on = $('.rvm.on', list); if (on) on.scrollIntoView({ block: 'nearest' });
   }
   // Check one move at a time in the background so the screen stays responsive
   const an = CH.fromFEN(CH.START); let ai = 0;
