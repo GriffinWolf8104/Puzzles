@@ -507,6 +507,7 @@ button.tb:active{transform:scale(.92)}
 .landing{overflow-y:auto}.landing .hero{flex:1 0 auto;padding:8px 0}
 @media (max-height:700px){.landing .hero{gap:10px}.landing .hero .art{width:112px;height:112px;border-radius:30px}.landing h1{font-size:38px}}
 @media (max-height:560px){.landing .hero .art{width:84px;height:84px;border-radius:24px}.landing h1{font-size:32px}}
+.chs.pre::before{content:'';position:absolute;inset:0;background:#e0524f;opacity:.42}
 
 /* hint pop-up at the bottom */
 .hintcard{position:absolute;left:12px;right:12px;bottom:calc(var(--bot) + 10px);margin:0;z-index:30;padding:14px 12px 14px 16px;border-radius:22px;box-shadow:0 14px 40px rgba(0,0,0,.4);animation:hintup .32s cubic-bezier(.2,.8,.2,1)}
@@ -592,7 +593,7 @@ const store = {
   get(k, d) { try { const v = localStorage.getItem('puzzles.' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
   set(k, v) { try { localStorage.setItem('puzzles.' + k, JSON.stringify(v)); } catch (e) {} }
 };
-const DEF = { allow5050: true, mineCustom: { C: 12, R: 16, M: 40 }, theme: 'dark', accent: 'purple', music: false, sfx: true, timer: true, markWrong: true, mineAnim: true, livesKings: false, autoDot: true, pencilHl: true, mineHold: true, order: ['atoms', 'sudoku', 'mines', 'kings', 'towers', 'sets', 'chess'], chessSet: 'normal', chessUndo: true, chessTurn: false, chessEasy: false, chessSide: 'r', homeDaily: 'big', homeCont: 'big', swipeBack: false, pip: '', livesSets: false, colors: {}, accentHex: '#8b5cf6', customTheme: { bg: '#18222b', surface: '#22303b', text: '#eef3f6', acc: '#5fb3a1' }, dailyLevel: '', setCols: [0, 1, 2], diff: { sudoku: 'normal', kings: 'normal', mines: 'normal', atoms: 'normal', towers: 'normal', sets: 'normal', chess: 'c400' } };
+const DEF = { allow5050: true, mineCustom: { C: 12, R: 16, M: 40 }, theme: 'dark', accent: 'purple', music: false, sfx: true, timer: true, markWrong: true, mineAnim: true, livesKings: false, autoDot: true, pencilHl: true, mineHold: true, order: ['atoms', 'sudoku', 'mines', 'kings', 'towers', 'sets', 'chess'], chessSet: 'normal', chessUndo: true, chessTurn: false, chessEasy: false, chessPremove: true, chessSide: 'r', homeDaily: 'big', homeCont: 'big', swipeBack: false, pip: '', livesSets: false, colors: {}, accentHex: '#8b5cf6', customTheme: { bg: '#18222b', surface: '#22303b', text: '#eef3f6', acc: '#5fb3a1' }, dailyLevel: '', setCols: [0, 1, 2], diff: { sudoku: 'normal', kings: 'normal', mines: 'normal', atoms: 'normal', towers: 'normal', sets: 'normal', chess: 'c400' } };
 const saved = store.get('settings', {});
 const S = Object.assign({}, DEF, saved, { diff: Object.assign({}, DEF.diff, saved.diff || {}) });
 const SETS_LEVELS = ['easy', 'normal', 'hard'];
@@ -661,7 +662,7 @@ const T = {
     chess: { name: 'Chess', short: 'Chess' },
   },
   variants: { classic: 'Classic', killer: 'Killer', samurai: 'Samurai', jigsaw: 'Jigsaw' },
-  difficulty: { beginner: 'Beginner', easy: 'Easy', normal: 'Normal', hard: 'Hard', expert: 'Expert', insane: 'Insane', custom: 'Custom', puzzle: 'Puzzle', friend: 'Friend',
+  difficulty: { beginner: 'Beginner', easy: 'Easy', normal: 'Normal', hard: 'Hard', expert: 'Expert', insane: 'Insane', custom: 'Custom', puzzle: 'Puzzle', friend: 'Friend', local: 'Two players',
     c100: 'Loki', c120: '100 Elo', c250: '250 Elo', c400: '400 Elo', c600: '600 Elo', c800: '800 Elo', c1000: '1000 Elo', c1200: '1200 Elo', c1400: '1400 Elo', c1600: '1600 Elo', c1800: '1800 Elo', c2000: '2000 Elo', c2200: '2200 Elo' },
   difficultyInfo: {
     sudoku: { beginner: '46 clues', easy: '40 clues', normal: '32 clues', hard: '27 clues', expert: '24 clues', insane: 'As few clues as possible' },
@@ -802,6 +803,18 @@ const T = {
   chReview: 'Game review', chFirst: 'First move', chPrev: 'Previous move', chNext: 'Next move', chLast: 'Last move',
   chKinds: { best: 'Best', good: 'Good', inacc: 'Inaccuracy', mistake: 'Mistake', blunder: 'Blunder' },
   chKindsEasy: { best: 'Great move', good: 'Good', inacc: 'Okay', mistake: 'Mistake', blunder: 'Big mistake' },
+  chEasy: 'Beginner review', chEasyInfo: 'Game review explains each move in simple words',
+  chSeeBetter: 'Show better move', chSeeMine: 'Show my move', chBetterWas: 'Better was {m}',
+  chPcN: ['', 'pawn', 'knight', 'bishop', 'rook', 'queen', 'king'],
+  chExTook: 'You took their {p}.', chExBest: 'This is the move a strong player would pick.', chExMate: 'Checkmate. You won the game!',
+  chExMissedMate: 'You could have won right here! {m} was checkmate.', chExGetsMated: 'Careful: after this move they can checkmate you with {m}.',
+  chExHang: 'This leaves your {p} where they can take it with {m}. {b} keeps it safe.', chExSave: 'Your {p} was being attacked. {m} would have moved it to safety.',
+  chExWin: '{m} would have taken their {p}.', chExGood: 'A good move. {m} was a little better.', chExCheck: '{m} puts their king in check and keeps them busy.',
+  chExInacc: 'Not bad, but {m} gives you a slightly better position.', chExWorse: 'This makes your position weaker. {m} keeps your pieces working together better.',
+  chExBotTook: 'The bot took your {p}.', chExBotMate: 'Checkmate. The bot won this time.', chExShown: 'This is what {m} looks like. The green arrow shows where the piece goes.',
+  chKindsEasy: { best: 'Great move', good: 'Good', inacc: 'Okay', mistake: 'Mistake', blunder: 'Big mistake' },
+  clLocal: 'Play on this phone', clName: 'Chess on one phone', clVs: 'two players', clTurnW: 'White to move', clTurnB: 'Black to move', clWins: '{side} wins!', clWinsBody: 'Checkmate. Well played, {side}.', clNoHint: 'No hints when two people are playing.',
+  chPre: 'Premoves', chPreInfo: 'Line up moves while the other side is thinking. Make a move that isn\'t allowed to cancel them.',
   chEasy: 'Beginner review', chEasyInfo: 'Game review explains each move in simple words',
   chSeeBetter: 'Show better move', chSeeMine: 'Show my move', chBetterWas: 'Better was {m}',
   chPcN: ['', 'pawn', 'knight', 'bishop', 'rook', 'queen', 'king'],
@@ -1125,7 +1138,7 @@ const dLevel = id => (id && id.split(':')[1]) || 'normal';
 const BY_TRIES = new Set(['towers', 'sets', 'chess']);
 const triesText = n => n === 1 ? T.oneTry : fill(T.tries, { n });
 const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
-const gname = (g, v) => g === 'chess' ? (v === 'puzzle' ? T.chPuzzleName : v === 'friend' ? T.cfName : `${GAMES.chess.name} · ${T.chBot}`) : g === 'sudoku' ? `${VARIANTS[v || 'classic'].name} ${GAMES.sudoku.name}` : GAMES[g].name;
+const gname = (g, v) => g === 'chess' ? (v === 'puzzle' ? T.chPuzzleName : v === 'friend' ? T.cfName : v === 'local' ? T.clName : `${GAMES.chess.name} · ${T.chBot}`) : g === 'sudoku' ? `${VARIANTS[v || 'classic'].name} ${GAMES.sudoku.name}` : GAMES[g].name;
 const gart = (g, v) => art(g === 'sudoku' ? v || 'classic' : g);
 function latestSave() {
   let best = null;
@@ -1651,7 +1664,7 @@ SCREENS.history = scr => {
 /* ---------- SETTINGS ---------- */
 SCREENS.settings = scr => {
   const sw = (k, label, info) => `<label class="row"><span class="lab">${label}${info ? `<small>${info}</small>` : ''}</span><input type="checkbox" class="sw" id="sw-${k}" data-k="${k}"></label>`;
-  const dRow = g => `<div class="glabel">${GAMES[g].name}</div><div class="group"><button class="row" data-d="${g}"><span class="lab">${T.difficultyTitle}</span><span class="val" data-dv="${g}"></span>${I.chev}</button>${g === 'mines' ? sw('allow5050', T.allow5050, T.allow5050Info) + sw('mineAnim', T.mineAnim, T.mineAnimInfo) + sw('mineHold', T.mineHold, T.mineHoldInfo) : ''}${COLOR_GAMES[g] ? `<button class="row" data-cols="${g}"><span class="lab">${T.coloursTitle}</span><span class="val scols" data-cv="${g}"></span>${I.chev}</button>` : ''}${g === 'sudoku' ? sw('pencilHl', T.pencilHl, T.pencilHlInfo) : ''}${g === 'kings' ? sw('autoDot', T.autoDot, T.autoDotInfo) + sw('livesKings', T.lives, T.livesInfo) : ''}${g === 'sets' ? sw('livesSets', T.lives, T.livesInfo) : ''}${g === 'chess' ? `<button class="row" data-pcs><span class="lab">${T.chPieces}</span><span class="val" id="pcsVal"></span>${I.chev}</button>` + sw('chessUndo', T.chUndo, T.chUndoInfo) + sw('chessTurn', T.chTurn, T.chTurnInfo) + sw('chessEasy', T.chEasy, T.chEasyInfo) : ''}</div>`;
+  const dRow = g => `<div class="glabel">${GAMES[g].name}</div><div class="group"><button class="row" data-d="${g}"><span class="lab">${T.difficultyTitle}</span><span class="val" data-dv="${g}"></span>${I.chev}</button>${g === 'mines' ? sw('allow5050', T.allow5050, T.allow5050Info) + sw('mineAnim', T.mineAnim, T.mineAnimInfo) + sw('mineHold', T.mineHold, T.mineHoldInfo) : ''}${COLOR_GAMES[g] ? `<button class="row" data-cols="${g}"><span class="lab">${T.coloursTitle}</span><span class="val scols" data-cv="${g}"></span>${I.chev}</button>` : ''}${g === 'sudoku' ? sw('pencilHl', T.pencilHl, T.pencilHlInfo) : ''}${g === 'kings' ? sw('autoDot', T.autoDot, T.autoDotInfo) + sw('livesKings', T.lives, T.livesInfo) : ''}${g === 'sets' ? sw('livesSets', T.lives, T.livesInfo) : ''}${g === 'chess' ? `<button class="row" data-pcs><span class="lab">${T.chPieces}</span><span class="val" id="pcsVal"></span>${I.chev}</button>` + sw('chessUndo', T.chUndo, T.chUndoInfo) + sw('chessTurn', T.chTurn, T.chTurnInfo) + sw('chessPremove', T.chPre, T.chPreInfo) + sw('chessEasy', T.chEasy, T.chEasyInfo) : ''}</div>`;
   scr.el.innerHTML = `${bar(btnBack)}<div class="scroll"><div class="h1">${T.settings}</div>
     <div class="glabel">${T.display}</div><div class="group"><button class="row" data-go="theme"><span class="lab">${T.theme}</span><span class="val" id="themeVal"></span>${I.chev}</button><button class="row" data-pip><span class="lab">${T.pipRow}</span><span class="val" id="pipVal"></span>${I.chev}</button>
       <button class="row" data-order><span class="lab">${T.orderRow}</span>${I.chev}</button>
@@ -1954,7 +1967,7 @@ SCREENS.game = scr => {
   function start() {
     clearHint(); if (ro) ro.disconnect();
     wrap.innerHTML = ''; wrap.classList.remove('zoom'); extra.innerHTML = ''; extra.className = 'gextra'; extra.style.transform = ''; wrap.classList.remove('top'); fr.innerHTML = '';
-    diff = variant === 'friend' ? 'friend' : (imported || daily || variant === 'puzzle') && scr.params.diff ? scr.params.diff : variant === 'puzzle' ? 'puzzle' : S.diff[game]; scr.running = true;
+    diff = variant === 'friend' || variant === 'local' ? variant : (imported || daily || variant === 'puzzle') && scr.params.diff ? scr.params.diff : variant === 'puzzle' ? 'puzzle' : S.diff[game]; scr.running = true;
     const restore = scr.params.restore; scr.params.restore = null;
     scr.t = restore ? scr.params.t || 0 : 0; scr.hints = restore ? scr.params.h || 0 : 0; sid = Date.now(); finished = false;
     const make = () => ENGINES[game]({
@@ -1978,7 +1991,7 @@ SCREENS.game = scr => {
   function win() {
     scr.running = false; sfx.win(); record('win');
     const a = G.attempts && G.attempts();
-    setTimeout(() => sheet(`<h2>${G.review ? T.chWon : T.solved}</h2>${S.timer ? `<div class="bigtime">${fmt(scr.t)}</div>` : ''}${a ? `<p class="wtries">${triesText(a)}</p>` : ''}<p class="m">${gname(game, variant)}${diff === 'puzzle' || diff === 'friend' ? '' : ' · ' + DLABEL[diff]}</p>
+    setTimeout(() => sheet(`<h2>${G.review ? T.chWon : T.solved}</h2>${S.timer ? `<div class="bigtime">${fmt(scr.t)}</div>` : ''}${a ? `<p class="wtries">${triesText(a)}</p>` : ''}<p class="m">${gname(game, variant)}${diff === 'puzzle' || diff === 'friend' || diff === 'local' ? '' : ' · ' + DLABEL[diff]}</p>
       ${daily && lbOn() ? `<p class="m lbnote">${S.playerName ? '' : T.lbPostHelp}</p>` : ''}
       <div class="btns">${daily || variant === 'friend' ? '' : `<button class="btn primary" data-n>${G.review ? T.newGame : T.newPuzzle}</button>`}${daily && lbOn() ? `<button class="btn primary" data-l>${S.playerName ? T.leaderboard : T.lbPostMine}</button>` : ''}${G.review ? `<button class="btn outline" data-rv>${T.chReview}</button>` : ''}<button class="btn ${daily && !lbOn() ? 'primary' : 'ghost'}" data-h>${T.back}</button></div>`, (el, close) => {
         const nb = $('[data-n]', el); if (nb) nb.onclick = () => { close(); start(); };
@@ -2369,7 +2382,7 @@ function drawChess(el, st, o = {}) {
   for (let v = 0; v < 64; v++) {
     const s = o.flip ? 63 - v : v, c = el.children[v], p = st.b[s], f = s & 7, r = s >> 3;
     c.dataset.q = s;
-    c.className = `chs ${(f + r) % 2 ? 'd' : 'l'}${last.includes(s) ? ' last' : ''}${o.sel === s ? ' sel' : ''}${dots.has(s) ? (p || o.ep === s ? ' cap' : ' mv') : ''}${o.check === s ? ' chk' : ''}`;
+    c.className = `chs ${(f + r) % 2 ? 'd' : 'l'}${last.includes(s) ? ' last' : ''}${o.sel === s ? ' sel' : ''}${dots.has(s) ? (p || o.ep === s ? ' cap' : ' mv') : ''}${o.check === s ? ' chk' : ''}${o.pre && o.pre.includes(s) ? ' pre' : ''}`;
     c.innerHTML = (p ? pieceSVG(p) : '') + (v % 8 === 0 ? `<i class="co cr">${8 - r}</i>` : '') + (v >= 56 ? `<i class="co cf">${'abcdefgh'[f]}</i>` : '');
   }
   el.classList.toggle('stone', S.chessSet === 'wizards');
@@ -2409,27 +2422,49 @@ function askPromo(opts, col, done) {
   });
 }
 // Tap a piece, then a square. Pieces can be dragged too.
-function chessInput(board, canMove, getState, getCol, onMove, redraw) {
-  const ui = { sel: -1, dots: [] };
-  const pick = s => { const st = getState(); ui.sel = s; ui.moves = CH.legal(st).filter(m => CH.mFrom(m) === s); ui.dots = ui.moves.map(m => CH.mTo(m)); };
+function chessInput(board, canMove, getState, getCol, onMove, redraw, canPre) {
+  const ui = { sel: -1, dots: [], pre: [] };
+  const preOn = () => !!(canPre && S.chessPremove && !canMove() && canPre());
+  const myTurnFEN = st => { const f = CH.toFEN(st).split(' '), t = getCol() ? 'b' : 'w'; if (f[1] !== t) { f[1] = t; f[3] = '-'; } return CH.fromFEN(f.join(' ')); };
+  // Premoves: the board as it will look after your queued moves, with you to move
+  ui.view = () => {
+    const st = getState(); if (!ui.pre.length && st.turn === getCol()) return st;
+    let v = myTurnFEN(st);
+    for (const u of ui.pre) { const m = CH.fromUci(v, u); if (!m) break; CH.make(v, m); v = myTurnFEN(v); }
+    return v;
+  };
+  ui.shown = () => ui.pre.length && getState().turn !== getCol() ? ui.view() : getState();
+  ui.preSq = () => ui.pre.flatMap(u => [CH.sqOf(u.slice(0, 2)), CH.sqOf(u.slice(2, 4))]);
+  const cur = () => preOn() ? ui.view() : getState();
+  const pick = s => { const st = cur(); ui.sel = s; ui.moves = CH.legal(st).filter(m => CH.mFrom(m) === s); ui.dots = ui.moves.map(m => CH.mTo(m)); };
   const clear = () => { ui.sel = -1; ui.dots = []; ui.moves = []; };
+  const cancelPre = () => { if (ui.pre.length) { ui.pre = []; sfx.soft(); } };
   const tryTo = s => {
     const opts = (ui.moves || []).filter(m => CH.mTo(m) === s); if (!opts.length) return false;
+    if (preOn()) { const m = opts.find(o => (CH.mPromo(o) & 7) === CH.QUEEN) || opts[0]; ui.pre.push(CH.uci(m)); clear(); redraw(); return true; }
     clear(); if (dragging) board._noAnim = true; if (opts.length > 1) askPromo(opts, getCol(), m => { onMove(m); }); else onMove(opts[0]);
     return true;
+  };
+  // the other side has moved: play the first queued move if it is still allowed, otherwise drop them all
+  ui.runPre = () => {
+    if (!ui.pre.length) return;
+    const u = ui.pre.shift(), m = CH.fromUci(getState(), u); clear();
+    if (!m) { ui.pre = []; redraw(); return; }
+    redraw();
+    setTimeout(() => { if (canMove() && board.isConnected) onMove(m); else { ui.pre = []; redraw(); } }, 140);
   };
   const sqAt = (x, y) => { const c = document.elementFromPoint(x, y), q = c && c.closest && c.closest('[data-q]'); return q && board.contains(q) ? +q.dataset.q : -1; };
   let drag = null, dragging = false;
   board.addEventListener('pointerdown', e => {
-    if (!canMove()) return;
+    const pre = preOn(); if (!canMove() && !pre) return;
     const s = sqAt(e.clientX, e.clientY); if (s < 0) return;
-    const p = getState().b[s];
+    const p = cur().b[s];
     if (ui.sel >= 0 && tryTo(s)) { sfx.tap(); return; }
     if (p && CH.colour(p) === getCol()) {
       const again = ui.sel === s; pick(s); sfx.tap(); redraw();
       const pc = board.querySelector(`[data-q="${s}"] .pc`);
       if (pc) drag = { s, pc, x: e.clientX, y: e.clientY, on: false, again };
-    } else { clear(); redraw(); }
+    } else { if (pre) cancelPre(); clear(); redraw(); }
   });
   addEventListener('pointermove', e => {
     if (!drag) return;
@@ -2442,6 +2477,7 @@ function chessInput(board, canMove, getState, getCol, onMove, redraw) {
     d.pc.classList.remove('drag'); d.pc.style.transform = '';
     if (!d.on) { if (d.again) { clear(); redraw(); } return; }
     const s = sqAt(e.clientX, e.clientY);
+    if (preOn() && !(s >= 0 && s !== d.s && (ui.moves || []).some(m => CH.mTo(m) === s))) { cancelPre(); clear(); redraw(); return; }
     dragging = true; const ok = s >= 0 && s !== d.s && tryTo(s); dragging = false;
     if (ok) sfx.tap(); else redraw();
   };
@@ -2450,6 +2486,13 @@ function chessInput(board, canMove, getState, getCol, onMove, redraw) {
   return ui;
 }
 
+function drawPlay(board, st, ui, o) {
+  const sh = ui.shown();
+  if (sh === st) return drawChess(board, st, { ...o, pre: ui.preSq() });
+  const n0 = board._n, b0 = board._b;
+  drawChess(board, sh, { ...o, last: [], check: -1, ep: sh.ep, pre: ui.preSq() });
+  board._n = n0; board._b = b0;
+}
 /* ---------- CHESS BOT ----------
    Levels are rough Elo guesses. Loki plays any move at all; the low levels look a move or two ahead and often slip;
    from 1400 up the bot thinks for longer each turn. */
@@ -2483,9 +2526,10 @@ function chessBot(ctx) {
   ctx.extra.innerHTML = '<div class="chcapw"></div>';
   const capEl = $('.chcapw', ctx.extra);
   const undoBtn = ctx.wrap.closest('.screen').querySelector('[data-a=undo]');
-  const ui = chessInput(board, () => !over && !thinking && st.turn === col, () => st, () => col, play, render);
+  const ui = chessInput(board, () => !over && !thinking && st.turn === col, () => st, () => col, play, render, () => !over);
   function render() {
-    drawChess(board, st, { flip: col === CH.BLACK, last: lastOf(st), sel: ui.sel, dots: ui.dots, check: checkSq(st), ep: st.ep });
+    if (over) ui.pre = [];
+    drawPlay(board, st, ui, { flip: col === CH.BLACK, last: lastOf(st), sel: ui.sel, dots: ui.dots, check: checkSq(st), ep: st.ep });
     capEl.innerHTML = capturedHTML(st, col);
     ctx.fr.innerHTML = S.chessTurn && !over ? `<span class="chturn${thinking || st.turn !== col ? ' wait' : ''}">${thinking || st.turn !== col ? T.chThinking : T.chYourTurn}</span>` : '';
     if (undoBtn) undoBtn.style.visibility = S.chessUndo ? '' : 'hidden';
@@ -2502,7 +2546,7 @@ function chessBot(ctx) {
       const t0 = performance.now(), m = botMove(st, lv);
       setTimeout(() => {
         thinking = false; if (!board.isConnected || !m) return;
-        moves.push(CH.uci(m)); CH.make(st, m); sfx.soft(); render(); finish();
+        moves.push(CH.uci(m)); CH.make(st, m); sfx.soft(); render(); if (!finish()) ui.runPre();
       }, Math.max(0, 420 - (performance.now() - t0)));
     }, 80);
   }
@@ -2527,7 +2571,7 @@ function chessBot(ctx) {
       if (thinking || over) return;
       const mine = moves.filter((u, i) => (i % 2 === 0) === (col === 0)).length;
       if (!mine) return toast(T.nothingToUndo);
-      do { CH.unmake(st); moves.pop(); } while (st.hist.length && st.turn !== col);
+      ui.pre = []; do { CH.unmake(st); moves.pop(); } while (st.hist.length && st.turn !== col);
       ui.clear(); render();
     },
     explain() {
@@ -3829,11 +3873,12 @@ SCREENS.chessfriend = scr => {
   scr.el.innerHTML = `${bar(btnBack + btnHome, btnGear)}
     <div class="landing"><div class="hero"><div class="art">${art('chessfriend')}</div><div class="sub">${GAMES.chess.name}</div><h1>${T.chFriend}</h1>
       ${lbOn() ? `<div class="seg chside" aria-label="${T.chSide}">${[['w', T.chSideW], ['r', T.chSideR], ['b', T.chSideB]].map(([k, l]) => `<button data-side="${k}" class="${S.chessSide === k ? 'on' : ''}">${l}</button>`).join('')}</div>` : `<p class="m cfoff">${T.cfOff}</p>`}</div>
-    <div class="btns"><button class="btn primary" data-f="create">${T.cfCreate}</button><button class="btn outline" data-f="join">${T.cfJoin}</button><button class="btn ghost" data-f="how">${T.how}</button></div></div>`;
+    <div class="btns"><button class="btn primary" data-f="create">${T.cfCreate}</button><button class="btn outline" data-f="join">${T.cfJoin}</button><button class="btn outline" data-f="local">${T.clLocal}</button><button class="btn ghost" data-f="how">${T.how}</button></div></div>`;
   scr.el.addEventListener('click', e => {
     const sd = e.target.closest('[data-side]'); if (sd) { S.chessSide = sd.dataset.side; save(); sfx.tap(); $$('[data-side]', scr.el).forEach(b => b.classList.toggle('on', b === sd)); return; }
     const f = e.target.closest('[data-f]'); if (!f) return;
     if (f.dataset.f === 'how') return sheet(`<h2>${T.howTitle}</h2><ul>${HOW.chessFriend}</ul><div class="btns"><button class="btn primary" data-x>${T.gotIt}</button></div>`, (el, close) => $('[data-x]', el).onclick = close);
+    if (f.dataset.f === 'local') { const sv = savedGame('chess', 'local'); return sv ? resumeGame('chess', 'local', sv) : push('game', { game: 'chess', variant: 'local' }); }
     if (!lbOn()) return toast(T.cfOffShort);
     push(f.dataset.f === 'create' ? 'chesswait' : 'chessjoin');
   });
@@ -3902,9 +3947,10 @@ function chessFriend(ctx) {
   ctx.extra.innerHTML = `<div class="chcapw"></div><div class="cfbar"><span class="chturn"></span><button class="btn ghost cfres" data-res>${T.cfResign}</button></div>`;
   const capEl = $('.chcapw', ctx.extra), turnEl = $('.chturn', ctx.extra);
   const screen = ctx.wrap.closest('.screen'), undoBtn = $('[data-a=undo]', screen), hintBtn = $('[data-a=hint]', screen);
-  const ui = chessInput(board, () => synced && !over && !sending && st.turn === col, () => st, () => col, play, render);
+  const ui = chessInput(board, () => synced && !over && !sending && st.turn === col, () => st, () => col, play, render, () => synced && !over);
   function render() {
-    drawChess(board, st, { flip: col === CH.BLACK, last: lastOf(st), sel: ui.sel, dots: ui.dots, check: checkSq(st), ep: st.ep });
+    if (over) ui.pre = [];
+    drawPlay(board, st, ui, { flip: col === CH.BLACK, last: lastOf(st), sel: ui.sel, dots: ui.dots, check: checkSq(st), ep: st.ep });
     capEl.innerHTML = capturedHTML(st, col);
     const mine = st.turn === col;
     turnEl.textContent = over ? '' : !synced || offline > 2 ? T.cfRetry : sending ? T.cfSending : mine ? T.cfYourTurn : T.cfTheirTurn;
@@ -3923,7 +3969,7 @@ function chessFriend(ctx) {
       const m = CH.fromUci(st, u); if (!m) break;
       CH.make(st, m); moves.push(u); changed = true;
     }
-    if (changed) { sfx.soft(); render(); finish(); }
+    if (changed) { sfx.soft(); render(); finish(); if (!over && st.turn === col) ui.runPre(); }
   }
   async function poll() {
     if (!board.isConnected) { if (board._was) stop(); return; }   // the screen is added a moment after the game is made
@@ -3990,6 +4036,60 @@ function smashPiece(board, v, p) {
   if (S.sfx) { tone(140, .18, .08, 'square'); tone(90, .3, .06, 'sawtooth', .04); }
   navigator.vibrate && navigator.vibrate(20);
 }
+
+/* Two players on one phone: pass it over after each move. The board turns round for whoever is moving. */
+function chessLocal(ctx) {
+  const st = CH.fromFEN(CH.START), moves = [];
+  if (ctx.restore) for (const u of ctx.restore.moves) { const m = CH.fromUci(st, u); if (!m) break; CH.make(st, m); moves.push(u); }
+  let over = !!CH.status(st), flip = st.turn === CH.BLACK, flipT = 0;
+  const board = chessBoard(); ctx.wrap.appendChild(board); ctx.fit(board, 1);
+  ctx.extra.innerHTML = '<div class="chcapw"></div>';
+  const capEl = $('.chcapw', ctx.extra), screen = ctx.wrap.closest('.screen');
+  const undoBtn = $('[data-a=undo]', screen), hintBtn = $('[data-a=hint]', screen);
+  const ui = chessInput(board, () => !over, () => st, () => st.turn, play, render);
+  const sideName = c => c ? T.chBlack : T.chWhite;
+  function render() {
+    drawChess(board, st, { flip, last: lastOf(st), sel: ui.sel, dots: ui.dots, check: checkSq(st), ep: st.ep });
+    capEl.innerHTML = capturedHTML(st, flip ? CH.BLACK : 0);
+    ctx.fr.innerHTML = over ? '' : `<span class="chturn">${st.turn ? T.clTurnB : T.clTurnW}</span>`;
+    if (undoBtn) undoBtn.style.visibility = S.chessUndo ? '' : 'hidden';
+    if (hintBtn) hintBtn.style.visibility = 'hidden';
+    ctx.title(`<b>${GAMES.chess.name}</b> · ${T.clVs}`);
+  }
+  // turn the board round once the piece has finished sliding
+  function turnRound() {
+    clearTimeout(flipT);
+    flipT = setTimeout(() => { if (!board.isConnected || over) return; const want = st.turn === CH.BLACK; if (want !== flip) { flip = want; board._noAnim = true; render(); } }, 650);
+  }
+  function play(m) {
+    moves.push(CH.uci(m)); CH.make(st, m); ui.clear(); render();
+    if (!finish()) turnRound();
+  }
+  function finish() {
+    const s = CH.status(st); if (!s) return false;
+    over = true; render();
+    const winner = sideName(st.turn ^ CH.BLACK);
+    if (s === 'mate') ctx.end(fill(T.clWins, { side: winner }), `<p class="m">${fill(T.clWinsBody, { side: winner })}</p>`);
+    else ctx.end(T.chDraw, `<p class="m">${T.chDrawWhy[s]}</p>`);
+    return true;
+  }
+  render();
+  return {
+    render,
+    code: () => ({ lv: 'local', col: 0, mv: moves }),
+    state: () => ({ moves, col: 0 }),
+    canSave: () => moves.length > 0 && !over,
+    review: () => ({ moves: moves.slice(), col: 0 }),
+    undo() {
+      if (!S.chessUndo) return toast(T.chNoUndo);
+      if (over || !moves.length) return toast(T.nothingToUndo);
+      CH.unmake(st); moves.pop(); ui.clear(); clearTimeout(flipT); flip = st.turn === CH.BLACK; board._noAnim = true; render();
+    },
+    explain() { return { text: T.clNoHint, target: [], area: [], show() {} }; },
+    hint() {},
+  };
+}
+{ const eng = ENGINES.chess; ENGINES.chess = ctx => ctx.variant === 'local' ? chessLocal(ctx) : eng(ctx); }
 
 /* ---------- SUDOKU ---------- */
 const popc = m => { let n = 0; while (m) { m &= m - 1; n++; } return n; };
