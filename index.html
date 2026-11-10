@@ -825,7 +825,7 @@ const T = {
   pzWAttack: 'It attacks their {p} on {s}.', pzWGain1: 'By the end of the line you come out 1 point ahead.', pzWGainN: 'By the end of the line you come out {n} points ahead.',
   pzWQuiet: 'It is a quiet move, but it sets up the checkmate. Anything else gives them time to escape.', pzWQuietBest: 'It keeps the pressure on. Every other move lets them off the hook.',
   rvShare: 'Share review', rvShareHelp: 'Anyone with this link can open the review of this game.', rvShareText: 'My chess game review: {m} moves, {g} good or great, {x} mistakes.', rvShareTextPlain: 'Have a look at my chess game.',
-  ckTitle: 'Clock', ckNone: 'No clock', ckMin: '{m} min', ckInc: '{m} min + {i}', ckGroups: { bullet: 'Bullet', blitz: 'Blitz', rapid: 'Rapid', classical: 'Classical' },
+  ckTitle: 'Clock', ckNone: 'No clock', ckChip: '⏱ Clock: {c}', ckOff: 'off', ckMin: '{m} min', ckInc: '{m} min + {i}', ckGroups: { bullet: 'Bullet', blitz: 'Blitz', rapid: 'Rapid', classical: 'Classical' },
   ckYou: 'You', ckBot: 'Bot', ckFriend: 'Friend', ckLost: 'Out of time', ckLostBody: 'Your clock ran out, so the bot wins this one.', ckLostFriend: 'Your clock ran out, so your friend wins.',
   ckTheyFlagged: 'Your friend ran out of time', ckLocalBody: '{side} ran out of time.',
   clLocal: 'Play on this phone', clName: 'Chess on one phone', clVs: 'two players', clTurnW: 'White to move', clTurnB: 'Black to move', clWins: '{side} wins!', clWinsBody: 'Checkmate. Well played, {side}.', clNoHint: 'No hints when two people are playing.',
@@ -839,7 +839,35 @@ const T = {
   pzWAttack: 'It attacks their {p} on {s}.', pzWGain1: 'By the end of the line you come out 1 point ahead.', pzWGainN: 'By the end of the line you come out {n} points ahead.',
   pzWQuiet: 'It is a quiet move, but it sets up the checkmate. Anything else gives them time to escape.', pzWQuietBest: 'It keeps the pressure on. Every other move lets them off the hook.',
   rvShare: 'Share review', rvShareHelp: 'Anyone with this link can open the review of this game.', rvShareText: 'My chess game review: {m} moves, {g} good or great, {x} mistakes.', rvShareTextPlain: 'Have a look at my chess game.',
-  ckTitle: 'Clock', ckNone: 'No clock', ckMin: '{m} min', ckInc: '{m} min + {i}', ckGroups: { bullet: 'Bullet', blitz: 'Blitz', rapid: 'Rapid', classical: 'Classical' },
+  ckTitle: 'Clock', ckNone: 'No clock', ckChip: '⏱ Clock: {c}', ckOff: 'off', ckMin: '{m} min', ckInc: '{m} min + {i}', ckGroups: { bullet: 'Bullet', blitz: 'Blitz', rapid: 'Rapid', classical: 'Classical' },
+  ckYou: 'You', ckBot: 'Bot', ckFriend: 'Friend', ckLost: 'Out of time', ckLostBody: 'Your clock ran out, so the bot wins this one.', ckLostFriend: 'Your clock ran out, so your friend wins.',
+  ckTheyFlagged: 'Your friend ran out of time', ckLocalBody: '{side} ran out of time.',
+  clLocal: 'Play on this phone', clName: 'Chess on one phone', clVs: 'two players', clTurnW: 'White to move', clTurnB: 'Black to move', clWins: '{side} wins!', clWinsBody: 'Checkmate. Well played, {side}.', clNoHint: 'No hints when two people are playing.',
+  pzWhySet: 'Explain puzzle moves', pzWhySetInfo: 'After each right move in a puzzle, say why it is the best one',
+  pzWhyTitle: 'Why this is the best move', pzWhyLast: 'Why that finishes it', pzWhyGo: 'Continue',
+  pzWMate: 'Checkmate! Their king is in check and every square it could run to is covered.',
+  pzWForce1: 'This forces checkmate on your next move, whatever they do.', pzWForceN: 'This forces checkmate in {n} more moves, whatever they do.',
+  pzWCheck: 'It is check, so they have to save their king first and get no time to stop your plan.',
+  pzWBoxNone: 'Their king has no squares left to move to.', pzWBox1: 'It takes squares away from their king: it had {a} ways to move and now has only 1.', pzWBoxN: 'It takes squares away from their king: it had {a} ways to move and now has only {b}.',
+  pzWTake: 'It takes their {c}, worth {n}.', pt1: '1 point', ptN: '{n} points', pzWFork: 'It attacks two pieces at once, their {a} and their {b}. They can only save one.',
+  pzWAttack: 'It attacks their {p} on {s}.', pzWGain1: 'By the end of the line you come out 1 point ahead.', pzWGainN: 'By the end of the line you come out {n} points ahead.',
+  pzWQuiet: 'It is a quiet move, but it sets up the checkmate. Anything else gives them time to escape.', pzWQuietBest: 'It keeps the pressure on. Every other move lets them off the hook.',
+  rvShare: 'Share review', rvShareHelp: 'Anyone with this link can open the review of this game.', rvShareText: 'My chess game review: {m} moves, {g} good or great, {x} mistakes.', rvShareTextPlain: 'Have a look at my chess game.',
+  ckTitle: 'Clock', ckNone: 'No clock', ckChip: '⏱ Clock: {c}', ckOff: 'off', ckMin: '{m} min', ckInc: '{m} min + {i}', ckGroups: { bullet: 'Bullet', blitz: 'Blitz', rapid: 'Rapid', classical: 'Classical' },
+  ckYou: 'You', ckBot: 'Bot', ckFriend: 'Friend', ckLost: 'Out of time', ckLostBody: 'Your clock ran out, so the bot wins this one.', ckLostFriend: 'Your clock ran out, so your friend wins.',
+  ckTheyFlagged: 'Your friend ran out of time', ckLocalBody: '{side} ran out of time.',
+  clLocal: 'Play on this phone', clName: 'Chess on one phone', clVs: 'two players', clTurnW: 'White to move', clTurnB: 'Black to move', clWins: '{side} wins!', clWinsBody: 'Checkmate. Well played, {side}.', clNoHint: 'No hints when two people are playing.',
+  pzWhySet: 'Explain puzzle moves', pzWhySetInfo: 'After each right move in a puzzle, say why it is the best one',
+  pzWhyTitle: 'Why this is the best move', pzWhyLast: 'Why that finishes it', pzWhyGo: 'Continue',
+  pzWMate: 'Checkmate! Their king is in check and every square it could run to is covered.',
+  pzWForce1: 'This forces checkmate on your next move, whatever they do.', pzWForceN: 'This forces checkmate in {n} more moves, whatever they do.',
+  pzWCheck: 'It is check, so they have to save their king first and get no time to stop your plan.',
+  pzWBoxNone: 'Their king has no squares left to move to.', pzWBox1: 'It takes squares away from their king: it had {a} ways to move and now has only 1.', pzWBoxN: 'It takes squares away from their king: it had {a} ways to move and now has only {b}.',
+  pzWTake: 'It takes their {c}, worth {n}.', pt1: '1 point', ptN: '{n} points', pzWFork: 'It attacks two pieces at once, their {a} and their {b}. They can only save one.',
+  pzWAttack: 'It attacks their {p} on {s}.', pzWGain1: 'By the end of the line you come out 1 point ahead.', pzWGainN: 'By the end of the line you come out {n} points ahead.',
+  pzWQuiet: 'It is a quiet move, but it sets up the checkmate. Anything else gives them time to escape.', pzWQuietBest: 'It keeps the pressure on. Every other move lets them off the hook.',
+  rvShare: 'Share review', rvShareHelp: 'Anyone with this link can open the review of this game.', rvShareText: 'My chess game review: {m} moves, {g} good or great, {x} mistakes.', rvShareTextPlain: 'Have a look at my chess game.',
+  ckTitle: 'Clock', ckNone: 'No clock', ckChip: '⏱ Clock: {c}', ckOff: 'off', ckMin: '{m} min', ckInc: '{m} min + {i}', ckGroups: { bullet: 'Bullet', blitz: 'Blitz', rapid: 'Rapid', classical: 'Classical' },
   ckYou: 'You', ckBot: 'Bot', ckFriend: 'Friend', ckLost: 'Out of time', ckLostBody: 'Your clock ran out, so the bot wins this one.', ckLostFriend: 'Your clock ran out, so your friend wins.',
   ckTheyFlagged: 'Your friend ran out of time', ckLocalBody: '{side} ran out of time.',
   chPre: 'Premoves', chPreInfo: 'Line up moves while the other side is thinking. Make a move that isn\'t allowed to cancel them.',
@@ -1264,7 +1292,7 @@ SCREENS.landing = scr => {
     if (sv) cont.innerHTML = `${T.continueGame}<span class="bsub">${DLABEL[sv.d]}${S.timer ? ' · ' + fmt(sv.t) : ''}</span>`;
     play.textContent = sv ? T.newGame : T.play; play.className = 'btn ' + (sv ? 'outline' : 'primary');
     $$('[data-side]', scr.el).forEach(b => b.classList.toggle('on', b.dataset.side === S.chessSide));
-    const ckl = $('.ckl', scr.el); if (ckl) ckl.textContent = clockName(S.chessClock);
+    const ckl = $('.ckl', scr.el); if (ckl) ckl.textContent = ckChip();
   };
   scr.refresh();
   scr.el.addEventListener('click', e => {
@@ -1694,7 +1722,7 @@ SCREENS.history = scr => {
 /* ---------- SETTINGS ---------- */
 SCREENS.settings = scr => {
   const sw = (k, label, info) => `<label class="row"><span class="lab">${label}${info ? `<small>${info}</small>` : ''}</span><input type="checkbox" class="sw" id="sw-${k}" data-k="${k}"></label>`;
-  const dRow = g => `<div class="glabel">${GAMES[g].name}</div><div class="group"><button class="row" data-d="${g}"><span class="lab">${T.difficultyTitle}</span><span class="val" data-dv="${g}"></span>${I.chev}</button>${g === 'mines' ? sw('allow5050', T.allow5050, T.allow5050Info) + sw('mineAnim', T.mineAnim, T.mineAnimInfo) + sw('mineHold', T.mineHold, T.mineHoldInfo) : ''}${COLOR_GAMES[g] ? `<button class="row" data-cols="${g}"><span class="lab">${T.coloursTitle}</span><span class="val scols" data-cv="${g}"></span>${I.chev}</button>` : ''}${g === 'sudoku' ? sw('pencilHl', T.pencilHl, T.pencilHlInfo) : ''}${g === 'kings' ? sw('autoDot', T.autoDot, T.autoDotInfo) + sw('livesKings', T.lives, T.livesInfo) : ''}${g === 'sets' ? sw('livesSets', T.lives, T.livesInfo) : ''}${g === 'chess' ? `<button class="row" data-pcs><span class="lab">${T.chPieces}</span><span class="val" id="pcsVal"></span>${I.chev}</button>` + sw('chessUndo', T.chUndo, T.chUndoInfo) + sw('chessTurn', T.chTurn, T.chTurnInfo) + sw('chessPremove', T.chPre, T.chPreInfo) + sw('chessPzWhy', T.pzWhySet, T.pzWhySetInfo) + sw('chessPremove', T.chPre, T.chPreInfo) + sw('chessEasy', T.chEasy, T.chEasyInfo) : ''}</div>`;
+  const dRow = g => `<div class="glabel">${GAMES[g].name}</div><div class="group"><button class="row" data-d="${g}"><span class="lab">${T.difficultyTitle}</span><span class="val" data-dv="${g}"></span>${I.chev}</button>${g === 'mines' ? sw('allow5050', T.allow5050, T.allow5050Info) + sw('mineAnim', T.mineAnim, T.mineAnimInfo) + sw('mineHold', T.mineHold, T.mineHoldInfo) : ''}${COLOR_GAMES[g] ? `<button class="row" data-cols="${g}"><span class="lab">${T.coloursTitle}</span><span class="val scols" data-cv="${g}"></span>${I.chev}</button>` : ''}${g === 'sudoku' ? sw('pencilHl', T.pencilHl, T.pencilHlInfo) : ''}${g === 'kings' ? sw('autoDot', T.autoDot, T.autoDotInfo) + sw('livesKings', T.lives, T.livesInfo) : ''}${g === 'sets' ? sw('livesSets', T.lives, T.livesInfo) : ''}${g === 'chess' ? `<button class="row" data-pcs><span class="lab">${T.chPieces}</span><span class="val" id="pcsVal"></span>${I.chev}</button><button class="row" data-ckrow><span class="lab">${T.ckTitle}</span><span class="val" id="ckVal"></span>${I.chev}</button>` + sw('chessUndo', T.chUndo, T.chUndoInfo) + sw('chessTurn', T.chTurn, T.chTurnInfo) + sw('chessPremove', T.chPre, T.chPreInfo) + sw('chessPzWhy', T.pzWhySet, T.pzWhySetInfo) + sw('chessPremove', T.chPre, T.chPreInfo) + sw('chessEasy', T.chEasy, T.chEasyInfo) : ''}</div>`;
   scr.el.innerHTML = `${bar(btnBack)}<div class="scroll"><div class="h1">${T.settings}</div>
     <div class="glabel">${T.display}</div><div class="group"><button class="row" data-go="theme"><span class="lab">${T.theme}</span><span class="val" id="themeVal"></span>${I.chev}</button><button class="row" data-pip><span class="lab">${T.pipRow}</span><span class="val" id="pipVal"></span>${I.chev}</button>
       <button class="row" data-order><span class="lab">${T.orderRow}</span>${I.chev}</button>
@@ -1714,6 +1742,7 @@ SCREENS.settings = scr => {
     $$('[data-dv]', scr.el).forEach(v => v.textContent = DLABEL[S.diff[v.dataset.dv]]);
     const nv = $('#nameVal', scr.el); if (nv) nv.textContent = S.playerName || T.lbNameNone;
     $('#pcsVal', scr.el).textContent = { normal: T.chSetNormal, wizards: T.chSetWizards, cats: T.chSetCats }[S.chessSet] || T.chSetNormal;
+    const ckv = $('#ckVal', scr.el); if (ckv) ckv.textContent = clockName(S.chessClock);
     $('#dlvVal', scr.el).textContent = S.dailyLevel ? DLABEL[S.dailyLevel] : T.noPref;
     $$('[data-cv]', scr.el).forEach(v => v.innerHTML = range(Math.min(4, COLOR_GAMES[v.dataset.cv].n)).map(i => `<i style="background:${gameColour(v.dataset.cv, i)}"></i>`).join(''));
   };
@@ -1731,6 +1760,7 @@ SCREENS.settings = scr => {
     if (e.target.closest('[data-pip]')) pickPip(scr.refresh);
     if (e.target.closest('[data-order]')) push('order');
     if (e.target.closest('[data-pcs]')) push('chesspieces');
+    if (e.target.closest('[data-ckrow]')) clockSheet(scr.refresh);
     const hs = e.target.closest('[data-hs]'); if (hs) pickOne(T[hs.dataset.hs + 'Row'], T.homeHelp, HOME_SIZES, hs.dataset.hs, scr.refresh);
     const cg = e.target.closest('[data-cols]'); if (cg) push('colours', { game: cg.dataset.cols });
   });
@@ -2532,6 +2562,7 @@ function clockSheet(done) {
   });
 }
 const sideIx = turn => turn ? 1 : 0;
+const ckChip = () => fill(T.ckChip, { c: S.chessClock ? clockName(S.chessClock) : T.ckOff });
 const pts = n => n === 1 ? T.pt1 : fill(T.ptN, { n });
 // o: el, names [white, black], order [left, right], onFlag(side), live (keeps running when the app is hidden), grace(side) in ms
 function chessClock(key, o) {
@@ -3990,11 +4021,11 @@ function startFriendGame(code, col) { replaceTop('game', { game: 'chess', varian
 SCREENS.chessfriend = scr => {
   scr.el.innerHTML = `${bar(btnBack + btnHome, btnGear)}
     <div class="landing"><div class="hero"><div class="art">${art('chessfriend')}</div><div class="sub">${GAMES.chess.name}</div><h1>${T.chFriend}</h1>
-      ${lbOn() ? `<div class="seg chside" aria-label="${T.chSide}">${[['w', T.chSideW], ['r', T.chSideR], ['b', T.chSideB]].map(([k, l]) => `<button data-side="${k}" class="${S.chessSide === k ? 'on' : ''}">${l}</button>`).join('')}</div>` : `<p class="m cfoff">${T.cfOff}</p>`}<button class="chip ckchip" data-ckopen><span class="ckl">${clockName(S.chessClock)}</span>${I.chev}</button></div>
+      ${lbOn() ? `<div class="seg chside" aria-label="${T.chSide}">${[['w', T.chSideW], ['r', T.chSideR], ['b', T.chSideB]].map(([k, l]) => `<button data-side="${k}" class="${S.chessSide === k ? 'on' : ''}">${l}</button>`).join('')}</div>` : `<p class="m cfoff">${T.cfOff}</p>`}<button class="chip ckchip" data-ckopen><span class="ckl">${ckChip()}</span>${I.chev}</button></div>
     <div class="btns"><button class="btn primary" data-f="create">${T.cfCreate}</button><button class="btn outline" data-f="join">${T.cfJoin}</button><button class="btn outline" data-f="local">${T.clLocal}</button><button class="btn ghost" data-f="how">${T.how}</button></div></div>`;
   scr.el.addEventListener('click', e => {
     const sd = e.target.closest('[data-side]'); if (sd) { S.chessSide = sd.dataset.side; save(); sfx.tap(); $$('[data-side]', scr.el).forEach(b => b.classList.toggle('on', b === sd)); return; }
-    if (e.target.closest('[data-ckopen]')) return clockSheet(() => { $('.ckl', scr.el).textContent = clockName(S.chessClock); });
+    if (e.target.closest('[data-ckopen]')) return clockSheet(() => { $('.ckl', scr.el).textContent = ckChip(); });
     const f = e.target.closest('[data-f]'); if (!f) return;
     if (f.dataset.f === 'how') return sheet(`<h2>${T.howTitle}</h2><ul>${HOW.chessFriend}</ul><div class="btns"><button class="btn primary" data-x>${T.gotIt}</button></div>`, (el, close) => $('[data-x]', el).onclick = close);
     if (f.dataset.f === 'local') { const sv = savedGame('chess', 'local'); return sv ? resumeGame('chess', 'local', sv) : push('game', { game: 'chess', variant: 'local' }); }
