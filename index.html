@@ -509,6 +509,7 @@ button.tb:active{transform:scale(.92)}
 @media (max-height:560px){.landing .hero .art{width:84px;height:84px;border-radius:24px}.landing h1{font-size:32px}}
 .chs.pre::before{content:'';position:absolute;inset:0;background:#e0524f;opacity:.42}
 .chclk{display:flex;gap:10px;width:100%;padding:0 16px}.chclk:empty{display:none}.ck{flex:1;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 14px;border-radius:16px;background:var(--surface);color:var(--muted);transition:background .2s,color .2s}.ck i{font-style:normal;font-size:13px;font-weight:700}.ck b{font-family:var(--display);font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--text)}.ck.on{background:var(--acc);color:var(--acc-ink)}.ck.on b{color:var(--acc-ink)}.ck.low b{color:#ef5350}.ck.on.low{background:#ef5350}.ck.on.low b{color:#fff}.ckchip .ckl{font-weight:700}.cklist{display:flex;flex-direction:column;gap:12px;margin:6px 0 4px}.ckg b{display:block;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:6px}.ckrow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ckopt{padding:12px 6px;border-radius:14px;background:var(--surface2);font:inherit;font-weight:700;font-size:14px;color:var(--text)}.ckopt.on{background:var(--acc);color:var(--acc-ink)}.ckopt.wide{width:100%}.chpzwhy{width:100%;margin:0 16px;max-width:calc(100% - 32px);background:var(--surface);border-radius:16px;padding:12px 14px;font-size:14px;line-height:1.4;text-align:left}.chpzwhy>b{display:block;color:#2fb36d;font-size:13px;text-transform:uppercase;letter-spacing:.04em}.chpzwhy ul{margin:4px 0 2px;padding-left:20px}.chpzwhy li{margin:3px 0}.chpzwhy .btn{margin-top:8px;width:100%}
+.chrvsum{grid-template-columns:repeat(3,1fr)}.chrvop{grid-column:1/-1;font-size:14px;text-align:center;line-height:1.3}.rvb.excellent,.dot.excellent,.rvs.excellent b{--rc:#1fa5a0}.rvb.book,.dot.book,.rvs.book b{--rc:#a8865a}.ezv.excellent{color:#1fa5a0}.ezv.book{color:#a8865a}
 
 /* hint pop-up at the bottom */
 .hintcard{position:absolute;left:12px;right:12px;bottom:calc(var(--bot) + 10px);margin:0;z-index:30;padding:14px 12px 14px 16px;border-radius:22px;box-shadow:0 14px 40px rgba(0,0,0,.4);animation:hintup .32s cubic-bezier(.2,.8,.2,1)}
@@ -802,85 +803,8 @@ const T = {
   chPieces: 'Pieces', chPiecesHelp: 'Tap a set to see it. It’s picked straight away.',
   chSetNormal: 'Normal', chSetNormalInfo: 'Classic pieces', chSetWizards: 'Wizards', chSetWizardsInfo: 'Stone wizards that smash the pieces they take', chSetCats: 'Cats', chSetCatsInfo: 'A kitten, a cat in a box and cats in hats',
   chReview: 'Game review', chFirst: 'First move', chPrev: 'Previous move', chNext: 'Next move', chLast: 'Last move',
-  chKinds: { best: 'Best', good: 'Good', inacc: 'Inaccuracy', mistake: 'Mistake', blunder: 'Blunder' },
-  chKindsEasy: { best: 'Great move', good: 'Good', inacc: 'Okay', mistake: 'Mistake', blunder: 'Big mistake' },
-  chEasy: 'Beginner review', chEasyInfo: 'Game review explains each move in simple words',
-  chSeeBetter: 'Show better move', chSeeMine: 'Show my move', chBetterWas: 'Better was {m}',
-  chPcN: ['', 'pawn', 'knight', 'bishop', 'rook', 'queen', 'king'],
-  chExTook: 'You took their {p}.', chExBest: 'This is the move a strong player would pick.', chExMate: 'Checkmate. You won the game!',
-  chExMissedMate: 'You could have won right here! {m} was checkmate.', chExGetsMated: 'Careful: after this move they can checkmate you with {m}.',
-  chExHang: 'This leaves your {p} where they can take it with {m}. {b} keeps it safe.', chExSave: 'Your {p} was being attacked. {m} would have moved it to safety.',
-  chExWin: '{m} would have taken their {p}.', chExGood: 'A good move. {m} was a little better.', chExCheck: '{m} puts their king in check and keeps them busy.',
-  chExInacc: 'Not bad, but {m} gives you a slightly better position.', chExWorse: 'This makes your position weaker. {m} keeps your pieces working together better.',
-  chExBotTook: 'The bot took your {p}.', chExBotMate: 'Checkmate. The bot won this time.', chExShown: 'This is what {m} looks like. The green arrow shows where the piece goes.',
-  chKindsEasy: { best: 'Great move', good: 'Good', inacc: 'Okay', mistake: 'Mistake', blunder: 'Big mistake' },
-  clLocal: 'Play on this phone', clName: 'Chess on one phone', clVs: 'two players', clTurnW: 'White to move', clTurnB: 'Black to move', clWins: '{side} wins!', clWinsBody: 'Checkmate. Well played, {side}.', clNoHint: 'No hints when two people are playing.',
-  pzWhySet: 'Explain puzzle moves', pzWhySetInfo: 'After each right move in a puzzle, say why it is the best one',
-  pzWhyTitle: 'Why this is the best move', pzWhyLast: 'Why that finishes it', pzWhyGo: 'Continue',
-  pzWMate: 'Checkmate! Their king is in check and every square it could run to is covered.',
-  pzWForce1: 'This forces checkmate on your next move, whatever they do.', pzWForceN: 'This forces checkmate in {n} more moves, whatever they do.',
-  pzWCheck: 'It is check, so they have to save their king first and get no time to stop your plan.',
-  pzWBoxNone: 'Their king has no squares left to move to.', pzWBox1: 'It takes squares away from their king: it had {a} ways to move and now has only 1.', pzWBoxN: 'It takes squares away from their king: it had {a} ways to move and now has only {b}.',
-  pzWTake: 'It takes their {c}, worth {n}.', pt1: '1 point', ptN: '{n} points', pzWFork: 'It attacks two pieces at once, their {a} and their {b}. They can only save one.',
-  pzWAttack: 'It attacks their {p} on {s}.', pzWGain1: 'By the end of the line you come out 1 point ahead.', pzWGainN: 'By the end of the line you come out {n} points ahead.',
-  pzWQuiet: 'It is a quiet move, but it sets up the checkmate. Anything else gives them time to escape.', pzWQuietBest: 'It keeps the pressure on. Every other move lets them off the hook.',
-  rvShare: 'Share review', rvShareHelp: 'Anyone with this link can open the review of this game.', rvShareText: 'My chess game review: {m} moves, {g} good or great, {x} mistakes.', rvShareTextPlain: 'Have a look at my chess game.',
-  ckTitle: 'Clock', ckNone: 'No clock', ckChip: '⏱ Clock: {c}', ckOff: 'off', ckMin: '{m} min', ckInc: '{m} min + {i}', ckGroups: { bullet: 'Bullet', blitz: 'Blitz', rapid: 'Rapid', classical: 'Classical' },
-  ckYou: 'You', ckBot: 'Bot', ckFriend: 'Friend', ckLost: 'Out of time', ckLostBody: 'Your clock ran out, so the bot wins this one.', ckLostFriend: 'Your clock ran out, so your friend wins.',
-  ckTheyFlagged: 'Your friend ran out of time', ckLocalBody: '{side} ran out of time.',
-  clLocal: 'Play on this phone', clName: 'Chess on one phone', clVs: 'two players', clTurnW: 'White to move', clTurnB: 'Black to move', clWins: '{side} wins!', clWinsBody: 'Checkmate. Well played, {side}.', clNoHint: 'No hints when two people are playing.',
-  pzWhySet: 'Explain puzzle moves', pzWhySetInfo: 'After each right move in a puzzle, say why it is the best one',
-  pzWhyTitle: 'Why this is the best move', pzWhyLast: 'Why that finishes it', pzWhyGo: 'Continue',
-  pzWMate: 'Checkmate! Their king is in check and every square it could run to is covered.',
-  pzWForce1: 'This forces checkmate on your next move, whatever they do.', pzWForceN: 'This forces checkmate in {n} more moves, whatever they do.',
-  pzWCheck: 'It is check, so they have to save their king first and get no time to stop your plan.',
-  pzWBoxNone: 'Their king has no squares left to move to.', pzWBox1: 'It takes squares away from their king: it had {a} ways to move and now has only 1.', pzWBoxN: 'It takes squares away from their king: it had {a} ways to move and now has only {b}.',
-  pzWTake: 'It takes their {c}, worth {n}.', pt1: '1 point', ptN: '{n} points', pzWFork: 'It attacks two pieces at once, their {a} and their {b}. They can only save one.',
-  pzWAttack: 'It attacks their {p} on {s}.', pzWGain1: 'By the end of the line you come out 1 point ahead.', pzWGainN: 'By the end of the line you come out {n} points ahead.',
-  pzWQuiet: 'It is a quiet move, but it sets up the checkmate. Anything else gives them time to escape.', pzWQuietBest: 'It keeps the pressure on. Every other move lets them off the hook.',
-  rvShare: 'Share review', rvShareHelp: 'Anyone with this link can open the review of this game.', rvShareText: 'My chess game review: {m} moves, {g} good or great, {x} mistakes.', rvShareTextPlain: 'Have a look at my chess game.',
-  ckTitle: 'Clock', ckNone: 'No clock', ckChip: '⏱ Clock: {c}', ckOff: 'off', ckMin: '{m} min', ckInc: '{m} min + {i}', ckGroups: { bullet: 'Bullet', blitz: 'Blitz', rapid: 'Rapid', classical: 'Classical' },
-  ckYou: 'You', ckBot: 'Bot', ckFriend: 'Friend', ckLost: 'Out of time', ckLostBody: 'Your clock ran out, so the bot wins this one.', ckLostFriend: 'Your clock ran out, so your friend wins.',
-  ckTheyFlagged: 'Your friend ran out of time', ckLocalBody: '{side} ran out of time.',
-  clLocal: 'Play on this phone', clName: 'Chess on one phone', clVs: 'two players', clTurnW: 'White to move', clTurnB: 'Black to move', clWins: '{side} wins!', clWinsBody: 'Checkmate. Well played, {side}.', clNoHint: 'No hints when two people are playing.',
-  pzWhySet: 'Explain puzzle moves', pzWhySetInfo: 'After each right move in a puzzle, say why it is the best one',
-  pzWhyTitle: 'Why this is the best move', pzWhyLast: 'Why that finishes it', pzWhyGo: 'Continue',
-  pzWMate: 'Checkmate! Their king is in check and every square it could run to is covered.',
-  pzWForce1: 'This forces checkmate on your next move, whatever they do.', pzWForceN: 'This forces checkmate in {n} more moves, whatever they do.',
-  pzWCheck: 'It is check, so they have to save their king first and get no time to stop your plan.',
-  pzWBoxNone: 'Their king has no squares left to move to.', pzWBox1: 'It takes squares away from their king: it had {a} ways to move and now has only 1.', pzWBoxN: 'It takes squares away from their king: it had {a} ways to move and now has only {b}.',
-  pzWTake: 'It takes their {c}, worth {n}.', pt1: '1 point', ptN: '{n} points', pzWFork: 'It attacks two pieces at once, their {a} and their {b}. They can only save one.',
-  pzWAttack: 'It attacks their {p} on {s}.', pzWGain1: 'By the end of the line you come out 1 point ahead.', pzWGainN: 'By the end of the line you come out {n} points ahead.',
-  pzWQuiet: 'It is a quiet move, but it sets up the checkmate. Anything else gives them time to escape.', pzWQuietBest: 'It keeps the pressure on. Every other move lets them off the hook.',
-  rvShare: 'Share review', rvShareHelp: 'Anyone with this link can open the review of this game.', rvShareText: 'My chess game review: {m} moves, {g} good or great, {x} mistakes.', rvShareTextPlain: 'Have a look at my chess game.',
-  ckTitle: 'Clock', ckNone: 'No clock', ckChip: '⏱ Clock: {c}', ckOff: 'off', ckMin: '{m} min', ckInc: '{m} min + {i}', ckGroups: { bullet: 'Bullet', blitz: 'Blitz', rapid: 'Rapid', classical: 'Classical' },
-  ckYou: 'You', ckBot: 'Bot', ckFriend: 'Friend', ckLost: 'Out of time', ckLostBody: 'Your clock ran out, so the bot wins this one.', ckLostFriend: 'Your clock ran out, so your friend wins.',
-  ckTheyFlagged: 'Your friend ran out of time', ckLocalBody: '{side} ran out of time.',
-  clLocal: 'Play on this phone', clName: 'Chess on one phone', clVs: 'two players', clTurnW: 'White to move', clTurnB: 'Black to move', clWins: '{side} wins!', clWinsBody: 'Checkmate. Well played, {side}.', clNoHint: 'No hints when two people are playing.',
-  pzWhySet: 'Explain puzzle moves', pzWhySetInfo: 'After each right move in a puzzle, say why it is the best one',
-  pzWhyTitle: 'Why this is the best move', pzWhyLast: 'Why that finishes it', pzWhyGo: 'Continue',
-  pzWMate: 'Checkmate! Their king is in check and every square it could run to is covered.',
-  pzWForce1: 'This forces checkmate on your next move, whatever they do.', pzWForceN: 'This forces checkmate in {n} more moves, whatever they do.',
-  pzWCheck: 'It is check, so they have to save their king first and get no time to stop your plan.',
-  pzWBoxNone: 'Their king has no squares left to move to.', pzWBox1: 'It takes squares away from their king: it had {a} ways to move and now has only 1.', pzWBoxN: 'It takes squares away from their king: it had {a} ways to move and now has only {b}.',
-  pzWTake: 'It takes their {c}, worth {n}.', pt1: '1 point', ptN: '{n} points', pzWFork: 'It attacks two pieces at once, their {a} and their {b}. They can only save one.',
-  pzWAttack: 'It attacks their {p} on {s}.', pzWGain1: 'By the end of the line you come out 1 point ahead.', pzWGainN: 'By the end of the line you come out {n} points ahead.',
-  pzWQuiet: 'It is a quiet move, but it sets up the checkmate. Anything else gives them time to escape.', pzWQuietBest: 'It keeps the pressure on. Every other move lets them off the hook.',
-  rvShare: 'Share review', rvShareHelp: 'Anyone with this link can open the review of this game.', rvShareText: 'My chess game review: {m} moves, {g} good or great, {x} mistakes.', rvShareTextPlain: 'Have a look at my chess game.',
-  ckTitle: 'Clock', ckNone: 'No clock', ckChip: '⏱ Clock: {c}', ckOff: 'off', ckMin: '{m} min', ckInc: '{m} min + {i}', ckGroups: { bullet: 'Bullet', blitz: 'Blitz', rapid: 'Rapid', classical: 'Classical' },
-  ckYou: 'You', ckBot: 'Bot', ckFriend: 'Friend', ckLost: 'Out of time', ckLostBody: 'Your clock ran out, so the bot wins this one.', ckLostFriend: 'Your clock ran out, so your friend wins.',
-  ckTheyFlagged: 'Your friend ran out of time', ckLocalBody: '{side} ran out of time.',
-  chPre: 'Premoves', chPreInfo: 'Line up moves while the other side is thinking. Make a move that isn\'t allowed to cancel them.',
-  chEasy: 'Beginner review', chEasyInfo: 'Game review explains each move in simple words',
-  chSeeBetter: 'Show better move', chSeeMine: 'Show my move', chBetterWas: 'Better was {m}',
-  chPcN: ['', 'pawn', 'knight', 'bishop', 'rook', 'queen', 'king'],
-  chExTook: 'You took their {p}.', chExBest: 'This is the move a strong player would pick.', chExMate: 'Checkmate. You won the game!',
-  chExMissedMate: 'You could have won right here! {m} was checkmate.', chExGetsMated: 'Careful: after this move they can checkmate you with {m}.',
-  chExHang: 'This leaves your {p} where they can take it with {m}. {b} keeps it safe.', chExSave: 'Your {p} was being attacked. {m} would have moved it to safety.',
-  chExWin: '{m} would have taken their {p}.', chExGood: 'A good move. {m} was a little better.', chExCheck: '{m} puts their king in check and keeps them busy.',
-  chExInacc: 'Not bad, but {m} gives you a slightly better position.', chExWorse: 'This makes your position weaker. {m} keeps your pieces working together better.',
-  chExBotTook: 'The bot took your {p}.', chExBotMate: 'Checkmate. The bot won this time.', chExShown: 'This is what {m} looks like. The green arrow shows where the piece goes.',
-  chEzVerdict: { best: 'Great move! This is what a strong player would play.', good: 'Good move. There was something a little better.', inacc: 'Okay, but there was a better move.', mistake: 'This was a mistake.', blunder: 'This was a big mistake.' },
+  chKinds: { book: 'Book', best: 'Best', excellent: 'Excellent', good: 'Good', inacc: 'Inaccuracy', mistake: 'Mistake', blunder: 'Blunder' },
+  chEzVerdict: { book: 'Book move. This is a well-known opening move.', best: 'Great move! This is what a strong player would play.', excellent: 'Excellent move. Almost as strong as the best one.', good: 'Good move. There was something a little better.', inacc: 'Okay, but there was a better move.', mistake: 'This was a mistake.', blunder: 'This was a big mistake.' },
   chEz: {
     you: { move: 'You moved your {p} from {f} to {s}.', take: 'Your {p} took their {c} on {s}.', castle: 'You castled: your king moved to the side and your rook came out.', promo: 'It reached the far side and became a {q}.' },
     bot: { move: 'The bot moved its {p} from {f} to {s}.', take: 'The bot\'s {p} took your {c} on {s}.', castle: 'The bot castled: its king moved to the side and its rook came out.', promo: 'It reached the far side and became a {q}.' },
@@ -906,7 +830,22 @@ const T = {
   chEzNoBetter: 'There was nothing better here. It keeps everything safe.', chEzSolid: 'A solid move that keeps your pieces safe.',
   chEzCost: 'Overall this cost you about {n}.', chEzCostGame: 'This could cost you the whole game.', chEzValues: 'Pawn 1, knight 3, bishop 3, rook 5, queen 9.',
   chEzWatch: 'Watch out', chEzWarnMate: 'It is threatening checkmate on its next move.', chEzWarnAttack: 'It can take your {p} on {s} with its {b}.',
-  chKindsEasy: { best: 'Great move', good: 'Good', inacc: 'Okay', mistake: 'Mistake', blunder: 'Big mistake' },
+  chKindsEasy: { book: 'Book move', best: 'Great move', excellent: 'Excellent', good: 'Good', inacc: 'Okay', mistake: 'Mistake', blunder: 'Big mistake' },
+  clLocal: 'Play on this phone', clName: 'Chess on one phone', clVs: 'two players', clTurnW: 'White to move', clTurnB: 'Black to move', clWins: '{side} wins!', clWinsBody: 'Checkmate. Well played, {side}.', clNoHint: 'No hints when two people are playing.',
+  pzWhySet: 'Explain puzzle moves', pzWhySetInfo: 'After each right move in a puzzle, say why it is the best one',
+  pzWhyTitle: 'Why this is the best move', pzWhyLast: 'Why that finishes it', pzWhyGo: 'Continue',
+  pzWMate: 'Checkmate! Their king is in check and every square it could run to is covered.',
+  pzWForce1: 'This forces checkmate on your next move, whatever they do.', pzWForceN: 'This forces checkmate in {n} more moves, whatever they do.',
+  pzWCheck: 'It is check, so they have to save their king first and get no time to stop your plan.',
+  pzWBoxNone: 'Their king has no squares left to move to.', pzWBox1: 'It takes squares away from their king: it had {a} ways to move and now has only 1.', pzWBoxN: 'It takes squares away from their king: it had {a} ways to move and now has only {b}.',
+  pzWTake: 'It takes their {c}, worth {n}.', pt1: '1 point', ptN: '{n} points', pzWFork: 'It attacks two pieces at once, their {a} and their {b}. They can only save one.',
+  pzWAttack: 'It attacks their {p} on {s}.', pzWGain1: 'By the end of the line you come out 1 point ahead.', pzWGainN: 'By the end of the line you come out {n} points ahead.',
+  pzWQuiet: 'It is a quiet move, but it sets up the checkmate. Anything else gives them time to escape.', pzWQuietBest: 'It keeps the pressure on. Every other move lets them off the hook.',
+  rvShare: 'Share review', rvShareHelp: 'Anyone with this link can open the review of this game.', rvShareText: 'My chess game review: {m} moves, {g} good or great, {x} mistakes.', rvShareTextPlain: 'Have a look at my chess game.',
+  ckTitle: 'Clock', ckNone: 'No clock', ckChip: 'Clock: {c}', ckOff: 'off', ckMin: '{m} min', ckInc: '{m} min + {i}', ckGroups: { bullet: 'Bullet', blitz: 'Blitz', rapid: 'Rapid', classical: 'Classical' },
+  ckYou: 'You', ckBot: 'Bot', ckFriend: 'Friend', ckLost: 'Out of time', ckLostBody: 'Your clock ran out, so the bot wins this one.', ckLostFriend: 'Your clock ran out, so your friend wins.',
+  ckTheyFlagged: 'Your friend ran out of time', ckLocalBody: '{side} ran out of time.',
+  chPre: 'Premoves', chPreInfo: 'Line up moves while the other side is thinking. Make a move that isn\'t allowed to cancel them.',
   chEasy: 'Beginner review', chEasyInfo: 'Game review explains each move in simple words',
   chSeeBetter: 'Show better move', chSeeMine: 'Show my move', chBetterWas: 'Better was {m}',
   chPcN: ['', 'pawn', 'knight', 'bishop', 'rook', 'queen', 'king'],
@@ -917,6 +856,7 @@ const T = {
   chExInacc: 'Not bad, but {m} gives you a slightly better position.', chExWorse: 'This makes your position weaker. {m} keeps your pieces working together better.',
   chExBotTook: 'The bot took your {p}.', chExBotMate: 'Checkmate. The bot won this time.', chExShown: 'This is what {m} looks like. The green arrow shows where the piece goes.',
   chNoMoves: 'No moves were played.', chChecking: 'Checking your moves… {n} of {total}', chCheckingOne: 'checking…', chStartPos: 'Starting position. Use the arrows or tap a move.',
+  chOpening: 'Opening:', chBook1: '1 book move', chBookN: '{n} book moves', chBookMove: 'book move', chEzBook: 'Strong players have played this many times. It follows opening theory.', chEzBookOf: 'It is part of the {o}, which strong players have played many times.',
   chBotPlayed: 'Bot played {m}', chYouPlayed: 'You played {m}', chBestWas: 'best was {m}',
   chUndo: 'Undo', chUndoInfo: 'Take back your last move against the bot', chTurn: 'Show whose turn', chTurnInfo: 'Shows Your turn under the board',
   chSideW: 'White', chSideR: 'Random', chSideB: 'Black', chSide: 'Play as',
@@ -1722,7 +1662,7 @@ SCREENS.history = scr => {
 /* ---------- SETTINGS ---------- */
 SCREENS.settings = scr => {
   const sw = (k, label, info) => `<label class="row"><span class="lab">${label}${info ? `<small>${info}</small>` : ''}</span><input type="checkbox" class="sw" id="sw-${k}" data-k="${k}"></label>`;
-  const dRow = g => `<div class="glabel">${GAMES[g].name}</div><div class="group"><button class="row" data-d="${g}"><span class="lab">${T.difficultyTitle}</span><span class="val" data-dv="${g}"></span>${I.chev}</button>${g === 'mines' ? sw('allow5050', T.allow5050, T.allow5050Info) + sw('mineAnim', T.mineAnim, T.mineAnimInfo) + sw('mineHold', T.mineHold, T.mineHoldInfo) : ''}${COLOR_GAMES[g] ? `<button class="row" data-cols="${g}"><span class="lab">${T.coloursTitle}</span><span class="val scols" data-cv="${g}"></span>${I.chev}</button>` : ''}${g === 'sudoku' ? sw('pencilHl', T.pencilHl, T.pencilHlInfo) : ''}${g === 'kings' ? sw('autoDot', T.autoDot, T.autoDotInfo) + sw('livesKings', T.lives, T.livesInfo) : ''}${g === 'sets' ? sw('livesSets', T.lives, T.livesInfo) : ''}${g === 'chess' ? `<button class="row" data-pcs><span class="lab">${T.chPieces}</span><span class="val" id="pcsVal"></span>${I.chev}</button><button class="row" data-ckrow><span class="lab">${T.ckTitle}</span><span class="val" id="ckVal"></span>${I.chev}</button>` + sw('chessUndo', T.chUndo, T.chUndoInfo) + sw('chessTurn', T.chTurn, T.chTurnInfo) + sw('chessPremove', T.chPre, T.chPreInfo) + sw('chessPzWhy', T.pzWhySet, T.pzWhySetInfo) + sw('chessPremove', T.chPre, T.chPreInfo) + sw('chessEasy', T.chEasy, T.chEasyInfo) : ''}</div>`;
+  const dRow = g => `<div class="glabel">${GAMES[g].name}</div><div class="group"><button class="row" data-d="${g}"><span class="lab">${T.difficultyTitle}</span><span class="val" data-dv="${g}"></span>${I.chev}</button>${g === 'mines' ? sw('allow5050', T.allow5050, T.allow5050Info) + sw('mineAnim', T.mineAnim, T.mineAnimInfo) + sw('mineHold', T.mineHold, T.mineHoldInfo) : ''}${COLOR_GAMES[g] ? `<button class="row" data-cols="${g}"><span class="lab">${T.coloursTitle}</span><span class="val scols" data-cv="${g}"></span>${I.chev}</button>` : ''}${g === 'sudoku' ? sw('pencilHl', T.pencilHl, T.pencilHlInfo) : ''}${g === 'kings' ? sw('autoDot', T.autoDot, T.autoDotInfo) + sw('livesKings', T.lives, T.livesInfo) : ''}${g === 'sets' ? sw('livesSets', T.lives, T.livesInfo) : ''}${g === 'chess' ? `<button class="row" data-pcs><span class="lab">${T.chPieces}</span><span class="val" id="pcsVal"></span>${I.chev}</button><button class="row" data-ckrow><span class="lab">${T.ckTitle}</span><span class="val" id="ckVal"></span>${I.chev}</button>` + sw('chessUndo', T.chUndo, T.chUndoInfo) + sw('chessTurn', T.chTurn, T.chTurnInfo) + sw('chessPremove', T.chPre, T.chPreInfo) + sw('chessPzWhy', T.pzWhySet, T.pzWhySetInfo) + sw('chessEasy', T.chEasy, T.chEasyInfo) : ''}</div>`;
   scr.el.innerHTML = `${bar(btnBack)}<div class="scroll"><div class="h1">${T.settings}</div>
     <div class="glabel">${T.display}</div><div class="group"><button class="row" data-go="theme"><span class="lab">${T.theme}</span><span class="val" id="themeVal"></span>${I.chev}</button><button class="row" data-pip><span class="lab">${T.pipRow}</span><span class="val" id="pipVal"></span>${I.chev}</button>
       <button class="row" data-order><span class="lab">${T.orderRow}</span>${I.chev}</button>
@@ -3768,7 +3708,12 @@ SCREENS.chesspieces = scr => {
   });
 };
 /* Game review: steps through your game. Each of your moves is checked against the bot's best move. */
-const REVIEW_KINDS = [['best', 15], ['good', 60], ['inacc', 140], ['mistake', 280], ['blunder', Infinity]];
+const REVIEW_KINDS = [['best', 15], ['excellent', 35], ['good', 70], ['inacc', 140], ['mistake', 280], ['blunder', Infinity]];
+/* Opening book: well-known opening lines as [name, moves]. A move is a book move while the game still follows one of them. */
+const OPENINGS = [["King's Pawn Opening","e2e4"],["Queen's Pawn Opening","d2d4"],["English Opening","c2c4"],["Réti Opening","g1f3"],["Bird's Opening","f2f4"],["Larsen's Opening","b2b3"],["Polish Opening","b2b4"],["Grob Opening","g2g4"],["Open Game","e2e4 e7e5"],["King's Knight Opening","e2e4 e7e5 g1f3"],["Italian Game","e2e4 e7e5 g1f3 b8c6 f1c4"],["Italian Game, Giuoco Piano","e2e4 e7e5 g1f3 b8c6 f1c4 f8c5"],["Italian Game, Giuoco Piano","e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 c2c3 g8f6 d2d4"],["Italian Game, Giuoco Pianissimo","e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 d2d3 g8f6"],["Italian Game, Evans Gambit","e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 b2b4"],["Two Knights Defence","e2e4 e7e5 g1f3 b8c6 f1c4 g8f6"],["Two Knights Defence, Knight Attack","e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 f3g5 d7d5 e4d5"],["Two Knights Defence, Fried Liver Attack","e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 f3g5 d7d5 e4d5 f6d5 g5f7"],["Two Knights Defence, Modern","e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 d2d3"],["Ruy López","e2e4 e7e5 g1f3 b8c6 f1b5"],["Ruy López, Morphy Defence","e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6"],["Ruy López, Closed","e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8"],["Ruy López, Exchange Variation","e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5c6 d7c6"],["Ruy López, Berlin Defence","e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 e1g1 f6e4"],["Scotch Game","e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 g8f6"],["Scotch Game","e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f3d4 f8c5"],["Scotch Gambit","e2e4 e7e5 g1f3 b8c6 d2d4 e5d4 f1c4"],["Ponziani Opening","e2e4 e7e5 g1f3 b8c6 c2c3"],["Three Knights Opening","e2e4 e7e5 g1f3 b8c6 b1c3"],["Four Knights Game","e2e4 e7e5 g1f3 b8c6 b1c3 g8f6 f1b5"],["Four Knights Game, Scotch Variation","e2e4 e7e5 g1f3 b8c6 b1c3 g8f6 d2d4"],["Petrov's Defence","e2e4 e7e5 g1f3 g8f6 f3e5 d7d6 e5f3 f6e4"],["Philidor Defence","e2e4 e7e5 g1f3 d7d6 d2d4"],["Latvian Gambit","e2e4 e7e5 g1f3 f7f5"],["Elephant Gambit","e2e4 e7e5 g1f3 d7d5"],["King's Gambit","e2e4 e7e5 f2f4"],["King's Gambit Accepted","e2e4 e7e5 f2f4 e5f4 g1f3"],["King's Gambit Declined","e2e4 e7e5 f2f4 f8c5"],["Vienna Game","e2e4 e7e5 b1c3 g8f6"],["Vienna Gambit","e2e4 e7e5 b1c3 g8f6 f2f4"],["Bishop's Opening","e2e4 e7e5 f1c4 g8f6"],["Center Game","e2e4 e7e5 d2d4 e5d4 d1d4"],["Danish Gambit","e2e4 e7e5 d2d4 e5d4 c2c3"],["Wayward Queen Attack","e2e4 e7e5 d1h5 b8c6"],["Sicilian Defence","e2e4 c7c5"],["Sicilian Defence, Open","e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3"],["Sicilian Defence, Najdorf Variation","e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6"],["Sicilian Defence, Dragon Variation","e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 g7g6"],["Sicilian Defence, Classical Variation","e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 b8c6"],["Sicilian Defence, Scheveningen","e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 e7e6"],["Sicilian Defence, Sveshnikov","e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 g8f6 b1c3 e7e5"],["Sicilian Defence, Accelerated Dragon","e2e4 c7c5 g1f3 b8c6 d2d4 c5d4 f3d4 g7g6"],["Sicilian Defence, Rossolimo","e2e4 c7c5 g1f3 b8c6 f1b5"],["Sicilian Defence, Kan Variation","e2e4 c7c5 g1f3 e7e6 d2d4 c5d4 f3d4 a7a6"],["Sicilian Defence, Taimanov Variation","e2e4 c7c5 g1f3 e7e6 d2d4 c5d4 f3d4 b8c6"],["Sicilian Defence, Alapin Variation","e2e4 c7c5 c2c3 g8f6"],["Sicilian Defence, Alapin Variation","e2e4 c7c5 c2c3 d7d5"],["Sicilian Defence, Closed","e2e4 c7c5 b1c3 b8c6 g2g3"],["Sicilian Defence, Smith-Morra Gambit","e2e4 c7c5 d2d4 c5d4 c2c3"],["Sicilian Defence, Grand Prix Attack","e2e4 c7c5 b1c3 b8c6 f2f4"],["French Defence","e2e4 e7e6 d2d4 d7d5"],["French Defence, Advance Variation","e2e4 e7e6 d2d4 d7d5 e4e5 c7c5 c2c3"],["French Defence, Exchange Variation","e2e4 e7e6 d2d4 d7d5 e4d5 e6d5"],["French Defence, Tarrasch Variation","e2e4 e7e6 d2d4 d7d5 b1d2"],["French Defence, Winawer Variation","e2e4 e7e6 d2d4 d7d5 b1c3 f8b4"],["French Defence, Classical Variation","e2e4 e7e6 d2d4 d7d5 b1c3 g8f6"],["French Defence, Rubinstein Variation","e2e4 e7e6 d2d4 d7d5 b1c3 d5e4"],["Caro-Kann Defence","e2e4 c7c6 d2d4 d7d5"],["Caro-Kann Defence, Advance Variation","e2e4 c7c6 d2d4 d7d5 e4e5 c8f5"],["Caro-Kann Defence, Classical Variation","e2e4 c7c6 d2d4 d7d5 b1c3 d5e4 c3e4 c8f5"],["Caro-Kann Defence, Exchange Variation","e2e4 c7c6 d2d4 d7d5 e4d5 c6d5"],["Caro-Kann Defence, Two Knights","e2e4 c7c6 b1c3 d7d5 g1f3"],["Pirc Defence","e2e4 d7d6 d2d4 g8f6 b1c3 g7g6"],["Modern Defence","e2e4 g7g6 d2d4 f8g7"],["Alekhine's Defence","e2e4 g8f6 e4e5 f6d5 d2d4 d7d6"],["Scandinavian Defence","e2e4 d7d5 e4d5 d8d5 b1c3 d5a5"],["Scandinavian Defence, Modern","e2e4 d7d5 e4d5 g8f6"],["Owen's Defence","e2e4 b7b6"],["Nimzowitsch Defence","e2e4 b8c6"],["Queen's Gambit","d2d4 d7d5 c2c4"],["Queen's Gambit Accepted","d2d4 d7d5 c2c4 d5c4 g1f3"],["Queen's Gambit Declined","d2d4 d7d5 c2c4 e7e6 b1c3 g8f6 c1g5 f8e7"],["Queen's Gambit Declined, Exchange Variation","d2d4 d7d5 c2c4 e7e6 b1c3 g8f6 c4d5 e6d5"],["Slav Defence","d2d4 d7d5 c2c4 c7c6 g1f3 g8f6 b1c3"],["Semi-Slav Defence","d2d4 d7d5 c2c4 c7c6 g1f3 g8f6 b1c3 e7e6"],["Albin Countergambit","d2d4 d7d5 c2c4 e7e5"],["Chigorin Defence","d2d4 d7d5 c2c4 b8c6"],["London System","d2d4 d7d5 c1f4 g8f6 e2e3"],["London System","d2d4 g8f6 c1f4"],["London System","d2d4 d7d5 g1f3 g8f6 c1f4"],["Colle System","d2d4 d7d5 g1f3 g8f6 e2e3 e7e6 f1d3"],["Jobava London System","d2d4 d7d5 b1c3 g8f6 c1f4"],["Indian Defence","d2d4 g8f6"],["King's Indian Defence","d2d4 g8f6 c2c4 g7g6 b1c3 f8g7 e2e4 d7d6 g1f3 e8g8"],["Grünfeld Defence","d2d4 g8f6 c2c4 g7g6 b1c3 d7d5"],["Nimzo-Indian Defence","d2d4 g8f6 c2c4 e7e6 b1c3 f8b4"],["Queen's Indian Defence","d2d4 g8f6 c2c4 e7e6 g1f3 b7b6"],["Bogo-Indian Defence","d2d4 g8f6 c2c4 e7e6 g1f3 f8b4"],["Catalan Opening","d2d4 g8f6 c2c4 e7e6 g2g3 d7d5"],["Benoni Defence","d2d4 g8f6 c2c4 c7c5 d4d5 e7e6"],["Benko Gambit","d2d4 g8f6 c2c4 c7c5 d4d5 b7b5"],["Budapest Gambit","d2d4 g8f6 c2c4 e7e5"],["Trompowsky Attack","d2d4 g8f6 c1g5"],["Dutch Defence","d2d4 f7f5 c2c4 g8f6 g2g3"],["Dutch Defence, Staunton Gambit","d2d4 f7f5 e2e4"],["Englund Gambit","d2d4 e7e5"],["English Opening, Reversed Sicilian","c2c4 e7e5 b1c3 g8f6"],["English Opening, Symmetrical","c2c4 c7c5 b1c3 b8c6"],["English Opening, Anglo-Indian","c2c4 g8f6 b1c3"],["King's Indian Attack","g1f3 d7d5 g2g3 g8f6 f1g2"],["Réti Opening","g1f3 d7d5 c2c4"]];
+const bookAt = (moves, i) => { const g = moves.slice(0, i + 1).join(' '); return OPENINGS.some(([, l]) => l === g || l.startsWith(g + ' ')); };
+// the deepest opening the first `upto` moves have fully played
+function openingName(moves, upto) { const g = moves.slice(0, upto).join(' '); let name = null, len = 0; for (const [n, l] of OPENINGS) { const k = l.split(' ').length; if (k > len && (g === l || g.startsWith(l + ' '))) { name = n; len = k; } } return name; }
 const PC_VAL = [0, 1, 3, 3, 5, 9, 0];
 const pcName = p => T.chPcN[CH.type(p)];
 const cap1 = t => t.charAt(0).toUpperCase() + t.slice(1);
@@ -3839,9 +3784,10 @@ const ul = l => l.length ? `<ul>${l.map(t => `<li>${t}</li>`).join('')}</ul>` : 
 function ezBreakdown(r) {
   if (!r) return '';
   const x = r.x, verdict = T.chEzVerdict[r.k];
+  if (r.k === 'book') return `<p class="ezv book">${verdict}</p><p>${ezSay(x.mi, 'you')}</p><p>${r.op ? fill(T.chEzBookOf, { o: r.op }) : T.chEzBook}</p>`;
   let h = `<p class="ezv ${r.k}">${verdict}</p><p>${ezSay(x.mi, 'you')}</p>`;
   const good = goodPoints(x.mi, x.pre, x.post, x.ply, x.me);
-  if (r.k === 'best' || r.k === 'good') {
+  if (r.k === 'best' || r.k === 'excellent' || r.k === 'good') {
     h += good.length ? `<b class="ezh">${T.chEzWhyGood}</b>${ul(good)}` : `<p class="m">${r.k === 'best' ? T.chEzNoBetter : T.chEzSolid}</p>`;
   } else {
     const bad = badPoints(x);
@@ -3895,7 +3841,7 @@ const reviewLink = (moves, col) => location.origin + location.pathname + '#revie
 const readReviewLink = h => { try { const t = h.replace(/-/g, '+').replace(/_/g, '/'); const o = JSON.parse(atob(t + '==='.slice((t.length + 3) % 4))); return { moves: o.m ? o.m.split(' ').filter(u => /^[a-h][1-8][a-h][1-8][qrbn]?$/.test(u)) : [], col: o.c ? CH.BLACK : 0 }; } catch (e) { return null; } };
 function shareReview(moves, col, done) {
   const url = reviewLink(moves, col), n = k => done.filter(r => r.k === k).length;
-  const text = done.length ? fill(T.rvShareText, { m: Math.ceil(moves.length / 2), g: n('best') + n('good'), x: n('mistake') + n('blunder') }) : T.rvShareTextPlain;
+  const text = done.length ? fill(T.rvShareText, { m: Math.ceil(moves.length / 2), g: n('book') + n('best') + n('excellent') + n('good'), x: n('mistake') + n('blunder') }) : T.rvShareTextPlain;
   if (navigator.share) return navigator.share({ title: T.chReview, text, url }).catch(() => {});
   sheet(`<h2>${T.rvShare}</h2><p class="m">${T.rvShareHelp}</p><input class="tin" readonly value="${url}"><div class="btns"><button class="btn primary" data-c>${T.cfCopyLink}</button><button class="btn ghost" data-x>${T.done}</button></div>`, (el, close) => {
     $('[data-x]', el).onclick = close; $('[data-c]', el).onclick = () => copyText(text + ' ' + url, $('input', el));
@@ -3926,8 +3872,9 @@ SCREENS.chessreview = scr => {
     }
     list.innerHTML = h || `<p class="m">${T.chNoMoves}</p>`;
     const done = res.filter((r, i) => r && mine(i)), total = range(N).filter(mine).length;
-    sum.innerHTML = done.length < total ? `<span class="m">${fill(T.chChecking, { n: done.length, total })}</span>`
-      : REVIEW_KINDS.map(([k]) => `<span class="rvs ${k}"><b>${done.filter(r => r.k === k).length}</b>${kinds()[k]}</span>`).join('');
+    const opN = openingName(moves, N), nb = done.filter(r => r.k === 'book').length;
+    sum.innerHTML = (opN ? `<div class="chrvop"><span class="m">${T.chOpening}</span> <b>${opN}</b>${nb ? ` <span class="m">· ${fill(nb === 1 ? T.chBook1 : T.chBookN, { n: nb })}</span>` : ''}</div>` : '') + (done.length < total ? `<span class="m">${fill(T.chChecking, { n: done.length, total })}</span>`
+      : REVIEW_KINDS.map(([k]) => `<span class="rvs ${k}"><b>${done.filter(r => r.k === k).length}</b>${kinds()[k]}</span>`).join(''));
   }
   function draw(slide) {
     const r = at ? res[at - 1] : null, canBetter = !!(r && mine(at - 1) && r.k !== 'best' && r.best);
@@ -3946,7 +3893,8 @@ SCREENS.chessreview = scr => {
     const swBtn = canBetter ? `<button class="rvbetter${better ? ' on' : ''}" data-better>${better ? T.chSeeMine : T.chSeeBetter}</button>` : '';
     const bestName = r && r.best ? (easy() ? ezShort(r.x.bestMi) : r.bestSan) : '';
     if (!at) info.innerHTML = `<span class="m">${T.chStartPos}</span>`;
-    else if (!mine(at - 1)) info.innerHTML = `<span>${fill(T.chBotPlayed, { m: mname(at - 1) })}</span>`;
+    else if (!mine(at - 1)) info.innerHTML = `<span>${fill(T.chBotPlayed, { m: mname(at - 1) })}${bookAt(moves, at - 1) ? ' · ' + T.chBookMove : ''}</span>`;
+    else if (r && r.k === 'book') info.innerHTML = `${badge('book')}<span class="grow">${fill(T.chYouPlayed, { m: mname(at - 1) })}${r.op ? ' · ' + r.op : ''}</span>`;
     else if (!r) info.innerHTML = `<span class="m">${fill(T.chYouPlayed, { m: mname(at - 1) })} · ${T.chCheckingOne}</span>`;
     else if (better) info.innerHTML = `<i class="rvb best">${kinds().best}</i><span class="grow">${fill(T.chBetterWas, { m: bestName })}</span>${swBtn}`;
     else info.innerHTML = `${badge(r.k)}<span class="grow">${fill(T.chYouPlayed, { m: mname(at - 1) })}${canBetter && !easy() ? ' · ' + fill(T.chBestWas, { m: bestName }) : ''}</span>${swBtn}`;
@@ -3962,7 +3910,10 @@ SCREENS.chessreview = scr => {
   function step() {
     if (dead || ai >= N) return;
     const m = packed[ai], me = an.turn, them = me ^ CH.BLACK;
-    if (mine(ai)) {
+    if (mine(ai) && bookAt(moves, ai)) {
+      CH.make(an, m);
+      res[ai] = { k: 'book', best: null, op: openingName(moves, ai + 1), x: { me, ply: ai, mi: infos[ai], loss: 0 } };
+    } else if (mine(ai)) {
       const r = CH.search(an, { ms: 140 }), bestSan = r.move ? CH.san(an, r.move) : '';
       const x = { me, ply: ai, mi: infos[ai] };
       // before: what was already in danger, and could they mate if you passed?
